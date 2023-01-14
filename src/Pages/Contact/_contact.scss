@@ -1,0 +1,32 @@
+.contact {
+
+    &__form {
+
+        .form-group {
+            &:not(:last-child) {
+                margin-bottom: 2rem;
+            }
+        }
+
+        label {
+            display: none;
+        }
+
+        input, textarea {
+            font-family: inherit;
+            font-size: 1.6rem;
+            border: 1px solid var(--color-grey-dark-2, #000);
+            color: var(--color-grey-dark-2, #000);
+            padding: 1rem 2rem;
+        }
+
+        button {
+            background-color: var(--color-primary, #000);
+            color: var(--color-white, #fff);
+            font-weight: 600;
+            padding: 2rem 4rem;
+            border: none;
+            font-size: 2rem;
+        }
+    }
+}

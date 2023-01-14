@@ -1,0 +1,41 @@
+.newsletter {
+    background-color: var(--color-grey-light-3, #777);
+    
+    &__wrapper {
+        display: flex;
+        align-items: center;
+        gap: 8rem;
+        padding: 6rem 12rem;
+        
+    }
+
+    &__form {
+        display: flex;
+        gap: 1rem;
+
+        &-group {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+    }
+
+    &__label {
+
+    }
+
+    &__input {
+        display: block;
+        padding: 1.3rem 2rem;
+        font-size: 1.8rem;
+        border: 1px solid var(--color-black, #000);
+        font-family: inherit;
+    }
+
+    &__button {
+        padding: 0 4rem;
+        border-radius: 0px !important;
+        font-weight: 800;
+        font-size: 2rem;
+    }
+}

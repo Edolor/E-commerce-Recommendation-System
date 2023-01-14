@@ -1,0 +1,20 @@
+.cart {
+    &__item {
+        &-qty {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            transform: translate(50%, -50%);
+            background-color: var(--color-primary);
+            color: var(--color-white);
+            // padding: 1rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 2.5rem;
+            height: 2.5rem;
+            font-weight: var(--font-weight-600);
+        }
+    }
+}

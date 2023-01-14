@@ -1,0 +1,155 @@
+// BASE CSS DECLARATIONS
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+:root {
+    // FONT FAMILY VARIABLE
+    --font-body: 'Work Sans', sans-serif, Arial, apple color emoji,segoe ui emoji,segoe ui symbol;
+    --font-heading: 'Playfair Display', Arial, sans-serif;
+
+    // FONT WEIGHTS
+    --font-weight-300: 300;
+    --font-weight-400: 400;
+    --font-weight-500: 500;
+    --font-weight-600: 600;
+    --font-weight-700: 700;
+    --font-weight-700: 700;
+    --font-weight-800: 800;
+    --font-weight-900: 900;
+
+    // PRIMARY COLORS
+    --color-primary: #ED8B16;
+    --color-primary--light: #ff8c00;
+    --color-secondary: #0a6b68;
+
+    // SPACING
+    --spacing-1: .8rem; // 8px
+    --spacing-2: 1.6rem; // 16px
+
+    // UTILITY COLORS
+    --color-grey-light-1: #faf9f9;
+    --color-grey-light-2: #f4f2f2;
+    --color-grey-light-3: #f0eeee;
+    --gray0: 255,255,255;
+    --gray5: 238,240,243;
+    --gray10: 222,225,231;
+    --gray15: 206,210,219;
+    --gray20: 191,196,207;
+    --gray30: 163,169,182;
+    --gray40: 137,144,158;
+    --gray50: 113,120,134;
+    --gray60: 91,97,110;
+    --gray70: 70,75,85;
+    --gray80: 50,53,61;
+    --gray90: 30,32,37;
+    --gray100: 10,11,13;
+    --color-grey-light-4: #ccc;
+
+    --color-grey-dark-1: #333;
+    --color-grey-dark-2: #777;
+    --color-grey-dark-3: #999;
+    
+    --color-dark-blue: #1f2c73;
+
+    --color-white: #fff;
+    --color-black: #000;
+    --color-red: red;
+    --color-purple: purple;
+
+    // LINES
+    --line: rgba(var(--gray60), .2);
+
+    // BORDER RADIUS
+    --b-radius-button: 4px;
+    --b-radius-section: 1.3rem;
+    --b-radius--medium: 1rem;
+    --b-radius--small: 6px;
+
+    // BOX SHADOW
+    --box-shadow-light: 0 .1rem 1rem rgba(0 ,0, 0, .1);
+
+    // BORDER BOTTOM
+    --border-bottom-light: 1px solid #eff2f7;
+
+    --dim-0: 0rem;
+    --dim-1: 1rem;
+    --dim-2: 2rem;
+    --dim-3: 3rem;
+    --dim-4: 4rem;
+    --dim-6: 6rem;
+    --dim-5: 5rem;
+}
+
+// HTML
+html { 
+    // 1rem = 10px definition
+    font-size: 62.5%;
+
+    // SAFARI ODD REDERING FIX
+    -moz-text-size-adjust: none;
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
+
+    @media only screen and (max-width: $bp-row) {
+        font-size: 56.25%; // 1rem = 9px (9/16) = 56.25%
+    }
+
+    @include respond(tab-port) {  // is width < 900px?
+        font-size: 50%; // 1rem = 8px (8/16) = 50%
+    }
+
+    @include respond(big-desktop) { // 1rem == 12px 12/16 = 75
+        font-size: 75%; // 1rem = 12px (12/16) = 62.5%
+    }
+}
+
+body { 
+    box-sizing: border-box; 
+    overflow-x: hidden;
+    width: 100%;
+}
+
+a { 
+    &:link,
+    &:visited {
+        text-decoration: none;
+        cursor: pointer;
+    }
+}
+
+img {
+    display: block;
+}
+
+small {
+    display: block;
+}
+
+
+@include respond(phone) { // PREVENT AUTO ZOOM ON MOBILE SAFARI
+    input, textarea, select {
+        font-size: 16px !important;
+    }
+}
+
+::placeholder,
+::-moz-placeholder {
+    opacity: .6;
+}
+
+button, [tabindex] {
+    &:focus {
+        outline: none !important;
+    }
+}
+
+button[disabled] {
+    opacity: 0.5;
+    pointer-events: none;
+} 

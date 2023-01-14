@@ -1,0 +1,277 @@
+.form {
+        // GROUP TO HOLD THE ERROR
+        &__group {
+            position: relative;
+        }
+    
+        // HIDDEN LABEL FOR ACCESSIBLITY
+        &__label {
+            position: relative;
+            flex: 1;
+            
+            &-text {
+                position: absolute; // TO HOLD THE CUSTOM ERROR
+                visibility: hidden;
+                opacity: 0;
+                width: 0;
+                padding: 0;
+                height: 0;
+                display: inline-block;
+                line-height: 0;
+                margin: 0;
+                font-size: 0;
+            }
+        }
+
+         // DISCLOUSRE {
+        &__disclosure {
+            font-size: 1.6rem;
+            text-align: left;
+            color: rgba(var(--gray100), 1);
+
+            @include respond(tab-port) {
+                font-size: 1.8rem;
+            }
+        }
+
+        // FORM INPUT
+        &__input {
+
+            --border-size: 1.5px;
+            display: inline-block;
+            border-radius: 5px;
+
+            font-size: 1.8rem;
+            font-family: inherit;
+            display: inline-block;
+            border: var(--border-size) solid var(--color-grey-light-4);
+
+            @include respond(tab-port) {
+                font-size: 2rem;
+            }
+        
+            @media only screen and (max-width: $bp-small) {
+                border: var(--border-size) solid var(--color-grey-light-3);
+            }
+
+            /* 
+                SET CUSTOM PADDING AND WIDTH
+            */
+            transition: all 10ms;
+
+            &:focus,
+            &:hover {
+                border: var(--border-size) solid var(--color-primary);
+                outline: var(--border-size) solid lighten($color-primary, 20%);
+                outline-offset: 2px;
+            }
+
+            &:not(:placeholder-shown) {
+                border: var(--border-size) solid var(--color-primary);
+            }
+
+            &::placeholder {
+                @media only screen and (max-width: $bp-small) {
+                    font-size: 2rem;
+                    font-weight: var(--font-weight-500);
+                    color: var(--color-grey-dark-3);
+                }
+            }
+
+            // BORDER ONLY AT THE BASE OF INPUT
+            &--border-down {
+                border: var(--border-size) solid transparent;
+
+                border-bottom: var(--border-size) solid var(--color-grey-light-4);
+                padding-left: 0px;
+                border-radius: 0px;
+            }
+            
+            &--border-down:focus,
+            &--border-down:hover {
+                border: var(--border-size) solid transparent;
+                border-bottom: var(--border-size) solid var(--color-grey-light-4);
+                outline: var(--border-size) solid lighten($color-primary, 20%);
+                outline-offset: 2px;
+            }
+        }
+
+        &__input--valid {
+            border: var(--border-size) solid var(--color-primary);
+
+            &-plain {
+                border-bottom: var(--border-size) solid var(--color-primary);
+            }
+        }
+
+        &__input--invalid {
+            border: var(--border-size) solid red !important;
+
+            &-plain {
+                border-bottom: var(--border-size) solid red !important;
+            }
+        }
+
+        // BUTTON TO SUBMIT FORM
+        &--submit-btn {
+        }
+
+
+        // ICONS CHECK AND CROSS
+        &__icons {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 6%;
+        }
+
+        // CROSS ICON
+        &__cross-icon {
+            --size: 1.3rem;
+            width: var(--size);
+            height: var(--size);
+            fill: lighten(red, 4%);
+
+            @media only screen and (max-width: $bp-small) {
+                --size: 1.5rem;
+            }
+        }
+
+        // CHECK ICON
+        &__check-icon {
+            --size: 1.7rem;
+            width: var(--size);
+            height: var(--size);
+            fill: var(--color-primary);
+
+            @media only screen and (max-width: $bp-small) {
+                --size: 2rem;
+            }
+        }
+
+        // FORM PASSWORD WRAPPER
+        &__password-wrapper {
+            position: relative;
+            line-height: 1;
+        }
+
+        // FORM PASSWORD ICON WRAPPERS
+        &__password-icons {
+            position: absolute;
+            right: 3%;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+        // FORM PASSWORD ICON
+        &__password-icon {
+            width: 2.7rem;
+            height: 2.7rem;
+            fill: var(--color-grey-dark-2);
+
+            &--inactive {
+                display: none;
+            }
+        }
+
+        // // CUSTOM CHECKBOX
+        // &__custom-checkbox {
+        //     display: inline-block;
+        //     visibility: hidden;
+        //     width: 0;
+        //     height: 0;
+
+        //     position: absolute;
+        // }
+        
+        // // LABEL
+        // &__custom-checkbox-label {
+        //     display: flex;
+        //     align-items: center;
+        //     cursor: pointer;
+        //     width: 100%;
+        // }
+        
+        // &__custom-checkbox-box {
+        //     width: 2.5rem;
+        //     height: 2.5rem;
+        //     position: relative;
+        //     border: 2px solid var(--color-grey-dark-3);
+        //     border-radius: var(--b-radius-button);
+        //     display: inline-block;
+        //     cursor: pointer;
+        //     margin-right: 1.5rem;
+
+        //     &--medium {
+        //         width: 4.7rem;
+        //         height: 3.3rem;
+
+        //         @media only screen and (max-width: $bp-tiny) {
+        //             width: 7rem;
+        //         }
+        //     }
+
+        //     &--plain {
+        //         width: 7rem;
+        //         height: 4rem;
+
+        //         &--small {
+        //             width: 4rem;
+        //             height: 3.5rem;
+        //         }
+
+        //         &--smaller {
+        //             width: 3.5rem;
+        //             height: 3.5rem;
+        //         }
+        //     }
+
+        //     &--b-none {
+        //         border-radius: 0px;
+        //     }
+        // }
+
+        /// CUSTOM CHECKBOX BEHAVIOUR
+  
+}
+
+// ---------------------------------
+// ---------------------------------
+// -- FORM ERRORS
+
+.form-error {
+    background-color: #fcaea0;
+    padding: 1.7rem 2rem;
+    margin-bottom: 1rem;
+    
+    &:last-of-type {
+        margin-bottom: 2rem;
+    }
+
+    // TEXT INSIDE 
+    &__text {
+        color: #1c1d1f;
+        font-weight: var(--font-weight-500);
+        font-size: 1.5rem;
+        display: block;
+    }
+}
+
+.form-success {
+    background-color: var(--color-primary--light);
+    padding: 1.7rem 2rem;
+    margin-bottom: 1rem;
+    
+    &:last-of-type {
+        margin-bottom: 2rem;
+    }
+
+    // TEXT INSIDE 
+    &__text {
+        color: var(--color-white);
+        font-weight: var(--font-weight-500);
+        font-size: 1.5rem;
+        display: block;
+    }
+}

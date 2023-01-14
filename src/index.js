@@ -1,13 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+import { BrowserRouter as Router} from 'react-router-dom';
 import App from './App';
+import "./Assets/css/style.css";
+import "./Assets/css/main.css";
 import reportWebVitals from './reportWebVitals';
+import { ActivePageProvider } from "./Contexts/ActivePageContext";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
   <React.StrictMode>
-    <App />
+    <ActivePageProvider>
+      <Router>
+        <App />
+      </Router>
+    </ActivePageProvider>
   </React.StrictMode>
 );
 
