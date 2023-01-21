@@ -9,7 +9,7 @@ A web based e-commerce application embedded with a content based recommendation 
 
 edolor [https://ng.linkedin.com/in/aghoghomena-akasukpe-84b476207](https://ng.linkedin.com/in/aghoghomena-akasukpe-84b476207)
 
-GeorginaAwani
+GeorginaAwani [https://ng.linkedin.com/in/georgina-awani-254974233](https://ng.linkedin.com/in/georgina-awani-254974233)
 
 ## Lincense & Copyright
 
