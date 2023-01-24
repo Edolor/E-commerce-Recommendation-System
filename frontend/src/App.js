@@ -1,34 +1,18 @@
-import { useState, createContext } from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home/Home";
 import Contact from "./Pages/Contact/Contact";
 import About from "./Pages/About/About";
 import ProductDetails from "./Pages/Product/ProductDetails";
+import CartProvider from "./Contexts/CartContext";
 import Shop from "./Pages/Shop/Shop";
 import Cart from "./Pages/Cart/Cart";
 import NoPage from "./Pages/NoPage/NoPage";
 import Layout from "./Layout";
-import { useActivePage } from "./Contexts/ActivePageContext";
-import ActiveRoute from "./Routes/ActiveRoute";
-
 
 function App() {
   
-  const {setActivePage, getActivePage} = useActivePage();
-  const CartContext = createContext();
-  const [cartCounter, setCartCounter] = useState(0);
-
   return (
-      // <Route path="/" element={<Layout />}>
-      //   <Route index element={<Home />} />
-      //   <Route path="home" element={<Home />} />
-      //   <Route path="about" element={<About />} />
-      //   <Route path="contact" element={<Contact />} />
-      //   <Route path="shop" element={<Shop />} />
-      //   <Route path="cart" element={<Cart />} />
-      //   <Route path="*" element={<NoPage />} />
-      // </Route>
-      <CartContext.Provider value={cartCounter}>
+      <CartProvider>
           <Routes>
             <Route path="/" element={<Layout pageNo="0" />}>
                 <Route index element={<Home />} />
@@ -54,7 +38,7 @@ function App() {
               <Route path="*" element={<NoPage />} />
             </Route> 
           </Routes>
-      </CartContext.Provider>
+      </CartProvider>
   );
 }
 

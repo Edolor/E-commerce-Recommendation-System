@@ -5,7 +5,6 @@ import { Outlet } from "react-router-dom";
 function ActiveRoute({ pageNo=0, children }) {
   const { setActivePage } = useActivePage();
   setActivePage(pageNo);
-  console.log(pageNo);
 
   return children ? children : <Outlet />;
 }

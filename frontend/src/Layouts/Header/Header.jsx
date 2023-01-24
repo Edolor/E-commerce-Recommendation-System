@@ -1,9 +1,12 @@
 import "./_header.scss";
-// import logo from "../../Assets/images/logo_black.svg"; Removed for copyright infringement purposes
 import cart from "../../Assets/images/shopping_cart.svg";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { useCart } from "../../Contexts/CartContext";
 
 function Header({pageNo=0}) {
+    // Cart item count
+    const { cartCounter } = useCart();
+
     // HEADER LIST 
     const headerItemData = [
         {
@@ -26,7 +29,7 @@ function Header({pageNo=0}) {
             name: "contact",
             url: "/contact"
         }
-    ];
+    ];  
 
     pageNo = parseInt(pageNo);
 
@@ -42,9 +45,8 @@ function Header({pageNo=0}) {
         <header className="header">
             <div className="header__wrapper width-wrapper">
                 <nav className="header__start">
-                    <a href="/" style={{"display": "block"}} className="header__logo heading-1 color-black margin-bottom-2 d-block">
-                        {/* <img src={logo} alt="Random logo" /> */}
-                        Logo_here
+                    <a href="/" style={{"display": "block"}} className="header__logo heading-1 color-black d-block">
+                        Logo
                     </a>
 
                     <ul key={pageNo} className="header__list">
@@ -59,7 +61,10 @@ function Header({pageNo=0}) {
                     
                     <button className="header__cart pos-rel">
                         <img src={cart} alt="Cart icon" />
-                        <span className="cart__item-qty">1</span>
+
+                        { cartCounter &&
+                            <span className="cart__item-qty">{cartCounter}</span>
+                        }
                     </button>
                 </div>
             </div>
