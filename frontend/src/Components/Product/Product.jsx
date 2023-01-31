@@ -1,6 +1,8 @@
 import "./_product.scss";
 import shoppingBag from "../../Assets/images/shopping_bag.svg";
 import image from "../../Assets/images/product.jpg";
+import plus from "../../Assets/images/plus.svg";
+import minus from "../../Assets/images/minus.svg";
 import { Link } from "react-router-dom";
 
 function Discount( {percentage, formerPrice} ) {
@@ -35,6 +37,18 @@ function Product(props) {
                 <img src={shoppingBag} alt="Shopping bag icon" />
                 <span>ADD TO CART</span>
             </button>
+
+            <div className="mt-3">
+                <button type="button" className="bg-primary">
+                    <img src={minus} alt="Minus icon" />
+                </button>
+
+                <div>0</div>
+
+                <button type="button" className="bg-primary">
+                    <img src={plus} alt="Plus icon" />
+                </button>
+            </div>
         </div>
     );
 }

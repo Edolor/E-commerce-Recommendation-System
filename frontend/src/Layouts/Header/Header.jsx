@@ -1,6 +1,6 @@
 import "./_header.scss";
 import cart from "../../Assets/images/shopping_cart.svg";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useCart } from "../../Contexts/CartContext";
 
 function Header({pageNo=0}) {

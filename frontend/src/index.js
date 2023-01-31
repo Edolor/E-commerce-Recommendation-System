@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router} from 'react-router-dom';
 import App from './App';
 import "./Assets/css/style.css";
+import CartProvider from "./Contexts/CartContext";
 import "./Assets/css/main.css";
 import reportWebVitals from './reportWebVitals';
 import { ActivePageProvider } from "./Contexts/ActivePageContext";
@@ -23,11 +24,13 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <ProductProvider>
-      <ActivePageProvider>
-        <Router>
-          <App />
-        </Router>
-      </ActivePageProvider>
+      <CartProvider>
+        <ActivePageProvider>
+          <Router>
+            <App />
+          </Router>
+        </ActivePageProvider>
+      </CartProvider>
     </ProductProvider>
   </React.StrictMode>
 );

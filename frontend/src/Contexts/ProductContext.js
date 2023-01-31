@@ -15,21 +15,84 @@ const client = axios.create({
     baseURL: baseURL
 })
 
+function fakeData() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            const PRODUCTS = [
+                {
+                    id: 1, 
+                    title: "D2250.4 PRO ROUND", 
+                    price: "15,000", 
+                    images: [
+                        "./Assets/images/product.jpg",
+                        "./Assets/images/product.jpg"
+                    ],
+                    alts: [
+                        "Image of weights",
+                        "Image of weights",
+                    ],
+                    discountPercentage: "23%",
+                    formerPrice: "40,000"
+                },
+    
+                {
+                    id: 2, 
+                    title: "D2250.4 PRO ROUND", 
+                    price: "15,000", 
+                    images: [
+                        "./Assets/images/product.jpg",
+                        "./Assets/images/product.jpg"
+                    ],
+                    alts: [
+                        "Image of weights",
+                        "Image of weights",
+                    ],
+                    discount: true,
+                    discountPercentage: "23%",
+                    formerPrice: "40,000"
+                },
+    
+                {
+                    id: 3, 
+                    title: "D2250.4 PRO ROUND", 
+                    price: "15,000", 
+                    images: [
+                        "./Assets/images/product.jpg",
+                        "./Assets/images/product.jpg"
+                    ],
+                    alts: [
+                        "Image of weights",
+                        "Image of weights",
+                    ],
+                    discount: true,
+                    discountPercentage: "23%",
+                    formerPrice: "40,000"
+                },
+            ];
+            if (PRODUCTS) {
+                resolve(PRODUCTS);
+            } else {
+                return reject(new Error("Error failed."));
+            }
+        }, 1500);
+    })
+}
+
 function ProductProvider({ children }) {
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const getData = async () => {
             // Add things here that should be preloaded
-
+            const data = await fakeData();
+            // useee localStore to get cart items or there about and stuff
+            
             // After fetching data set loading to false to stop spinner
-            setLoading(false);
         }
 
-        getData();
+        // getData();
     }, []);
-
-
+    
     // API setup
     const value = {
         getProductDetails,
