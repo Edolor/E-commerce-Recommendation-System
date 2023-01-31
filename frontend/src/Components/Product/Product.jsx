@@ -1,9 +1,11 @@
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useProduct } from "../../Contexts/CartContext";
 import "./_product.scss";
 import shoppingBag from "../../Assets/images/shopping_bag.svg";
 import image from "../../Assets/images/product.jpg";
 import plus from "../../Assets/images/plus.svg";
 import minus from "../../Assets/images/minus.svg";
-import { Link } from "react-router-dom";
 
 function Discount( {percentage, formerPrice} ) {
     return (
@@ -15,22 +17,82 @@ function Discount( {percentage, formerPrice} ) {
     );
 }
 
-function Product(props) {
+const { addToCart, cartProducts } = useCart();
+
+function cartReducer(cartItems, action) {
+    switch (action.type) {
+        case "add":
+            if (action.product) {
+                addToCart(action.product);
+            }
+
+            return cartProducts;
+        case "reduce":
+
+        case "increase":
+
+        default:
+            throw Error(`Unknown action: ${action.type}`);
+    }
+}
+
+function Product({ product }) {
+
+    const [counter, setCounter] = useState(1);
+
+    const [cartItems, dispatch] = useReducer(
+        cartReducer,
+        cartProducts
+    );
+
+    function handleAddProduct(product) {
+        /** Add a product to cart */
+        dispatch({
+            type: "add",
+            counter: 0,
+            product: product
+        })
+    }
+
+    function handleReduceProductCount(id) {
+        /** Decreases product count in cart */
+        if (counter > 1) {
+            setCounter(counter => counter - 1);
+        } else {
+            // Make product disappear from user interface
+        }
+
+        dispatch({
+            type: "reduce",
+            value: counter,
+        })
+    }
+    
+    function handleIncreaseProductCount(id) {
+        /** Increase product count in cart */
+        setCounter(counter => counter + 1);
+
+        dispatch({
+            type: "increase",
+            value: counter
+        })
+    }
+
     return (
         <div className="product body-copy">
-            <Link to={`/product/${props.id}`}>
+            <Link to={`/product/${product.id}`}>
                 <figure className="product__image margin-bottom-2">
-                    <img src={image} alt={props.altText} className="image" />
-                    <figcaption className="hide">{props.title}</figcaption>
+                    <img src={image} alt={product.altText} className="image" />
+                    <figcaption className="hide">{product.title}</figcaption>
                 </figure>
             </Link>
 
-            <h4 className="product__title body-copy--smallest">{props.title}</h4>
+            <h4 className="product__title body-copy--smallest">{product.title}</h4>
 
-            <p className="product__price">₦{props.price}</p>
+            <p className="product__price">₦{product.price}</p>
 
             {/* {
-                props.discount && <Discount percentage={props.discountPercentage} formerPrice={props.formerPrice}/>
+                product.discount && <Discount percentage={product.discountPercentage} formerPrice={product.formerPrice}/>
             } */}
 
             <button className="product__button">

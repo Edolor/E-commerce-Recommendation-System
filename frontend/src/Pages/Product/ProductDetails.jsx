@@ -31,15 +31,7 @@ function ProductDetails() {
         productItems = similarProducts.map(el => {
             return (
                 <li key={el.id}>
-                    <Product 
-                        id={el.id}
-                        title={el.title} 
-                        price={el.price} 
-                        src={el.src} 
-                        altText={el.altText}
-                        discount={true}
-                        discountPercentage={el.discountPercentage || 0}
-                        formerPrice={el.formerPrice || 0}
+                    <Product product={el}
                     />
                 </li>
             );

@@ -67,15 +67,7 @@ function Shop(props) {
     const productItems = PRODUCTS.map(el => {
         return (
             <li key={el.id}>
-                <Product 
-                    title={el.title} 
-                    price={el.price} 
-                    src={el.src} 
-                    altText={el.altText}
-                    discount={true}
-                    discountPercentage={el.discountPercentage || 0}
-                    formerPrice={el.formerPrice || 0}
-                />
+                <Product product={el} />
             </li>
         );
     });
