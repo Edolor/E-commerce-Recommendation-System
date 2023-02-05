@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useReducer } from "react";
 import { Link } from "react-router-dom";
-import { useProduct } from "../../Contexts/CartContext";
+import { useCart } from "../../Contexts/CartContext";
 import "./_product.scss";
 import shoppingBag from "../../Assets/images/shopping_bag.svg";
 import image from "../../Assets/images/product.jpg";
@@ -17,64 +17,42 @@ function Discount( {percentage, formerPrice} ) {
     );
 }
 
-const { addToCart, cartProducts } = useCart();
-
-function cartReducer(cartItems, action) {
-    switch (action.type) {
-        case "add":
-            if (action.product) {
-                addToCart(action.product);
-            }
-
-            return cartProducts;
-        case "reduce":
-
-        case "increase":
-
-        default:
-            throw Error(`Unknown action: ${action.type}`);
-    }
-}
+const { cartProducts, setCartProducts, cartReducer } = useCart();
 
 function Product({ product }) {
+    const localCartProducts = {...cartProducts};
 
-    const [counter, setCounter] = useState(1);
+    useEffect(() => {
+        // SET GLOBAL STATE TO UPDATE CART
+        setCartProducts(() => localCartProducts);
+    }, [localCartProducts]);
 
     const [cartItems, dispatch] = useReducer(
         cartReducer,
-        cartProducts
+        localCartProducts
     );
 
     function handleAddProduct(product) {
         /** Add a product to cart */
         dispatch({
             type: "add",
-            counter: 0,
             product: product
         })
     }
 
-    function handleReduceProductCount(id) {
+    function handleReduceProductCount(productId) {
         /** Decreases product count in cart */
-        if (counter > 1) {
-            setCounter(counter => counter - 1);
-        } else {
-            // Make product disappear from user interface
-        }
-
         dispatch({
             type: "reduce",
-            value: counter,
+            id: productId,
         })
     }
     
-    function handleIncreaseProductCount(id) {
+    function handleIncreaseProductCount(productId) {
         /** Increase product count in cart */
-        setCounter(counter => counter + 1);
-
         dispatch({
             type: "increase",
-            value: counter
+            id: productId,
         })
     }
 
@@ -91,24 +69,22 @@ function Product({ product }) {
 
             <p className="product__price">₦{product.price}</p>
 
-            {/* {
-                product.discount && <Discount percentage={product.discountPercentage} formerPrice={product.formerPrice}/>
-            } */}
-
-            <button className="product__button">
+            <button onClick={handleAddProduct} className="product__button">
                 <img src={shoppingBag} alt="Shopping bag icon" />
                 <span>ADD TO CART</span>
             </button>
 
             <div className="mt-3">
-                <button type="button" className="bg-primary">
-                    <img src={minus} alt="Minus icon" />
+                <button type="button" onClick={handleReduceProductCount} className="bg-primary">
+                    {/* <img src={minus} alt="Minus icon" /> */}
+                    Minus
                 </button>
 
                 <div>0</div>
 
-                <button type="button" className="bg-primary">
-                    <img src={plus} alt="Plus icon" />
+                <button type="button" onClick={handleIncreaseProductCount} className="bg-primary">
+                    {/* <img src={plus} alt="Plus icon" /> */}
+                    Plus
                 </button>
             </div>
         </div>

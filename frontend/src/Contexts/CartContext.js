@@ -27,80 +27,84 @@ function CartProvider({children}) {
        
     }, [cartProducts]);
 
-    function addToCart(product) {
-        /** Adds a product to cart and sets the counter(Number of products) to 1 */
-        const id = product.id;
-        
-        // Strutring the object to be placed into the state variable
-        const bundledProduct = {id: {counter: 1, ...product}};
+    function cartReducer(cartItems, action) {
+        /** Respomsible for handling all state logic for the cart component */
+    
+        switch (action.type) {
+            case "add": {
+                if (action.product) {
+                     /** Adds a product to cart and sets the counter(Number of products) to 1 */
+                    const id = product.id;
+                    
+                    // Strutring the object to be placed into the state variable
+                    const bundledProduct = {};
+                    bundledProduct[id] = {counter: 1, ...action.product}
 
-        setCartProducts(products => {
-            return {...bundledProduct, ...products}
-        });
-        
-        return cartProducts;
+                    return {...bundledProduct, ...cartProducts}
+                }
+    
+                return cartProducts;
+            }
+            
+            case "remove": {
+                /** Removes a product from cart */
+                const copyProducts = {...cartProducts}; // Creating a copy
+
+                if (copyProducts[action.id]) {
+                    delete copyProducts[action.id]; // Removing product from object
+                }
+                
+                return copyProducts;
+            }
+
+            case "reduce": {
+                /** Reduces the quantity of a particular product in the cart */
+                const copyProducts = {...cartProducts}; // Make a copy
+                
+                if (copyProducts[action.id]) {
+                    // If product is 2 or more items decrease by 1
+                    if (copyProducts[action.id]["counter"] > 1) {
+                        copyProducts[action.id]["counter"] -= 1; // Decrement product counter
+                    } else { // If item count is 1 (remove)
+                        delete copyProducts[action.id]; // Removing product from object
+                    }
+                }
+
+                return copyProducts;
+            }
+
+            case "increase": {
+                /** Reduces the quantity of a particular product in the cart */
+                const copyProducts = {...cartProducts}; // Make a copy
+                
+                if (copyProducts[action.id]) {
+                    copyProducts[action.id]["counter"] += 1; // Increment  product counter
+                }
+
+                return copyProducts;
+            }
+
+            default: {
+                throw Error(`Unknown action: ${action.type}`);
+            }
+        }
     }
-
-    function removeFromCart(product) {
-        /** Removes a product from cart */
-        setCartProducts(products => {
-            const copyProducts = {...products}; // Creating a copy
-
-            delete copyProducts[product.id]; // Removing product from object
-
-            return copyProducts;
-        })
-
-        return cartProducts;
-    }
-
 
     function getCartProducts() {
         /** Get all cart products to be displayed in the cart page */
         return cartProducts;
     }
 
-    function increaseQuantity(product) {
-        /** Increases the quantity of a particular product in the cart */
-        setCartProducts((products) => {
-            const copyProducts = {...products}; // Make a copy
-            
-            copyProducts[product.id]["counter"] += 1; // Increment product counter
-
-            return copyProducts;
-        });
-        return cartProducts;
-    }
-
-    function decreaseQuantity(product) {
-        /** Reduces the quantity of a particular product in the cart */
-        setCartProducts((products) => {
-            const copyProducts = {...products}; // Make a copy
-            
-            // If product is 2 or more items decrease by 1
-            if (copyProducts[product.id]["counter"] > 1) {
-                copyProducts[product.id]["counter"] -= 1; // Decrement product counter
-            } else { // If item count is 1 (remove)
-                delete copyProducts[product.id]; // Removing product from object
-            }
-
-            return copyProducts;
-        });
-        return cartProducts;
-    }
-
-
     // External API for usage
     const value = {
         cartProducts,
+        setCartProducts,
+
         cartCounter,
         setCartCounter,
 
-        addToCart,
-        removeFromCart,
+        cartReducer,
         getCartProducts,
-        increaseQuantity,
-        decreaseQuantity
     };
     
     return (
