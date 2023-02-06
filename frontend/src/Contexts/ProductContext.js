@@ -16,59 +16,46 @@ const client = axios.create({
 })
 
 function fakeData() {
+    /** Simulates a fate HTTP request to a server */
     return new Promise((resolve, reject) => {
         setTimeout(() => {
-            const PRODUCTS = [
-                {
+            const PRODUCTS = {
+                "d2250-4-pro-round-656754": {
                     id: 1, 
                     title: "D2250.4 PRO ROUND", 
-                    price: "15,000", 
+                    price: "15000", 
                     images: [
-                        "./Assets/images/product.jpg",
                         "./Assets/images/product.jpg"
                     ],
                     alts: [
-                        "Image of weights",
-                        "Image of weights",
+                        "Image of weights"
                     ],
-                    discountPercentage: "23%",
-                    formerPrice: "40,000"
                 },
     
-                {
+                "t65-weight-machine-242890": {
                     id: 2, 
-                    title: "D2250.4 PRO ROUND", 
-                    price: "15,000", 
+                    title: "T65 WEIGHT MACHINE", 
+                    price: "40000", 
                     images: [
-                        "./Assets/images/product.jpg",
-                        "./Assets/images/product.jpg"
+                        "./Assets/images/product-1.jpg",
                     ],
                     alts: [
                         "Image of weights",
-                        "Image of weights",
                     ],
-                    discount: true,
-                    discountPercentage: "23%",
-                    formerPrice: "40,000"
                 },
     
-                {
+                "jumbotron-500-x-series": {
                     id: 3, 
-                    title: "D2250.4 PRO ROUND", 
-                    price: "15,000", 
+                    title: "JUMBOTRON 500 X SERIES", 
+                    price: "15000", 
                     images: [
-                        "./Assets/images/product.jpg",
-                        "./Assets/images/product.jpg"
+                        "./Assets/images/product-2.jpg"
                     ],
                     alts: [
                         "Image of weights",
-                        "Image of weights",
-                    ],
-                    discount: true,
-                    discountPercentage: "23%",
-                    formerPrice: "40,000"
+                    ]
                 },
-            ];
+            };
             if (PRODUCTS) {
                 resolve(PRODUCTS);
             } else {
@@ -79,20 +66,6 @@ function fakeData() {
 }
 
 function ProductProvider({ children }) {
-    const [loading, setLoading] = useState(false);
-
-    useEffect(() => {
-        const getData = async () => {
-            // Add things here that should be preloaded
-            const data = await fakeData();
-            // useee localStore to get cart items or there about and stuff
-            
-            // After fetching data set loading to false to stop spinner
-        }
-
-        // getData();
-    }, []);
-    
     // API setup
     const value = {
         getProductDetails,
@@ -103,138 +76,108 @@ function ProductProvider({ children }) {
 
     // Fetch a single product from the database (Add on axios to this)
     function getProductDetails(id) {
-        const result = [
-            {
+        // Send request to fetch product details
+
+        // Return product details if exist
+        const result = {
+            "d2250-4-pro-round-656754": {
                 id: 1, 
                 title: "D2250.4 PRO ROUND", 
                 price: "15000", 
                 images: [
-                    "./Assets/images/product.jpg",
                     "./Assets/images/product.jpg"
                 ],
                 alts: [
-                    "Image of weights",
-                    "Image of weights",
+                    "Image of weights"
                 ],
-                description: "This is a weight that is about 200 miles long and also there are other things that are doing the thing that I want to do here",
-                discountPercentage: "23%",
-                formerPrice: "40,000"
             },
-        ];
+        };
 
-        return result[0]; // Return raw product object
+        return result[id]; // Return raw product object
     }
 
     // Fetch top 3 similar products (Refactor to actually return recommendations)
     function getSimilarProducts(id) {
-        const PRODUCTS = [
-            {
+        const PRODUCTS = {
+            "d2250-4-pro-round-656754": {
                 id: 1, 
                 title: "D2250.4 PRO ROUND", 
-                price: "15,000", 
+                price: "15000", 
                 images: [
-                    "./Assets/images/product.jpg",
                     "./Assets/images/product.jpg"
                 ],
                 alts: [
-                    "Image of weights",
-                    "Image of weights",
+                    "Image of weights"
                 ],
-                discountPercentage: "23%",
-                formerPrice: "40,000"
             },
 
-            {
+            "t65-weight-machine-242890": {
                 id: 2, 
-                title: "D2250.4 PRO ROUND", 
-                price: "15,000", 
+                title: "T65 WEIGHT MACHINE", 
+                price: "40000", 
                 images: [
-                    "./Assets/images/product.jpg",
-                    "./Assets/images/product.jpg"
+                    "./Assets/images/product-1.jpg",
                 ],
                 alts: [
                     "Image of weights",
-                    "Image of weights",
                 ],
-                discount: true,
-                discountPercentage: "23%",
-                formerPrice: "40,000"
             },
 
-            {
+            "jumbotron-500-x-series": {
                 id: 3, 
-                title: "D2250.4 PRO ROUND", 
-                price: "15,000", 
+                title: "JUMBOTRON 500 X SERIES", 
+                price: "15000", 
                 images: [
-                    "./Assets/images/product.jpg",
-                    "./Assets/images/product.jpg"
+                    "./Assets/images/product-2.jpg"
                 ],
                 alts: [
                     "Image of weights",
-                    "Image of weights",
-                ],
-                discount: true,
-                discountPercentage: "23%",
-                formerPrice: "40,000"
+                ]
             },
-        ];
+        };
 
         return PRODUCTS;
     }
 
     // Fetches the first three products
     function getSampleProducts() {
-        const PRODUCTS = [
-            {
+        const PRODUCTS = {
+            "d2250-4-pro-round-656754": {
                 id: 1, 
                 title: "D2250.4 PRO ROUND", 
-                price: "15,000", 
+                price: "15000", 
                 images: [
-                    "./Assets/images/product.jpg",
                     "./Assets/images/product.jpg"
                 ],
                 alts: [
-                    "Image of weights",
-                    "Image of weights",
+                    "Image of weights"
                 ],
-                discountPercentage: "23%",
-                formerPrice: "40,000"
             },
 
-            {
+            "t65-weight-machine-242890": {
                 id: 2, 
-                title: "D2250.4 PRO ROUND", 
-                price: "15,000", 
+                title: "T65 WEIGHT MACHINE", 
+                price: "40000", 
                 images: [
-                    "./Assets/images/product.jpg",
-                    "./Assets/images/product.jpg"
+                    "./Assets/images/product-1.jpg",
                 ],
                 alts: [
                     "Image of weights",
-                    "Image of weights",
                 ],
-                discount: true,
-                discountPercentage: "23%",
-                formerPrice: "40,000"
             },
 
-            {
+            "jumbotron-500-x-series": {
                 id: 3, 
-                title: "D2250.4 PRO ROUND", 
-                price: "15,000", 
+                title: "JUMBOTRON 500 X SERIES", 
+                price: "15000", 
                 images: [
-                    "./Assets/images/product.jpg",
-                    "./Assets/images/product.jpg"
+                    "./Assets/images/product-2.jpg"
                 ],
                 alts: [
                     "Image of weights",
-                    "Image of weights",
-                ],
-                discount: true,
-                discountPercentage: "23%",
-                formerPrice: "40,000"
+                ]
             },
-        ];
+        };
 
         return PRODUCTS;
     }
@@ -249,7 +192,7 @@ function ProductProvider({ children }) {
 
     return (
         <ProductContext.Provider value={value}>
-            { !loading ? children : spinner}
+            { children }
         </ProductContext.Provider>
     )
 }

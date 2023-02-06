@@ -11,7 +11,7 @@ function CartProvider({children}) {
     const [cartProducts, setCartProducts] = useState({});
     const [cartCounter, setCartCounter] = useState(0);
 
-    // Effect to fetch products from cart in local storage
+    // FETCH PRODUCTS FROM CART IN LOCAL STORAGE
     useEffect(() => {
         // FETCH ITEM FROM CART
         const cartPs = JSON.parse(localStorage.getItem(STORAGE_NAME));
@@ -20,7 +20,7 @@ function CartProvider({children}) {
         }
     }, []);
 
-    // Effect to update cart in local storage
+    // UPDATES CART DETAILS IN LOCAL STORAGE
     useEffect(() => {
         // FETCH ITEM FROM CART
         localStorage.setItem(STORAGE_NAME, JSON.stringify(cartProducts));
@@ -36,7 +36,7 @@ function CartProvider({children}) {
                      /** Adds a product to cart and sets the counter(Number of products) to 1 */
                     const id = product.id;
                     
-                    // Strutring the object to be placed into the state variable
+                    // StrutUring the object to be placed into the state variable
                     const bundledProduct = {};
                     bundledProduct[id] = {counter: 1, ...action.product}
 
