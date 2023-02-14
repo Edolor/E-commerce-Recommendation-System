@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
+import { Spinner } from "react-bootstrap";
 
 const CartContext = createContext();
 const STORAGE_NAME = "cart_data";
@@ -10,6 +11,8 @@ function useCart() {
 function CartProvider({children}) {
     const [cartProducts, setCartProducts] = useState({});
     const [cartCounter, setCartCounter] = useState(0);
+    const [loading, setLoading] = useState(true);
+
 
     // FETCH PRODUCTS FROM CART IN LOCAL STORAGE
     useEffect(() => {
@@ -18,6 +21,8 @@ function CartProvider({children}) {
         if (cartPs) {
             setCartProducts(cartPs);
         }
+
+        setLoading(false);
     }, []);
 
     // UPDATES CART DETAILS IN LOCAL STORAGE
@@ -34,7 +39,7 @@ function CartProvider({children}) {
             case "add": {
                 if (action.product) {
                      /** Adds a product to cart and sets the counter(Number of products) to 1 */
-                    const id = product.id;
+                    const id = action.product.id;
                     
                     // StrutUring the object to be placed into the state variable
                     const bundledProduct = {};
@@ -106,10 +111,18 @@ function CartProvider({children}) {
         cartReducer,
         getCartProducts,
     };
+
+    const spinner = (
+        <div className="d-flex vh-100 align-items-center justify-content-center">
+            <Spinner animation="grow" size="xl" role="status" variant="primary">
+                <span className="visually-hidden">Loading...</span>
+            </Spinner>
+        </div>
+    );
     
     return (
         <CartContext.Provider value={value}>
-            {children}
+            {!loading ? children : spinner}
         </CartContext.Provider>
     );
 }

@@ -1,76 +1,21 @@
 import Product from "../../Components/Product/Product.jsx";
+import { useProduct } from "../../Contexts/ProductContext";
 
 function Shop(props) {
-    const PRODUCTS = [
-        {
-            id: 1, 
-            title: "D2250.4 PRO ROUND", 
-            price: "15,000", 
-            src: "./Assets/images/product.jpg", 
-            altText: "Image of weights",
-            discount: true,
-            discountPercentage: "23%",
-            formerPrice: "40,000"
-        },
-        {
-            id: 2, 
-            title: "D2250.4 PRO ROUND", 
-            price: "15,000", 
-            src: "./Assets/images/product.jpg", 
-            altText: "Image of weights",
-            discount: true,
-            discountPercentage: "23%",
-            formerPrice: "40,000"
-        },
-        {
-            id: 3, 
-            title: "D2250.4 PRO ROUND", 
-            price: "15,000", 
-            src: "./Assets/images/product.jpg", 
-            altText: "Image of weights",
-            discount: true,
-            discountPercentage: "23%",
-            formerPrice: "40,000"
-        },
-        {
-            id: 4, 
-            title: "D2250.4 PRO ROUND", 
-            price: "15,000", 
-            src: "./Assets/images/product.jpg", 
-            altText: "Image of weights",
-            discount: true,
-            discountPercentage: "23%",
-            formerPrice: "40,000"
-        },
-        {
-            id: 5, 
-            title: "D2250.4 PRO ROUND", 
-            price: "15,000", 
-            src: "./Assets/images/product.jpg", 
-            altText: "Image of weights",
-            discount: true,
-            discountPercentage: "23%",
-            formerPrice: "40,000"
-        },
-        {
-            id: 6, 
-            title: "D2250.4 PRO ROUND", 
-            price: "15,000", 
-            src: "./Assets/images/product.jpg", 
-            altText: "Image of weights",
-            discount: true,
-            discountPercentage: "23%",
-            formerPrice: "40,000"
-        },
-    ];
+    const { getSampleProducts } = useProduct();
 
-    const productItems = PRODUCTS.map(el => {
-        return (
-            <li key={el.id}>
-                <Product product={el} />
+    // FETCH TOP 3 PRODUCTS TO DISPLAY ON SCREEN OF USER
+    const PRODUCTS = getSampleProducts();
+    const productItems = [];
+
+    // RENDER LIST OF PRODUCTS ON HOME PAGE
+    for (const productID in PRODUCTS) {
+        productItems.push(
+            <li key={productID}>
+                <Product product={PRODUCTS[productID]} />
             </li>
         );
-    });
+    }
 
     return (
         <>

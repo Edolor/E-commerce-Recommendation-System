@@ -8,17 +8,18 @@ import { useProduct } from "../../Contexts/ProductContext";
 function Home(props) {
     const { getSampleProducts } = useProduct();
 
-    // Get top three products to display on the home
+    // FETCH TOP 3 PRODUCTS TO DISPLAY ON SCREEN OF USER
     const PRODUCTS = getSampleProducts();
+    const productItems = [];
 
-    const productItems = PRODUCTS.map(el => {
-        return (
-            <li key={el.id}>
-                    <Product product={el}
-                />
+    // RENDER LIST OF PRODUCTS ON HOME PAGE
+    for (const productID in PRODUCTS) {
+        productItems.push(
+            <li key={productID}>
+                <Product product={PRODUCTS[productID]} />
             </li>
         );
-    });
+    }
 
     return (
         <>
