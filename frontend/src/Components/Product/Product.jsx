@@ -1,4 +1,4 @@
-import { useState, useReducer, useEffect } from "react";
+import { useState, useReducer } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../../Contexts/CartContext";
 import "./_product.scss";
@@ -17,9 +17,9 @@ function Discount( {percentage, formerPrice} ) {
     );
 }
 
+const { cartProducts, setCartProducts, cartReducer } = useCart();
 
 function Product({ product }) {
-    const { cartProducts, setCartProducts, cartReducer } = useCart();
     const localCartProducts = {...cartProducts};
 
     useEffect(() => {
@@ -67,7 +67,7 @@ function Product({ product }) {
 
             <h4 className="product__title body-copy--smallest">{product.title}</h4>
 
-            <p className="product__price">₦{parseInt(product.price).toLocaleString("en-US")}</p>
+            <p className="product__price">₦{product.price}</p>
 
             <button onClick={handleAddProduct} className="product__button">
                 <img src={shoppingBag} alt="Shopping bag icon" />

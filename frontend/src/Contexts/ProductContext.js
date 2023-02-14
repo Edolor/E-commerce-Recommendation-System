@@ -1,6 +1,7 @@
 import React from 'react';
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
+import { Spinner } from "react-bootstrap";
 
 const ProductContext = createContext(); 
 
@@ -20,7 +21,7 @@ function fakeData() {
         setTimeout(() => {
             const PRODUCTS = {
                 "d2250-4-pro-round-656754": {
-                    id: "d2250-4-pro-round-656754", 
+                    id: 1, 
                     title: "D2250.4 PRO ROUND", 
                     price: "15000", 
                     images: [
@@ -32,7 +33,7 @@ function fakeData() {
                 },
     
                 "t65-weight-machine-242890": {
-                    id: "t65-weight-machine-242890", 
+                    id: 2, 
                     title: "T65 WEIGHT MACHINE", 
                     price: "40000", 
                     images: [
@@ -44,9 +45,9 @@ function fakeData() {
                 },
     
                 "jumbotron-500-x-series": {
-                    id: "jumbotron-500-x-series", 
+                    id: 3, 
                     title: "JUMBOTRON 500 X SERIES", 
-                    price: "77000", 
+                    price: "15000", 
                     images: [
                         "./Assets/images/product-2.jpg"
                     ],
@@ -80,7 +81,7 @@ function ProductProvider({ children }) {
         // Return product details if exist
         const result = {
             "d2250-4-pro-round-656754": {
-                id: "d2250-4-pro-round-656754", 
+                id: 1, 
                 title: "D2250.4 PRO ROUND", 
                 price: "15000", 
                 images: [
@@ -99,7 +100,7 @@ function ProductProvider({ children }) {
     function getSimilarProducts(id) {
         const PRODUCTS = {
             "d2250-4-pro-round-656754": {
-                id: "d2250-4-pro-round-656754", 
+                id: 1, 
                 title: "D2250.4 PRO ROUND", 
                 price: "15000", 
                 images: [
@@ -111,7 +112,7 @@ function ProductProvider({ children }) {
             },
 
             "t65-weight-machine-242890": {
-                id: "t65-weight-machine-242890", 
+                id: 2, 
                 title: "T65 WEIGHT MACHINE", 
                 price: "40000", 
                 images: [
@@ -123,9 +124,9 @@ function ProductProvider({ children }) {
             },
 
             "jumbotron-500-x-series": {
-                id: "jumbotron-500-x-series", 
+                id: 3, 
                 title: "JUMBOTRON 500 X SERIES", 
-                price: "77000", 
+                price: "15000", 
                 images: [
                     "./Assets/images/product-2.jpg"
                 ],
@@ -180,6 +181,14 @@ function ProductProvider({ children }) {
 
         return PRODUCTS;
     }
+
+    const spinner = (
+        <div className="d-flex vh-100 align-items-center justify-content-center">
+            <Spinner animation="grow" size="xl" role="status" variant="primary">
+                <span className="visually-hidden">Loading...</span>
+            </Spinner>
+        </div>
+    );
 
     return (
         <ProductContext.Provider value={value}>
