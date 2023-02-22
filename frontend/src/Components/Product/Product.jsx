@@ -1,4 +1,4 @@
-import { useState, useReducer } from "react";
+import { useState, useReducer, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../../Contexts/CartContext";
 import "./_product.scss";
@@ -17,15 +17,16 @@ function Discount( {percentage, formerPrice} ) {
     );
 }
 
-const { cartProducts, setCartProducts, cartReducer } = useCart();
 
 function Product({ product }) {
+    // return;
+    const { cartProducts, setCartProducts, cartReducer } = useCart();
     const localCartProducts = {...cartProducts};
 
-    useEffect(() => {
-        // SET GLOBAL STATE TO UPDATE CART
-        setCartProducts(() => localCartProducts);
-    }, [localCartProducts]);
+    // useEffect(() => {
+    //     // SET GLOBAL STATE TO UPDATE CART
+    //     // setCartProducts(() => localCartProducts);
+    // }, [localCartProducts]);
 
     const [cartItems, dispatch] = useReducer(
         cartReducer,

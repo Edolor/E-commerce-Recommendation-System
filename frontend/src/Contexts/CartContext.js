@@ -34,7 +34,7 @@ function CartProvider({children}) {
             case "add": {
                 if (action.product) {
                      /** Adds a product to cart and sets the counter(Number of products) to 1 */
-                    const id = product.id;
+                    const id = action.product.id;
                     
                     // StrutUring the object to be placed into the state variable
                     const bundledProduct = {};

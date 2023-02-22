@@ -10,15 +10,18 @@ function Home(props) {
 
     // Get top three products to display on the home
     const PRODUCTS = getSampleProducts();
-
-    const productItems = PRODUCTS.map(el => {
-        return (
-            <li key={el.id}>
-                    <Product product={el}
-                />
-            </li>
-        );
-    });
+    
+    const productItems = []
+    for (const productKey in PRODUCTS) {
+        productItems.push(
+            (
+                <li key={productKey.id}>
+                   <Product product={PRODUCTS[productKey]}
+                    />
+                </li>
+            )
+        )
+    }
 
     return (
         <>
