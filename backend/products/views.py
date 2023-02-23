@@ -1,51 +1,59 @@
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.views import APIView
 from rest_framework import status
 from .serializers import ProductSerializer
 from .models import Product
-from django.views.generic import ListView
 
-@api_view(["GET", "POST"])
-def product_list(request):
-    """Displays all product listing"""
-    if request.method == "GET":
+
+class ProductList(APIView):
+    """
+    GET: Retreive details of all products
+    POST: Creates product
+    """
+    def get(self, request):
         products = Product.objects.all()
         serializer = ProductSerializer(products, many=True)
-        return Response(serializer.data)
-    elif request.method == "POST":
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    def post(self, request):
         serializer = ProductSerializer(data=request.data)
+        
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        
-
-@api_view(["GET", "PUT", "DELETE"])
-def product_detail(request, pk):
-    """Return a single requested object"""
-    try:
-        product = Product.objects.get(pk=pk)
-    except Product.DoesNotExist:
-        return Response({"error": "Product does not exist"}, status=status.HTTP_404_NOT_FOUND)
-    
-    if request.method == "GET":
-        serializer = ProductSerializer(product)
-    elif request.method == "DELETE":
-        product.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-    elif request.method == "PUT":
-        serializer = ProductSerializer(product, data=request.data)
-        
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
         else:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-        
-    return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ProductDetail(APIView):
+    """
+    GET: Retreive detail of a specific product
+    PUT: Update the detail of a specific product
+    DELETE: Deletes a specific product
+    """
+    def get(self, request, pk):
+        try:
+            product = Product.objects.get(pk=pk)
+
+            serializer = ProductSerializer(product)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Product.DoesNotExist:
+            return Response({"error": "Product does not exist"}, status=status.HTTP_404_NOT_FOUND)
+
+    def put(self, request, pk):
+        try:
+            product = Product.objects.get(pk=pk)
+            serializer = ProductSerializer(product, data=request.data)
+
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+        except Product.DoesNotExist:
+            return Response({"error": "Product does not exist"}, status=status.HTTP_404_NOT_FOUND)
 
 
-class IndexView(ListView):
-    template_name = "products/index.html"
-    context_object_name = "products"
-    model = Product
-    ordering = ["-created_at"]
+    def delete(self, request, pk):
+        try:
+            product = Product.objects.get(pk=pk)
+            product.delete()
+            return Response({"success": True}, status=status.HTTP_204_NO_CONTENT)
+        except Product.DoesNotExist:
+            return Response({"error": "Product does not exist"}, status=status.HTTP_404_NOT_FOUND)
