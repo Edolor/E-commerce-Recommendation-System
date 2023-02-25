@@ -16,7 +16,6 @@ function Layout({ pageNo }) {
         <Outlet />
       </main>
 
-      {/* <Newsletter /> */}
       <Footer />
     </>
   );
