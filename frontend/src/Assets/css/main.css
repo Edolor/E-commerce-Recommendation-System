@@ -1,4 +1,4 @@
-*,
+/* *,
 *::before,
 *::after {
   margin: 0;
@@ -1617,7 +1617,7 @@ h1, h2, h3, h4 {
  * ==============================================
  * Dot Pulse
  * ==============================================
- */
+ /* /*
 .dot-pulse {
   position: relative;
   left: -9999px;
@@ -1842,9 +1842,6 @@ h1, h2, h3, h4 {
   font-family: inherit;
   display: inline-block;
   border: var(--border-size) solid var(--color-grey-light-4);
-  /* 
-      SET CUSTOM PADDING AND WIDTH
-  */
   transition: all 10ms;
 }
 @media only screen and (max-width: 56.25em) {
@@ -2069,6 +2066,6 @@ h1, h2, h3, h4 {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-}
+} */
 
 /*# sourceMappingURL=main.css.map */

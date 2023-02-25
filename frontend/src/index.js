@@ -1,8 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter as Router} from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
-import "./Assets/css/style.css";
+
+// will need to install boostrap 5 for this
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.js';
+
+import "./Assets/css/app.css";
 import CartProvider from "./Contexts/CartContext";
 import "./Assets/css/main.css";
 import reportWebVitals from './reportWebVitals';
