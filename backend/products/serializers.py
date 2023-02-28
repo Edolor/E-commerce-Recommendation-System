@@ -5,9 +5,14 @@ class ImageSerializer(serializers.ModelSerializer):
     """
     Product Images serialization class
     """
+
     class Meta:
         model = Image
-        exclude = ["id", "product"]
+        fields = "__all__"
+
+        extra_kwargs = {
+            "product": {"read_only": True}
+        }
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -18,4 +23,5 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        exclude = ["created_at", "id"]
+        fields = ["id", "name", "description", "price", "images"]
+        read_only_fields = ["id"]
