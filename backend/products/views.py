@@ -1,4 +1,5 @@
 from genericpath import exists
+from posixpath import isabs
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.generics import (
@@ -54,11 +55,37 @@ class EditDeleteProductView(UpdateModelMixin, DestroyModelMixin, GenericAPIView)
         return self.partial_update(request, *args, **kwargs)
 
 class ListImageView(ListAPIView):
+    """
+    List all records in Image model
+    """
     queryset = Image.objects.all()
     serializer_class = ImageSerializer
+    permission_classes = [IsAdminUser]
 
+
+class RetrieveImagesView(ListAPIView):
+    """
+    Gets all the images for a specific product
+    """
+    serializer_class = ImageSerializer
+    
+    def get_queryset(self):
+        """Return a collection of images if found"""
+        pk = self.kwargs["pk"]
+
+        product = Product.objects.filter(pk=pk)
+
+        if product.exists() == False:
+            raise ValidationError("Product does not exist")
+
+        images = Image.objects.filter(product=product[0])
+
+        return images
 
 class AddImageView(CreateAPIView):
+    """
+    Adnin users send a MultiPart request to add image to a specific product
+    """
     queryset = Image.objects.all()
     serializer_class = ImageSerializer
     parser_classes = [MultiPartParser]
