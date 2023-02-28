@@ -1,59 +1,51 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
+from rest_framework.generics import (
+    ListAPIView,
+    CreateAPIView,
+    RetrieveAPIView,
+    UpdateAPIView,
+    DestroyAPIView
+)
+from rest_framework.permissions import IsAdminUser
 from .serializers import ProductSerializer
 from .models import Product
 
-
-class ProductList(APIView):
+class ListBookView(ListAPIView):
     """
-    GET: Retreive details of all products
-    POST: Creates product
+    Display all available products
     """
-    def get(self, request):
-        products = Product.objects.all()
-        serializer = ProductSerializer(products, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    def post(self, request):
-        serializer = ProductSerializer(data=request.data)
-        
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    serializer_class = ProductSerializer
+    queryset = Product.objects.all()
 
-class ProductDetail(APIView):
+class RetrieveBookView(RetrieveAPIView):
     """
-    GET: Retreive detail of a specific product
-    PUT: Update the detail of a specific product
-    DELETE: Deletes a specific product
+    Fetch the details of a product
     """
-    def get(self, request, pk):
-        try:
-            product = Product.objects.get(pk=pk)
+    serializer_class = ProductSerializer
+    queryset = Product.objects.all()
 
-            serializer = ProductSerializer(product)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        except Product.DoesNotExist:
-            return Response({"error": "Product does not exist"}, status=status.HTTP_404_NOT_FOUND)
+class CreateBookView(CreateAPIView):
+    """
+    Adnin users to create a product
+    """
+    permission_classes = [IsAdminUser]
+    serializer_class = ProductSerializer
+    queryset = Product.objects.all()
 
-    def put(self, request, pk):
-        try:
-            product = Product.objects.get(pk=pk)
-            serializer = ProductSerializer(product, data=request.data)
+class EditBookView(UpdateAPIView):
+    """
+    Adnin users to update the details of a product
+    """
+    permission_classes = [IsAdminUser]
+    serializer_class = ProductSerializer
+    queryset = Product.objects.all()
 
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data)
-        except Product.DoesNotExist:
-            return Response({"error": "Product does not exist"}, status=status.HTTP_404_NOT_FOUND)
-
-
-    def delete(self, request, pk):
-        try:
-            product = Product.objects.get(pk=pk)
-            product.delete()
-            return Response({"success": True}, status=status.HTTP_204_NO_CONTENT)
-        except Product.DoesNotExist:
-            return Response({"error": "Product does not exist"}, status=status.HTTP_404_NOT_FOUND)
+class DeleteBookView(DestroyAPIView):
+    """
+    Adnin users to delete a product
+    """
+    permission_classes = [IsAdminUser]
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
