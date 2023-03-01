@@ -47,7 +47,10 @@ const Product = ({ product }) => {
   };
 
   return (
-    <article className="product p-2" aria-labelledby={`pd${product.id}`}>
+    <article
+      className="product p-2 mb-3 mb-md-0"
+      aria-labelledby={`pd${product.id}`}
+    >
       <Link
         to={`/product/${product.id}`}
         className="position-relative text-decoration-none text-reset"
@@ -92,8 +95,8 @@ const Product = ({ product }) => {
               }
               aria-label="Add to cart"
             >
-              <Button rounded="circle" onclick={handleAddToCart}>
-                <i class="fa-solid fa-cart-shopping"></i>
+              <Button rounded="circle" onclick={handleAddToCart} color="pink">
+                <i className="fa-solid fa-cart-shopping"></i>
               </Button>
             </div>
 
@@ -104,7 +107,7 @@ const Product = ({ product }) => {
               >
                 <div className="cart-qty-btn" aria-label="Reduce quantity">
                   <Button size="sm" onclick={handleReduceCartQuantity}>
-                    <i class="fa-solid fa-minus"></i>
+                    <i className="fa-solid fa-minus"></i>
                   </Button>
                 </div>
                 <div
@@ -115,7 +118,7 @@ const Product = ({ product }) => {
                 </div>
                 <div className="cart-qty-btn" aria-label="Increase quantity">
                   <Button size="sm" onclick={handleIncreaseCartQuantity}>
-                    <i class="fa-solid fa-plus"></i>
+                    <i className="fa-solid fa-plus"></i>
                   </Button>
                 </div>
               </div>

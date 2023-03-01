@@ -71,9 +71,9 @@ const Header = () => {
       </div>
 
       <nav className="navbar navbar-expand-lg shadow-sm py-2 bg-white">
-        <div className="container align-items-center">
+        <div className="container align-items-center justify-content-end">
           <button
-            className="navbar-toggler"
+            className="navbar-toggler border-0 ease-1 py-2"
             type="button"
             data-bd-toggler="collapse"
             data-bs-target="#navbarMenu"
@@ -81,7 +81,9 @@ const Header = () => {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span className="navbar-toggler-icon"></span>
+            <div className="navbar-toggle-icon"></div>
+            <div className="navbar-toggle-icon"></div>
+            <div className="navbar-toggle-icon"></div>
           </button>
 
           <div

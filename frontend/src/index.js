@@ -9,7 +9,6 @@ import 'bootstrap/dist/js/bootstrap.js';
 
 import "./Assets/css/app.css";
 import CartProvider from "./Contexts/CartContext";
-import "./Assets/css/main.css";
 import reportWebVitals from './reportWebVitals';
 import { ActivePageProvider } from "./Contexts/ActivePageContext";
 import { ProductProvider } from "./Contexts/ProductContext";

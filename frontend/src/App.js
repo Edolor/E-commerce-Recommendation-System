@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home";
 import Contact from "./Pages/Contact/Contact";
-import About from "./Pages/About/About";
+import About from "./Pages/About";
 import ProductDetails from "./Pages/Product/ProductDetails";
 import Shop from "./Pages/Shop/Shop";
 import Cart from "./Pages/Cart/Cart";
@@ -18,7 +18,7 @@ function App() {
       </Route>
 
       <Route element={<Layout pageNo="1" />}>
-        <Route path="about" element={<About />} />
+        <Route path="about-us" element={<About />} />
       </Route>
 
       <Route element={<Layout pageNo="2" />}>

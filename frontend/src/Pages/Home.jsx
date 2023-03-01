@@ -113,12 +113,12 @@ const Home = () => {
   const WindowCard = ({ card }) => {
     return (
       <div
-        className="window-card d-flex position-relative flex-column p-5 justify-content-between text-white"
+        className="window-card shop-card d-flex position-relative flex-column p-5 justify-content-between text-white"
         style={{ backgroundColor: card.color }}
       >
         <div className="p-3">
           {card.subtitle ? (
-            <div className="h6 mb-4 text-uppercase underlined">
+            <div className="h6 mb-4 text-uppercase underlined d-inline-block">
               {card.subtitle}
             </div>
           ) : (
@@ -137,23 +137,25 @@ const Home = () => {
 
   return (
     <>
-      <section id="hero">
-        <div className="container h-100 d-flex justify-content-end align-items-center">
-          <div id="heroCaption">
-            <h1 className="h6 text-uppercase underlined">
-              Personalised Shopping Experience
-            </h1>
-            <h2 className="my-4 display-6 heading">
-              Shopping <span className="font-weight-600">Simplified</span>
-            </h2>
-            <p className="lead mb-4">
-              We've made it easier for you to find what you need, all in one
-              place, at no additional cost
-            </p>
+      <section id="hero" className="align-items-center d-flex py-5">
+        <div className="container py-2">
+          <div className="row">
+            <div className="col-md-6 offset-md-6">
+              <h1 className="h6 text-uppercase underlined d-inline-block">
+                Personalised Shopping Experience
+              </h1>
+              <h2 className="my-4 display-6 heading">
+                Shopping <span className="font-weight-600">Simplified</span>
+              </h2>
+              <p className="lead mb-4">
+                We've made it easier for you to find what you need, all in one
+                place, at no additional cost
+              </p>
 
-            <Button size="lg" color="dark">
-              Start shopping
-            </Button>
+              <Button size="lg" color="dark">
+                Start shopping
+              </Button>
+            </div>
           </div>
         </div>
       </section>
@@ -212,7 +214,7 @@ const Home = () => {
             Popular Products
           </h1>
 
-          <div className="row mt-5 align-items-center">
+          <div className="row mt-5 mx-0 align-items-center">
             <div className="col-sm-11 px-0">
               <div className="row mt-5">
                 {products.map((product, key) => (
@@ -222,7 +224,7 @@ const Home = () => {
                 ))}
               </div>
             </div>
-            <div className="col-sm-1 pe-0">
+            <div className="col-sm-1 pe-sm-0">
               <div id="productsViewMore">
                 <Button href="/shop" size="lg" outline={true} line={true}>
                   See More Products
