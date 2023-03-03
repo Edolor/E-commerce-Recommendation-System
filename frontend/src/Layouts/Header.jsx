@@ -1,5 +1,3 @@
-// import "./_header.scss";
-// import cart from "../../Assets/images/shopping_cart.svg";
 import { Link } from "react-router-dom";
 import Button from "../Components/Button";
 import Logo from "../Components/Logo";
@@ -10,9 +8,9 @@ const Header = () => {
   // move to top-level context
   const pages = [
     { title: "home", active: false },
-    { title: "about us", active: false },
+    { title: "about", active: false },
     { title: "shop", active: false },
-    { title: "contact us", active: false },
+    { title: "contact", active: false },
   ];
 
   // move to top-level context
@@ -35,6 +33,7 @@ const Header = () => {
       </li>
     );
   };
+
   return (
     <header id="header" className="fixed-top">
       <div id="topHeader" className="bg-white">

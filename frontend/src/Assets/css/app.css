@@ -5,6 +5,8 @@
 	--yellow: #eabc68;
 	--dark-yellow: #a79070;
 	--light-purple: #e0dffd;
+	--light-blue: #dae4eb;
+	--dark-blue: #32435f;
 	--ease-in: all .25s ease-in;
 	--ease-fast: all .15s ease;
 }
@@ -94,6 +96,14 @@ body {
 	color: var(--medium-green);
 }
 
+.text-yellow {
+	color: var(--yellow);
+}
+
+.bg-yellow {
+	background-color: var(--yellow);
+}
+
 .ease-1 {
 	transition: var(--ease-in);
 }
@@ -119,12 +129,12 @@ body {
 	--bs-btn-active-color: var(--dark-pink);
 }
 
-.btn-outline-orange {
-	--bs-btn-color: var(--color-primary--light);
-	--bs-btn-border-color: var(--color-primary--light);
-	--bs-btn-hover-color: #fff;
-	--bs-btn-hover-bg: var(--color-primary--light);
-	--bs-btn-hover-border-color: var(--color-primary--light);
+.btn-outline-yellow {
+	--bs-btn-color: var(--yellow);
+	--bs-btn-border-color: var(--yellow);
+	--bs-btn-hover-color: #000;
+	--bs-btn-hover-bg: var(--yellow);
+	--bs-btn-hover-border-color: var(--yellow);
 }
 
 
@@ -144,6 +154,12 @@ body {
 
 #main {
 	margin-top: 7.2rem;
+}
+
+@media screen and (max-width: 991px) {
+	#main {
+		margin-top: 6.6rem;
+	}
 }
 
 .product .product-discount-tag {
@@ -195,4 +211,13 @@ body {
 
 .btn-line:hover::after {
 	transform: translateX(15px);
+}
+
+a.text-decoration-hover {
+	text-decoration: none;
+}
+
+
+a.text-decoration-hover:hover {
+	text-decoration: underline;
 }

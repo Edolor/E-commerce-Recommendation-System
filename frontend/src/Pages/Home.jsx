@@ -96,7 +96,7 @@ const Home = () => {
         url: "/products/category/gym",
         title: "Find products",
       },
-      color: "#32435f",
+      color: "var(--dark-blue)",
     },
     {
       font: "h3",
@@ -162,7 +162,9 @@ const Home = () => {
 
       <section
         id="features"
-        style={{ /*backgroundColor: "#bdc9bb",*/ backgroundColor: "#dae4eb" }}
+        style={{
+          /*backgroundColor: "#bdc9bb",*/ backgroundColor: "var(--light-blue)",
+        }}
         className="py-5"
       >
         <div className="container">

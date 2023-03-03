@@ -1,0 +1,33 @@
+#F0FTitle {
+	width: 100%;
+	left: -20%;
+	top: 0;
+	transform: rotate(315deg);
+}
+
+#F0FTitle>h1 {
+	text-shadow: 8px 8px var(--yellow), 16px 16px var(--bs-gray-200);
+	font-size: 8rem;
+}
+
+@media screen and (max-width: 767px) {
+	#F0FTitle {
+		left: -28%;
+		top: auto;
+	}
+
+	#F0FTitle>h1 {
+		font-size: 6rem;
+	}
+}
+
+@media screen and (max-width: 575px) {
+	#F0FTitle {
+		left: -40%;
+		top: 0%;
+	}
+
+	#F0FTitle>h1 {
+		font-size: 4.5rem;
+	}
+}

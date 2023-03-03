@@ -1,6 +1,6 @@
 @media screen and (min-width: 776px) {
 	#aboutHero::before {
-		width: 75%;
+		width: 75% !important;
 	}
 }
 

@@ -1,11 +1,11 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home";
-import Contact from "./Pages/Contact/Contact";
+import Contact from "./Pages/Contact";
 import About from "./Pages/About";
 import ProductDetails from "./Pages/Product/ProductDetails";
 import Shop from "./Pages/Shop/Shop";
 import Cart from "./Pages/Cart/Cart";
-import NoPage from "./Pages/NoPage/NoPage";
+import FourOhFour from "./Pages/FourOhFour";
 import Layout from "./Layout";
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
       </Route>
 
       <Route element={<Layout pageNo="1" />}>
-        <Route path="about-us" element={<About />} />
+        <Route path="about" element={<About />} />
       </Route>
 
       <Route element={<Layout pageNo="2" />}>
@@ -33,7 +33,7 @@ function App() {
       <Route element={<Layout pageNo="-1" />}>
         <Route path="product/:product_id" element={<ProductDetails />} />
         <Route path="cart" element={<Cart />} />
-        <Route path="*" element={<NoPage />} />
+        <Route path="*" element={<FourOhFour />} />
       </Route>
     </Routes>
   );
