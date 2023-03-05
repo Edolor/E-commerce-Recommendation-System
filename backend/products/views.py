@@ -15,12 +15,14 @@ from .models import Product, Image
 from django.core.exceptions import ValidationError
 from rest_framework.parsers import MultiPartParser
 
+
 class ListProductView(ListAPIView):
     """
     Display all available products
     """
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
+
 
 class RetrieveProductView(RetrieveAPIView):
     """
@@ -29,6 +31,15 @@ class RetrieveProductView(RetrieveAPIView):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
 
+    def get_serializer_context(self):
+        """
+        Return relative urls
+        """
+        response = super().get_serializer_context()
+        response["request"] = None
+        return response
+
+
 class CreateProductView(CreateAPIView):
     """
     Adnin users view used to create a product
@@ -36,6 +47,7 @@ class CreateProductView(CreateAPIView):
     permission_classes = [IsAdminUser]
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
+
 
 class EditDeleteProductView(UpdateModelMixin, DestroyModelMixin, GenericAPIView):
     """
@@ -54,6 +66,7 @@ class EditDeleteProductView(UpdateModelMixin, DestroyModelMixin, GenericAPIView)
     def patch(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
 
+
 class ListImageView(ListAPIView):
     """
     List all records in Image model
@@ -68,9 +81,11 @@ class RetrieveImagesView(ListAPIView):
     Gets all the images for a specific product
     """
     serializer_class = ImageSerializer
-    
+
     def get_queryset(self):
-        """Return a collection of images if found"""
+        """
+        Return a collection of images if found
+        """
         pk = self.kwargs["pk"]
 
         product = Product.objects.filter(pk=pk)
@@ -81,6 +96,7 @@ class RetrieveImagesView(ListAPIView):
         images = Image.objects.filter(product=product[0])
 
         return images
+
 
 class AddImageView(CreateAPIView):
     """

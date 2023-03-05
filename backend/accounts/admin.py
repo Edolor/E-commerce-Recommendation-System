@@ -4,15 +4,17 @@ from .forms import CustomUserCreationForm, CustomUserChangeForm
 
 from .models import CustomUser
 
+
 class CustomUserAdmin(UserAdmin):
     form = CustomUserChangeForm
     add_form = CustomUserCreationForm
     model = CustomUser
-    
+
     list_display = ('email', 'is_staff', 'is_active', )
     list_filter = ('email', 'is_staff', 'is_active', )
     fieldsets = (
-        (None, {'fields': ('email', 'password', 'first_name', 'last_name', 'date_joined',)}),
+        (None, {'fields': ('email', 'password',
+         'first_name', 'last_name', 'date_joined',)}),
         ('Permissions', {
             'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions'),
         }),
@@ -29,5 +31,6 @@ class CustomUserAdmin(UserAdmin):
 
     search_fields = ('email',)
     ordering = ('email',)
-    
+
+
 admin.site.register(CustomUser, CustomUserAdmin)
