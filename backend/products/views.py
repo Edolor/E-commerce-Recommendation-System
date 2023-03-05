@@ -14,6 +14,7 @@ from .serializers import ProductSerializer, ImageSerializer
 from .models import Product, Image
 from django.core.exceptions import ValidationError
 from rest_framework.parsers import MultiPartParser
+from .pagination import ProductPagination
 
 
 class ListProductView(ListAPIView):
@@ -22,6 +23,15 @@ class ListProductView(ListAPIView):
     """
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
+    pagination_class = ProductPagination
+
+    def get_serializer_context(self):
+        """
+        Change absolute product url to relative
+        """
+        response =super().get_serializer_context()
+        response["request"] = None
+        return response
 
 
 class RetrieveProductView(RetrieveAPIView):
@@ -65,15 +75,6 @@ class EditDeleteProductView(UpdateModelMixin, DestroyModelMixin, GenericAPIView)
 
     def patch(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
-
-
-class ListImageView(ListAPIView):
-    """
-    List all records in Image model
-    """
-    queryset = Image.objects.all()
-    serializer_class = ImageSerializer
-    permission_classes = [IsAdminUser]
 
 
 class RetrieveImagesView(ListAPIView):
