@@ -1,5 +1,3 @@
-from genericpath import exists
-from posixpath import isabs
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.generics import (
@@ -10,6 +8,7 @@ from rest_framework.generics import (
 )
 from rest_framework.mixins import UpdateModelMixin, DestroyModelMixin
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework import serializers
 from .serializers import ProductSerializer, ImageSerializer
 from .models import Product, Image
 from django.core.exceptions import ValidationError
@@ -29,25 +28,32 @@ class ListProductView(ListAPIView):
         """
         Change absolute product url to relative
         """
-        response =super().get_serializer_context()
-        response["request"] = None
-        return response
-
-
-class RetrieveProductView(RetrieveAPIView):
-    """
-    Fetch the details of a product
-    """
-    serializer_class = ProductSerializer
-    queryset = Product.objects.all()
-
-    def get_serializer_context(self):
-        """
-        Return relative urls
-        """
         response = super().get_serializer_context()
         response["request"] = None
         return response
+
+
+class RetrieveProductView(GenericAPIView):
+    """
+    Fetch the details of a product
+    """
+
+    def get(self, request, pk):
+        try:
+            product = Product.objects.get(pk=pk)
+
+            serializer = ProductSerializer(product, context={"request": None})
+            data = serializer.data
+
+            # Recommendation system plugs in here
+            other_products = Product.objects.exclude(pk=pk)[:3]
+            other_p_serializer = ProductSerializer(
+                other_products, many=True, context={"request": None})
+            data["recommended_products"] = other_p_serializer.data
+
+            return Response(data, status=status.HTTP_200_OK)
+        except:
+            return Response({"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
 
 
 class CreateProductView(CreateAPIView):
