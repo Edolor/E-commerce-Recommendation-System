@@ -3,7 +3,7 @@ import Home from "./Pages/Home";
 import Contact from "./Pages/Contact";
 import About from "./Pages/About";
 import ProductDetails from "./Pages/Product/ProductDetails";
-import Shop from "./Pages/Shop/Shop";
+import Shop from "./Pages/Shop";
 import Cart from "./Pages/Cart/Cart";
 import FourOhFour from "./Pages/FourOhFour";
 import Layout from "./Layout";

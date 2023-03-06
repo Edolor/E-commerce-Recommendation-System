@@ -48,7 +48,7 @@ const Product = ({ product }) => {
 
   return (
     <article
-      className="product p-2 mb-3 mb-md-0"
+      className="product p-2 mb-3 mb-md-0 ease-1"
       aria-labelledby={`pd${product.id}`}
     >
       <Link
@@ -69,6 +69,7 @@ const Product = ({ product }) => {
         <div
           className="font-weight-700 h6 mb-2 text-black"
           id={`pd${product.id}`}
+          title={product.title}
         >
           {product.title}
         </div>

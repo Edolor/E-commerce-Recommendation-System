@@ -198,6 +198,10 @@ body {
 	letter-spacing: 2px;
 }
 
+.btn.btn-line::focus {
+	border: 1px solid var(--bs-btn-active-border-color);
+}
+
 .btn-line::after {
 	position: absolute;
 	content: '';
