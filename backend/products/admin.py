@@ -9,7 +9,7 @@ class ImageInline(admin.TabularInline):
 
 class ProductAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None, {"fields": ["name", "price", "description"]})
+        (None, {"fields": ["name", "price", "category", "description"]})
     ]
     inlines = [ImageInline]
 
