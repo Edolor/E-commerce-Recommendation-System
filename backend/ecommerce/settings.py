@@ -139,6 +139,7 @@ MEDIA_URL = "/media/"
 
 REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_RATES': {
-        'contact-message': '10/day'
+        'contact-message': '10/day',
+        'contact-newsletter': '5/day',
     }
 }
