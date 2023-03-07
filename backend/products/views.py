@@ -14,6 +14,7 @@ from .models import Product, Image
 from django.core.exceptions import ValidationError
 from rest_framework.parsers import MultiPartParser
 from .pagination import ProductPagination
+from recommender.views import get_similar_products
 
 
 class ListProductView(ListAPIView):
@@ -46,11 +47,12 @@ class RetrieveProductView(GenericAPIView):
             data = serializer.data
 
             # Recommendation system plugs in here
-            other_products = Product.objects.exclude(pk=pk)[:3]
+            ids = get_similar_products(data["id"])
+            other_products = Product.objects.filter(id__in=ids)
+
             other_p_serializer = ProductSerializer(
                 other_products, many=True, context={"request": None})
             data["recommended_products"] = other_p_serializer.data
-
             return Response(data, status=status.HTTP_200_OK)
         except:
             return Response({"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
