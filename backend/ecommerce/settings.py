@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'accounts',
     'products',
     'contact',
+    'recommender',
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
