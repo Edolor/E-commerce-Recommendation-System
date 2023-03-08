@@ -1,4 +1,3 @@
-from tkinter.tix import Tree
 from django.apps import AppConfig
 
 class RecommenderConfig(AppConfig):
