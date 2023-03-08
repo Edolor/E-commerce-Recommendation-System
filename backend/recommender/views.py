@@ -9,20 +9,21 @@ def train_model_init():
     Creates the 'product_similarity' record in the database, trains the model and saves it in the database. 
     This is done if one does not already exist in the database.
     """
-    message = ""
-    if SimilarityModel.objects.filter(name='product_similarity').exists() == False:
-        qs = Product.objects.all()
-        df = read_frame(qs, fieldnames=['id', 'name', 'description'])
+    if Product.objects.all().count() > 0:
+        message = ""
+        if SimilarityModel.objects.filter(name='product_similarity').exists() == False:
+            qs = Product.objects.all()
+            df = read_frame(qs, fieldnames=['id', 'name', 'description'])
 
-        similarity_model = SimilarityModel(name='product_similarity')
+            similarity_model = SimilarityModel(name='product_similarity')
 
-        # Compute and save the similarity data
-        similarity_model.save_similarity_data(df)
-        message = "Training complete."
-    else:
-        message = "Already trained."
+            # Compute and save the similarity data
+            similarity_model.save_similarity_data(df)
+            message = "Training complete."
+        else:
+            message = "Already trained."
 
-    return message
+        return message
 
 # Define a function to get the top n similar products
 
