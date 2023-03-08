@@ -70,8 +70,6 @@ def get_similar_products(pk, n=3):
         # Extract product ids
         products = similar_products["id"]
         products = products.tolist()
-        print("Got here")
-        print(products)
 
         result = products
     else:

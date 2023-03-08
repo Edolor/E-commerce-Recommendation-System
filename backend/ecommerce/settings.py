@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'corsheaders',
     'accounts',
     'products',
@@ -142,5 +143,8 @@ REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_RATES': {
         'contact-message': '10/day',
         'contact-newsletter': '5/day',
-    }
+    },
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
 }
