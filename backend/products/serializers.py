@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Product, Image
+from .models import Product, Image, Category
 
 
 class ImageSerializer(serializers.ModelSerializer):
@@ -15,6 +15,14 @@ class ImageSerializer(serializers.ModelSerializer):
             "product": {"read_only": True}
         }
 
+
+class CategorySerializer(serializers.ModelSerializer):
+    def to_representation(self, instance):
+        return instance.name
+
+    class Meta:
+        model = Category
+        fields = ["name"]
 
 class UrlFlattenSerializer(serializers.RelatedField):
     """
@@ -34,8 +42,24 @@ class ProductSerializer(serializers.HyperlinkedModelSerializer):
     """
     url = serializers.HyperlinkedIdentityField(view_name="products:detail")
     images = UrlFlattenSerializer(many=True, read_only=True)
+    category = CategorySerializer(read_only=True)
 
     class Meta:
         model = Product
-        fields = ["url", "id", "name", "description", "price", "images"]
+        fields = ["url", "id", "name", "description", "price", "category", "images"]
         read_only_fields = ["id"]
+
+class CreateProductSerializser(serializers.ModelSerializer):
+    """
+    Product serialization class
+    """
+
+    class Meta:
+        model = Product
+        fields = ["id", "name", "description", "price", "category"]
+        extra_kwargs = {
+            "id": {"read_only": True}
+        }
+
+    def __init__(self, instance=None, **kwargs):
+        super().__init__(instance, **kwargs)

@@ -3,13 +3,17 @@ from rest_framework import status
 from rest_framework.generics import (
     ListAPIView,
     CreateAPIView,
-    RetrieveAPIView,
+    UpdateAPIView,
     GenericAPIView
 )
 from rest_framework.mixins import UpdateModelMixin, DestroyModelMixin
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework import serializers
-from .serializers import ProductSerializer, ImageSerializer
+from .serializers import (
+    ProductSerializer,
+    ImageSerializer,
+    CreateProductSerializser
+)
 from .models import Product, Image
 from django.core.exceptions import ValidationError
 from rest_framework.parsers import MultiPartParser
@@ -63,26 +67,23 @@ class CreateProductView(CreateAPIView):
     Adnin users view used to create a product
     """
     permission_classes = [IsAdminUser]
-    serializer_class = ProductSerializer
+    serializer_class = CreateProductSerializser
     queryset = Product.objects.all()
 
 
-class EditDeleteProductView(UpdateModelMixin, DestroyModelMixin, GenericAPIView):
+class EditDeleteProductView(UpdateAPIView):
     """
-    Adnin users view used to update the details of a product
+    Admin users view used to update the details of a product
     """
     permission_classes = [IsAdminUser]
-    serializer_class = ProductSerializer
+    serializer_class = CreateProductSerializser
     queryset = Product.objects.all()
 
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
+    def delete(self, request, pk):
+        obj = self.get_object()
+        obj.delete()
 
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
-
-    def patch(self, request, *args, **kwargs):
-        return self.partial_update(request, *args, **kwargs)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class RetrieveImagesView(ListAPIView):
