@@ -10,7 +10,7 @@ class LoginSerializer(serializers.Serializer):
         user = authenticate(email=attrs["email"], password=attrs["password"])
         
         if user is None:
-            raise serializers.ValidationError({"error", "invalid credentials"})
+            raise serializers.ValidationError({"error":"invalid credentials"})
         
         attrs["user"] = user
 
