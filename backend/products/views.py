@@ -44,22 +44,22 @@ class RetrieveProductView(GenericAPIView):
     """
 
     def get(self, request, pk):
-        # try:
-        product = Product.objects.get(pk=pk)
+        try:
+            product = Product.objects.get(pk=pk)
 
-        serializer = ProductSerializer(product, context={"request": None})
-        data = serializer.data
+            serializer = ProductSerializer(product, context={"request": None})
+            data = serializer.data
 
-        # Recommendation system plugs in here
-        ids = get_similar_products(data["id"])
-        other_products = Product.objects.filter(id__in=ids)
+            # Recommendation system plugs in here
+            ids = get_similar_products(data["id"])
+            other_products = Product.objects.filter(id__in=ids)
 
-        other_p_serializer = ProductSerializer(
-            other_products, many=True, context={"request": None})
-        data["recommended_products"] = other_p_serializer.data
-        return Response(data, status=status.HTTP_200_OK)
-        # except:
-        #     return Response({"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
+            other_p_serializer = ProductSerializer(
+                other_products, many=True, context={"request": None})
+            data["recommended_products"] = other_p_serializer.data
+            return Response(data, status=status.HTTP_200_OK)
+        except:
+            return Response({"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
 
 
 class CreateProductView(CreateAPIView):
