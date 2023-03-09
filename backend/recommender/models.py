@@ -7,7 +7,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 class SimilarityModel(models.Model):
     name = models.CharField(max_length=100, blank=False, null=False)
-    date_retrained = models.DateTimeField(auto_now=True)
+    date_retrained = models.DateTimeField(auto_now=True, editable=True)
     tfidf_matrix = models.BinaryField()
     cosine_sim = models.BinaryField()
 
