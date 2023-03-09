@@ -6,4 +6,4 @@ class ProductsConfig(AppConfig):
     name = 'products'
 
     def ready(self):
-        from .signals import retrain_model
+        import products.signals

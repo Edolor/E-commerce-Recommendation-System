@@ -2,8 +2,6 @@ from math import prod
 from django.db import models
 from uuid import uuid4
 from django.utils import timezone
-from recommender.models import SimilarityModel
-from recommender.views import train_model_init
 from django.core.exceptions import ValidationError
 
 
@@ -33,19 +31,6 @@ class Product(models.Model):
 
     class Meta:
         ordering = ["-created_at"]
-
-    def save(self, *args, **kwargs):
-        # Delete similarity model
-        try:
-            obj = SimilarityModel.objects.get(name="product_similarity")
-            obj.delete()
-        except SimilarityModel.DoesNotExist:
-            pass
-
-        # Train machine learning model
-        train_model_init()
-        
-        return super().save( *args, **kwargs)
 
 
 class Image(models.Model):
