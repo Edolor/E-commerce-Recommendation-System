@@ -48,7 +48,7 @@ def get_similar_products(pk, n=3):
         df = read_frame(qs, fieldnames=['id', 'name', 'description'])
 
         # Get the index of the product
-        index = df[df['id'] == str(product_queryset[0]["id"])].index[0]
+        index = df[df['id'] == product_queryset[0]["id"]].index[0]
 
         # Get the cosine similarity scores for the product
         sim_scores = list(enumerate(cosine_sim[index]))
