@@ -1,34 +1,24 @@
 import { Link } from "react-router-dom";
 import Button from "../Components/Button";
 import Logo from "../Components/Logo";
+import { useSocial } from "../Contexts/SocialContext";
 
 // import { useCart } from "../../Contexts/CartContext";
 
-const Header = () => {
-  // move to top-level context
-  const pages = [
-    { title: "home", active: false },
-    { title: "about", active: false },
-    { title: "shop", active: false },
-    { title: "contact", active: false },
-  ];
+const Header = ({ activePage }) => {
+  const pages = ["home", "about", "shop", "contact"];
 
-  // move to top-level context
-  const socials = [
-    { title: "Facebook", icon: "fa-brands fa-facebook", url: "" },
-    { title: "Twitter", icon: "fa-brands fa-twitter", url: "" },
-    { title: "Instagram", icon: "fa-brands fa-instagram", url: "" },
-  ];
+  const socials = useSocial();
 
-  const NavItem = ({ title, active }) => {
+  const NavItem = ({ page }) => {
     let classes = "nav-link text-uppercase font-weight-500 px-4";
-    if (active === true) classes += " active";
+    if (page === activePage) classes += " active";
 
     // aria-current for active
     return (
       <li className="nav-item">
-        <Link className={classes} to={title.replaceAll(" ", "-")}>
-          {title}
+        <Link className={classes} to={page.replaceAll(" ", "-")}>
+          {page}
         </Link>
       </li>
     );
@@ -90,8 +80,8 @@ const Header = () => {
             id="navbarMenu"
           >
             <ul className="navbar-nav">
-              {pages.map((item, key) => (
-                <NavItem {...item} key={key} />
+              {pages.map((page, key) => (
+                <NavItem page={page} key={key} />
               ))}
             </ul>
           </div>

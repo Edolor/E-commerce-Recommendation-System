@@ -1,33 +1,21 @@
-import React, { createContext, useContext, useRef} from 'react'
+import React, { useRef, createContext } from "react";
 
 const ActivePageContext = createContext();
 
-function useActivePage() {
-    return useContext(ActivePageContext);
-}
+const useActivePage = () => React.useContext(ActivePageContext);
 
-function ActivePageProvider({children}) {
+const ActivePageProvider = ({ children }) => {
+	const activeActivePage = useRef('home');
 
-    const activePage = useRef(0);
+	const setActivePage = (page) => {
+		activeActivePage.current = page;
+	};
 
-    function setActivePage(pageNo) {
-        return activePage.current = pageNo
-    }
+	return (
+		<ActivePageContext.Provider value={{ activePage: activeActivePage.current, setActivePage }}>
+			{children}
+		</ActivePageContext.Provider>
+	);
+};
 
-    function getActivePage() {
-        return activePage.current;
-    }
-
-    const value = {
-        setActivePage,
-        getActivePage
-    }
-
-  return (
-    <ActivePageContext.Provider value={value}>
-        { children }
-    </ActivePageContext.Provider>
-  )
-}
-
-export  { ActivePageProvider, useActivePage };
+export { ActivePageProvider, useActivePage };

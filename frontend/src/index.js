@@ -8,10 +8,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.js';
 
 import "./Assets/css/app.css";
-import CartProvider from "./Contexts/CartContext";
+import { CartProvider } from "./Contexts/CartContext";
 import reportWebVitals from './reportWebVitals';
 import { ActivePageProvider } from "./Contexts/ActivePageContext";
 import { ProductProvider } from "./Contexts/ProductContext";
+import { SocialProvider } from './Contexts/SocialContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -30,9 +31,11 @@ root.render(
     <ProductProvider>
       <CartProvider>
         <ActivePageProvider>
-          <Router>
-            <App />
-          </Router>
+          <SocialProvider>
+            <Router>
+              <App />
+            </Router>
+          </SocialProvider>
         </ActivePageProvider>
       </CartProvider>
     </ProductProvider>

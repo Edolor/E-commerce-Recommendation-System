@@ -1,6 +1,6 @@
 import { useState, useReducer, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useCart } from "../../Contexts/CartContext";
+import { useCart } from "../../Contexts/CartContext2";
 // import "./_product.scss";
 import shoppingBag from "../../Assets/images/shopping_bag.svg";
 import image from "../../Assets/images/product.jpg";

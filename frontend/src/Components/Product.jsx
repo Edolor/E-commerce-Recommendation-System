@@ -1,50 +1,46 @@
 import { useState, useEffect } from "react";
 import Button from "./Button";
 import { Link } from "react-router-dom";
+import { useCart } from "../Contexts/CartContext";
+import DiscountTag from "./DiscountTag";
+import StatusTag from "./StatusTag";
+import { productIsAvailable } from "../Hooks/ProductControls";
+import ProductPrice from "./ProductPrice";
 
 const Product = ({ product }) => {
   // PRODUCT
   // title, alt, image, id, currentPrice, quqntity, formerPrice
 
-  // DATA
-  // quantity in cart
+  const {
+    addProductToCart,
+    increaseProductInCart,
+    reduceProductInCart,
+    getProductQuantityInCart,
+  } = useCart();
 
-  // ACTIONS
-  // add to cart
-  // increase quantity
-  // reduce quantity
+  const [quantityInCart, setQuantityInCart] = useState(
+    getProductQuantityInCart(product.id)
+  );
 
-  const isDiscounted = !!product.formerPrice;
-
-  const [quantityInCart, setQuanityInCart] = useState(0);
+  useEffect(() => {
+    const quantity = getProductQuantityInCart(product.id);
+    setQuantityInCart(quantity);
+  }, []);
 
   function handleReduceCartQuantity() {
-    let quantity = quantityInCart;
-    setQuanityInCart(quantity - 1);
+    setQuantityInCart(reduceProductInCart(product));
   }
 
   function handleIncreaseCartQuantity() {
-    let quantity = quantityInCart;
-    setQuanityInCart(quantity + 1);
+    setQuantityInCart(increaseProductInCart(product));
   }
 
   function handleAddToCart() {
-    handleIncreaseCartQuantity();
+    addProductToCart(product);
+    setQuantityInCart(1);
   }
 
-  const DiscountTag = () => {
-    if (!isDiscounted) return;
-
-    let discount =
-      ((product.formerPrice - product.currentPrice) / product.formerPrice) *
-      100;
-
-    return (
-      <div className="badge end-0 label m-3 position-absolute product-discount-tag top-0">
-        -{Math.round(discount)}%
-      </div>
-    );
-  };
+  const available = productIsAvailable(product.quantity);
 
   return (
     <article
@@ -56,39 +52,38 @@ const Product = ({ product }) => {
         className="position-relative text-decoration-none text-reset"
       >
         <figure
-          className="product-img mb-0 bg-light"
+          className="product-img mb-0 bg-light border"
           style={{ height: "16rem" }}
         >
           {/* <img src={mage} alt={product.altText} className="image" /> */}
           <figcaption className="sr-only">{product.title}</figcaption>
         </figure>
-        <DiscountTag />
+        {
+          <div className="top-0 end-0 label m-3 position-absolute ">
+            <DiscountTag product={product} />
+            <StatusTag available={available} show={false} />
+          </div>
+        }
       </Link>
 
-      <div className="border ease-1 mt-3 p-4 product-body">
+      <div className="border ease-1 mt-3 p-4 product-body bg-white">
         <div
           className="font-weight-700 h6 mb-2 text-black"
           id={`pd${product.id}`}
           title={product.title}
         >
-          {product.title}
+          <Link
+            to={`/product/${product.id}`}
+            className="position-relative text-reset text-decoration-hover"
+          >
+            {product.title}
+          </Link>
         </div>
-        <div className="d-flex justify-content-between">
-          <div className="align-items-center d-flex flex-wrap font-weight-700 h5 mb-0 text-black">
-            <i className="fa-solid fa-naira-sign small"></i>
-            {product.currentPrice.toLocaleString()}
-            {isDiscounted ? (
-              <del
-                className="text-muted ms-1 small"
-                style={{ fontSize: "75%" }}
-              >
-                {product.formerPrice.toLocaleString()}
-              </del>
-            ) : (
-              ""
-            )}
-          </div>
 
+        <div className="d-flex justify-content-between align-items-center">
+          <div className="my-0 h5 font-weight-700">
+            <ProductPrice product={product} />
+          </div>
           <div className="ms-1">
             <div
               className={
@@ -103,7 +98,7 @@ const Product = ({ product }) => {
 
             <div className={quantityInCart !== 0 ? "" : "d-none"}>
               <div
-                className="input-group overflow-hidden rounded-pill"
+                className="input-group align-items-center overflow-hidden rounded-pill"
                 style={{ backgroundColor: "#bdcbcc" }}
               >
                 <div className="cart-qty-btn" aria-label="Reduce quantity">

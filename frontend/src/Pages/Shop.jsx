@@ -3,9 +3,14 @@ import Button from "../Components/Button";
 import Image from "./../Assets/icons/shopping-black.svg";
 import Image2 from "./../Assets/icons/shopping-bags.svg";
 import Product from "../Components/Product";
-import products from "../Hooks/products";
+import productListing from "../Hooks/products";
+
+function getShopProducts() {
+  return productListing;
+}
 
 const Shop = () => {
+  const products = getShopProducts();
   return (
     <>
       <section

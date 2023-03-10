@@ -3,7 +3,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { Spinner } from "react-bootstrap";
 
-const ProductContext = createContext(); 
+const ProductContext = createContext();
 
 function useProduct() {
     return useContext(ProductContext);
@@ -21,9 +21,9 @@ function fakeData() {
         setTimeout(() => {
             const PRODUCTS = {
                 "d2250-4-pro-round-656754": {
-                    id: 1, 
-                    title: "D2250.4 PRO ROUND", 
-                    price: "15000", 
+                    id: 1,
+                    title: "D2250.4 PRO ROUND",
+                    price: "15000",
                     images: [
                         "./Assets/images/product.jpg"
                     ],
@@ -31,11 +31,11 @@ function fakeData() {
                         "Image of weights"
                     ],
                 },
-    
+
                 "t65-weight-machine-242890": {
-                    id: 2, 
-                    title: "T65 WEIGHT MACHINE", 
-                    price: "40000", 
+                    id: 2,
+                    title: "T65 WEIGHT MACHINE",
+                    price: "40000",
                     images: [
                         "./Assets/images/product-1.jpg",
                     ],
@@ -43,11 +43,11 @@ function fakeData() {
                         "Image of weights",
                     ],
                 },
-    
+
                 "jumbotron-500-x-series": {
-                    id: 3, 
-                    title: "JUMBOTRON 500 X SERIES", 
-                    price: "15000", 
+                    id: 3,
+                    title: "JUMBOTRON 500 X SERIES",
+                    price: "15000",
                     images: [
                         "./Assets/images/product-2.jpg"
                     ],
@@ -79,9 +79,9 @@ function ProductProvider({ children }) {
         // Send request to fetch product details
         const PRODUCTS = {
             "d2250-4-pro-round-656754": {
-                id: "d2250-4-pro-round-656754", 
-                title: "D2250.4 PRO ROUND", 
-                price: "15000", 
+                id: "d2250-4-pro-round-656754",
+                title: "D2250.4 PRO ROUND",
+                price: "15000",
                 images: [
                     "./Assets/images/product.jpg"
                 ],
@@ -91,9 +91,9 @@ function ProductProvider({ children }) {
             },
 
             "t65-weight-machine-242890": {
-                id: "t65-weight-machine-242890", 
-                title: "T65 WEIGHT MACHINE", 
-                price: "40000", 
+                id: "t65-weight-machine-242890",
+                title: "T65 WEIGHT MACHINE",
+                price: "40000",
                 images: [
                     "./Assets/images/product-1.jpg",
                 ],
@@ -103,9 +103,9 @@ function ProductProvider({ children }) {
             },
 
             "jumbotron-500-x-series-987698": {
-                id: "jumbotron-500-x-series-987698", 
-                title: "JUMBOTRON 500 X SERIES", 
-                price: "15000", 
+                id: "jumbotron-500-x-series-987698",
+                title: "JUMBOTRON 500 X SERIES",
+                price: "15000",
                 images: [
                     "./Assets/images/product-2.jpg"
                 ],
@@ -122,9 +122,9 @@ function ProductProvider({ children }) {
     function getSimilarProducts(id) {
         const PRODUCTS = {
             "d2250-4-pro-round-656754": {
-                id: "d2250-4-pro-round-656754", 
-                title: "D2250.4 PRO ROUND", 
-                price: "15000", 
+                id: "d2250-4-pro-round-656754",
+                title: "D2250.4 PRO ROUND",
+                price: "15000",
                 images: [
                     "./Assets/images/product.jpg"
                 ],
@@ -134,9 +134,9 @@ function ProductProvider({ children }) {
             },
 
             "t65-weight-machine-242890": {
-                id: "t65-weight-machine-242890", 
-                title: "T65 WEIGHT MACHINE", 
-                price: "40000", 
+                id: "t65-weight-machine-242890",
+                title: "T65 WEIGHT MACHINE",
+                price: "40000",
                 images: [
                     "./Assets/images/product-1.jpg",
                 ],
@@ -146,9 +146,9 @@ function ProductProvider({ children }) {
             },
 
             "jumbotron-500-x-series-987698": {
-                id: "jumbotron-500-x-series-987698", 
-                title: "JUMBOTRON 500 X SERIES", 
-                price: "15000", 
+                id: "jumbotron-500-x-series-987698",
+                title: "JUMBOTRON 500 X SERIES",
+                price: "15000",
                 images: [
                     "./Assets/images/product-2.jpg"
                 ],
@@ -165,9 +165,9 @@ function ProductProvider({ children }) {
     function getSampleProducts() {
         const PRODUCTS = {
             "d2250-4-pro-round-656754": {
-                id: "d2250-4-pro-round-656754", 
-                title: "D2250.4 PRO ROUND", 
-                price: "15000", 
+                id: "d2250-4-pro-round-656754",
+                title: "D2250.4 PRO ROUND",
+                price: "15000",
                 images: [
                     "./Assets/images/product.jpg"
                 ],
@@ -177,9 +177,9 @@ function ProductProvider({ children }) {
             },
 
             "t65-weight-machine-242890": {
-                id: "t65-weight-machine-242890", 
-                title: "T65 WEIGHT MACHINE", 
-                price: "40000", 
+                id: "t65-weight-machine-242890",
+                title: "T65 WEIGHT MACHINE",
+                price: "40000",
                 images: [
                     "./Assets/images/product-1.jpg",
                 ],
@@ -189,9 +189,9 @@ function ProductProvider({ children }) {
             },
 
             "jumbotron-500-x-series-987698": {
-                id: "jumbotron-500-x-series-987698", 
-                title: "JUMBOTRON 500 X SERIES", 
-                price: "15000", 
+                id: "jumbotron-500-x-series-987698",
+                title: "JUMBOTRON 500 X SERIES",
+                price: "15000",
                 images: [
                     "./Assets/images/product-2.jpg"
                 ],
@@ -214,7 +214,7 @@ function ProductProvider({ children }) {
 
     return (
         <ProductContext.Provider value={value}>
-            { children }
+            {children}
         </ProductContext.Provider>
     )
 }
