@@ -4,7 +4,7 @@ import Contact from "./Pages/Contact";
 import About from "./Pages/About";
 import ProductDetails from "./Pages/ProductDetails";
 import Shop from "./Pages/Shop";
-import Cart from "./Pages/Cart/Cart";
+import Cart from "./Pages/Cart";
 import FourOhFour from "./Pages/FourOhFour";
 import Layout from "./Layout";
 

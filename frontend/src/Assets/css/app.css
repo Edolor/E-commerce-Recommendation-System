@@ -6,9 +6,10 @@
 	--medium-green: #739484;
 	--yellow: #eabc68;
 	--dark-yellow: #a79070;
-	--light-purple: #e0dffd;
+	--light-purple: #e4dbf3;
 	--light-blue: #dae4eb;
 	--dark-blue: #32435f;
+	--dark-purple: #412771;
 	--ease-in: all .25s ease-in;
 	--ease-fast: all .15s ease;
 }
@@ -139,6 +140,13 @@ body {
 	--bs-btn-hover-border-color: var(--yellow);
 }
 
+.btn-purple {
+	--bs-btn-bg: var(--bs-purple);
+	color: #fff !important;
+	--bs-btn-hover-bg: var(--dark-purple);
+	--bs-btn-active-bg: var(--dark-purple);
+	--bs-btn-active-border-color: var(--dark-purple);
+}
 
 .btn-line {
 	white-space: nowrap;

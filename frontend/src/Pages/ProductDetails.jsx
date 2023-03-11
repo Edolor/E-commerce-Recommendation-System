@@ -170,6 +170,7 @@ const ProductDetails = () => {
                             Add to cart
                           </Button>
                         </div>
+
                         <div className={quantityInCart !== 0 ? "" : "d-none"}>
                           <div
                             className="input-group align-items-center"
@@ -218,7 +219,7 @@ const ProductDetails = () => {
           </div>
         </section>
 
-        <section id="productRec" className="py-5 bg-light">
+        <section id="productRec" className="py-5">
           <div className="container">
             <h1 className="h4 text-uppercase underlined d-inline-block">
               You'll love these

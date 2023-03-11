@@ -2,11 +2,13 @@ import { Link } from "react-router-dom";
 import Button from "../Components/Button";
 import Logo from "../Components/Logo";
 import { useSocial } from "../Contexts/SocialContext";
-
-// import { useCart } from "../../Contexts/CartContext";
+import { useCart } from "../Contexts/CartContext";
 
 const Header = ({ activePage }) => {
   const pages = ["home", "about", "shop", "contact"];
+
+  const { getCartCount } = useCart();
+  const cartCount = getCartCount();
 
   const socials = useSocial();
 
@@ -50,7 +52,23 @@ const Header = ({ activePage }) => {
               </Button>
             </li>
             <li className="list-inline-item">
-              <Button>
+              <Button href="/cart">
+                {cartCount !== 0 ? (
+                  <span
+                    className="badge rounded-5 position-absolute"
+                    style={{
+                      backgroundColor: "var(--bs-purple)",
+                      top: "-1px",
+                      right: "-1px",
+                      boxShadow: "white 0px 0px 0px 3px",
+                      padding: "3px 7px",
+                    }}
+                  >
+                    {cartCount}
+                  </span>
+                ) : (
+                  ""
+                )}
                 <span className="sr-only">Cart</span>
                 <i className="fa-solid fa-cart-shopping"></i>
               </Button>

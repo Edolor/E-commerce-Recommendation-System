@@ -1,4 +1,4 @@
-import React, { useState, createContext, useEffect } from "react";
+import React, { useState, createContext, useEffect, useCallback } from "react";
 
 const CART = 'ls_cart';
 const STORAGE = localStorage;
@@ -8,12 +8,25 @@ const useCart = () => React.useContext(CartContext);
 
 const CartProvider = ({ children }) => {
 	const [cart, setCart] = useState(JSON.parse(STORAGE.getItem(CART)));
-	const [cartProductCount, setCartProductCount] = useState(0);
+	const [cartProductCount, setCartProductCount] = useState(Object.keys(cart).length);
 
+	const getCartTotalPrice = useCallback(() => {
+		var total = 0;
+		for (let id in cart) {
+			let product = cart[id];
+			total += product.quantity * product.product.currentPrice;
+		}
+		return total;
+	}, [cart]);
+
+	const [cartTotalPrice, setCartTotalPrice] = useState(getCartTotalPrice());
 	// update local storage cart whenever the cart is updated
 	useEffect(() => {
-		STORAGE.setItem(CART, JSON.stringify(cart));
-	}, [cart]);
+		let items = JSON.stringify(cart);
+		STORAGE.setItem(CART, items);
+		setCartProductCount(Object.keys(cart).length);
+		setCartTotalPrice(getCartTotalPrice());
+	}, [cart, getCartTotalPrice]);
 
 	/**
 	 * Checks if a product exists in cart
@@ -22,6 +35,10 @@ const CartProvider = ({ children }) => {
 	 */
 	function inCart(productId) {
 		return Boolean(cart[productId]);
+	}
+
+	function getCartCount() {
+		return cartProductCount;
 	}
 
 	/**
@@ -84,8 +101,12 @@ const CartProvider = ({ children }) => {
 		return cart;
 	}
 
+	function getProductFromCart(id) {
+		return cart[id];
+	}
+
 	return (
-		<CartContext.Provider value={{ getCartProducts, addProductToCart, increaseProductInCart, reduceProductInCart, removeProductFromCart, inCart, getProductQuantityInCart }}>{children}</CartContext.Provider>
+		<CartContext.Provider value={{ getCartProducts, addProductToCart, increaseProductInCart, reduceProductInCart, removeProductFromCart, inCart, getProductQuantityInCart, getCartCount, getProductFromCart, cartTotalPrice }}>{children}</CartContext.Provider>
 	)
 }
 

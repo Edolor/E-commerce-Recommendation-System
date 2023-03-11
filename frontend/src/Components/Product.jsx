@@ -52,7 +52,7 @@ const Product = ({ product }) => {
         className="position-relative text-decoration-none text-reset"
       >
         <figure
-          className="product-img mb-0 bg-light border"
+          className="product-img mb-0 bg-light"
           style={{ height: "16rem" }}
         >
           {/* <img src={mage} alt={product.altText} className="image" /> */}

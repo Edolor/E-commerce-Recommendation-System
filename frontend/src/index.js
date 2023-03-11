@@ -11,7 +11,6 @@ import "./Assets/css/app.css";
 import { CartProvider } from "./Contexts/CartContext";
 import reportWebVitals from './reportWebVitals';
 import { ActivePageProvider } from "./Contexts/ActivePageContext";
-import { ProductProvider } from "./Contexts/ProductContext";
 import { SocialProvider } from './Contexts/SocialContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -28,17 +27,15 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <React.StrictMode>
-    <ProductProvider>
-      <CartProvider>
-        <ActivePageProvider>
-          <SocialProvider>
-            <Router>
-              <App />
-            </Router>
-          </SocialProvider>
-        </ActivePageProvider>
-      </CartProvider>
-    </ProductProvider>
+    <CartProvider>
+      <ActivePageProvider>
+        <SocialProvider>
+          <Router>
+            <App />
+          </Router>
+        </SocialProvider>
+      </ActivePageProvider>
+    </CartProvider>
   </React.StrictMode>
 );
 

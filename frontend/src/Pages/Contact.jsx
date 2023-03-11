@@ -153,7 +153,7 @@ const Contact = () => {
                 id="contactList"
               >
                 {contacts.map((contact, key) => (
-                  <li className="py-3">
+                  <li className="py-3" key={key}>
                     <i
                       className={`fa-solid fa-${contact.icon} me-3 text-yellow`}
                     ></i>
