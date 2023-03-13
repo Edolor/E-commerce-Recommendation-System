@@ -8,7 +8,14 @@ const useCart = () => React.useContext(CartContext);
 
 const CartProvider = ({ children }) => {
 	const [cart, setCart] = useState(JSON.parse(STORAGE.getItem(CART)));
-	const [cartProductCount, setCartProductCount] = useState(Object.keys(cart).length);
+
+	// very important check here
+	const getCartItemCount = useCallback(() => {
+		if (cart === null) return 0;
+		else return Object.keys(cart).length;
+	}, [cart]);
+
+	const [cartProductCount, setCartProductCount] = useState(getCartItemCount());
 
 	const getCartTotalPrice = useCallback(() => {
 		var total = 0;
@@ -24,9 +31,9 @@ const CartProvider = ({ children }) => {
 	useEffect(() => {
 		let items = JSON.stringify(cart);
 		STORAGE.setItem(CART, items);
-		setCartProductCount(Object.keys(cart).length);
+		setCartProductCount(getCartItemCount());
 		setCartTotalPrice(getCartTotalPrice());
-	}, [cart, getCartTotalPrice]);
+	}, [cart, getCartTotalPrice, getCartItemCount]);
 
 	/**
 	 * Checks if a product exists in cart
