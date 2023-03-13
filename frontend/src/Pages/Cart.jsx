@@ -4,8 +4,9 @@ import { useCart } from "../Contexts/CartContext";
 import EmptyCart from "../Assets/icons/empty-cart.svg";
 import { Link } from "react-router-dom";
 import ProductPrice from "../Components/ProductPrice";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import NairaSign from "../Components/NairaSign";
+import _get from "../Hooks/fetch";
 
 const tableHeaders = ["Product", "Quantity", "Price"];
 
@@ -90,11 +91,18 @@ const ProductItem = ({ productId }) => {
   }
 };
 
+async function getData() {
+  const res = await _get("products/list/");
+  console.log(res);
+}
+
 const Cart = () => {
   const { getCartProducts, getCartCount, cartTotalPrice } = useCart();
+  getData();
   if (getCartCount() > 0) {
     const products = getCartProducts();
     const productIds = Object.keys(products);
+
     return (
       <div className="container-fluid cart-page">
         <div className="row mt-sm-3 h-100">
