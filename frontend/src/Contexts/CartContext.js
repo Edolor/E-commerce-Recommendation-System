@@ -41,7 +41,7 @@ const CartProvider = ({ children }) => {
 	 * @returns 
 	 */
 	function inCart(productId) {
-		return Boolean(cart[productId]);
+		return productId in cart;
 	}
 
 	function getCartCount() {
@@ -54,12 +54,12 @@ const CartProvider = ({ children }) => {
 	 * @returns 
 	 */
 	function getProductQuantityInCart(productId) {
-		return cart[productId] ? cart[productId]['quantity'] : 0;
+		return inCart(productId) ? cart[productId]['quantity'] : 0;
 	}
 
 	function addProductToCart(product) {
 		// product is not already in cart
-		if (!cart[product.id]) {
+		if (!inCart(product.id)) {
 			let thisProduct = {};
 			thisProduct[product.id] = { product: product, quantity: 1 };
 			setCart({ ...thisProduct, ...cart });
