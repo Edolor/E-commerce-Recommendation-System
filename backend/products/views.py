@@ -19,6 +19,7 @@ from django.core.exceptions import ValidationError
 from rest_framework.parsers import MultiPartParser
 from .pagination import ProductPagination
 from recommender.views import get_similar_products
+from rest_framework import filters
 
 
 class ListProductView(ListAPIView):
@@ -28,6 +29,8 @@ class ListProductView(ListAPIView):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
     pagination_class = ProductPagination
+    filter_backends = [filters.SearchFilter]
+    search_fields = ["name"]
 
     def get_serializer_context(self):
         """
