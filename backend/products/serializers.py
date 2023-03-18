@@ -24,6 +24,7 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = ["name"]
 
+
 class UrlFlattenSerializer(serializers.RelatedField):
     """
     Transform the representation and reduces the dimensions(nestedness)
@@ -46,8 +47,10 @@ class ProductSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Product
-        fields = ["url", "id", "name", "description", "price", "category", "images"]
+        fields = ["url", "id", "name", "description", "total_quantity",
+                  "former_price", "price", "category", "images"]
         read_only_fields = ["id"]
+
 
 class CreateProductSerializser(serializers.ModelSerializer):
     """
