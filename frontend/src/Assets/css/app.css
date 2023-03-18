@@ -8,8 +8,10 @@
 	--dark-yellow: #a79070;
 	--light-purple: #e4dbf3;
 	--light-blue: #dae4eb;
+	--light-green: #e7f3ee;
 	--dark-blue: #32435f;
 	--dark-purple: #412771;
+	--dark-green: #496356;
 	--ease-in: all .25s ease-in;
 	--ease-fast: all .15s ease;
 }
@@ -239,7 +241,7 @@ a.text-decoration-hover:hover {
 }
 
 .product .cart-qty {
-	width: 42px;
+	/* width: 42px; */
 }
 
 .cart-qty-btn {
@@ -261,4 +263,18 @@ a.text-decoration-hover:hover {
 
 .product .cart-qty {
 	padding: 0 0.4rem;
+}
+
+/** FORM CONTROL **/
+
+.form-control {
+	border-width: 2px;
+}
+
+.form-control:focus {
+	border-color: var(--yellow) !important;
+}
+
+.form-control::placeholder {
+	color: var(--bs-gray-500);
 }

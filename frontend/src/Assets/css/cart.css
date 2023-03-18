@@ -49,7 +49,6 @@
 	border-radius: 7rem;
 }
 
-
 #cart td {
 	transition: var(--ease-in);
 	--bs-table-hover-bg: var(--bs-gray-100);

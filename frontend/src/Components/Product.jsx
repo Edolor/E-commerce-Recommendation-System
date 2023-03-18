@@ -9,7 +9,8 @@ import ProductPrice from "./ProductPrice";
 
 const Product = ({ product }) => {
   // PRODUCT
-  // title, alt, image, id, currentPrice, quqntity, formerPrice
+  // title, alt, image, id, price, quqntity, formerPrice
+  if (!("quantity" in product)) product.quantity = 10;
 
   const {
     addProductToCart,
@@ -56,7 +57,7 @@ const Product = ({ product }) => {
           style={{ height: "16rem" }}
         >
           {/* <img src={mage} alt={product.altText} className="image" /> */}
-          <figcaption className="sr-only">{product.title}</figcaption>
+          <figcaption className="sr-only">{product.name}</figcaption>
         </figure>
         {
           <div className="top-0 end-0 label m-3 position-absolute ">
@@ -68,15 +69,15 @@ const Product = ({ product }) => {
 
       <div className="border ease-1 mt-3 p-4 product-body bg-white">
         <div
-          className="font-weight-700 h6 mb-2 text-black"
+          className="font-weight-700 h6 mb-2 text-black text-truncate"
           id={`pd${product.id}`}
-          title={product.title}
+          title={product.name}
         >
           <Link
             to={`/product/${product.id}`}
             className="position-relative text-reset text-decoration-hover"
           >
-            {product.title}
+            {product.name}
           </Link>
         </div>
 

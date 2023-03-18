@@ -70,8 +70,8 @@ const About = () => {
                   >
                     think
                   </span>{" "}
-                  <span className="font-weight-600 text-dark-pink">know</span>{" "}
-                  you'll like
+                  <span className="fw-bold text-dark-pink">know</span> you'll
+                  like
                 </h2>
                 <div className="h5 mt-3 text-secondary">
                   And we're usually right
@@ -100,7 +100,7 @@ const About = () => {
               <h1 className="h6 text-uppercase text-secondary underlined d-inline-block mb-4">
                 AI-powered online store
               </h1>
-              <h2 className="display-6 heading font-weight-600 mb-4 text-medium-green">
+              <h2 className="display-6 heading fw-bold mb-4 text-medium-green">
                 We use data to better your shopping experience
               </h2>
             </div>
@@ -142,7 +142,7 @@ const About = () => {
           </div>
 
           {testimonials.map((testimonial, key) => (
-            <div className="row py-5">
+            <div className="row py-5" key={key}>
               <div
                 className={`col-md-6 ${
                   key === 0 ? "" : "offset-md-" + key * 2

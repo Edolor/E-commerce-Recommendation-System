@@ -12,11 +12,8 @@
 	border-bottom-right-radius: 2rem;
 }
 
-#contactForm .form-control {
-	border-width: 2px;
-}
-
-
-#contactForm .form-control:focus {
-	border-color: var(--yellow);
+@media screen and (min-width: 768px) {
+	#contactSubmitted img {
+		width: 27rem;
+	}
 }

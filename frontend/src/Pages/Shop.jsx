@@ -1,16 +1,64 @@
-import "./../Assets/css/shop.css";
+import { useState, useEffect } from "react";
+
+import Loader from "../Components/Loader";
 import Button from "../Components/Button";
+import Product from "../Components/Product";
+
+import "./../Assets/css/shop.css";
 import Image from "./../Assets/icons/shopping-black.svg";
 import Image2 from "./../Assets/icons/shopping-bags.svg";
-import Product from "../Components/Product";
-import productListing from "../Hooks/products";
 
-function getShopProducts() {
-  return productListing;
-}
+import { _get } from "../Hooks/fetch";
 
 const Shop = () => {
-  const products = getShopProducts();
+  const [loadedProducts, setLoadedProducts] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [products, setProducts] = useState({});
+  const [nextUrl, setNextURL] = useState(null);
+
+  async function getProducts(page = 1, url = null) {
+    var absolute;
+    if (page) {
+      url = `products/list/?page=${page}&size=6`;
+      absolute = false;
+    } else absolute = true;
+
+    const data = await _get(url, absolute);
+    setLoadingMore(false);
+    if (!data) return;
+
+    setNextURL(data.next);
+    setLoadedProducts(true);
+
+    let results = data.results;
+    let currentProducts = products;
+    for (let index in results) {
+      let product = results[index];
+      currentProducts[product.id] = product;
+    }
+
+    setProducts(currentProducts);
+  }
+
+  useEffect(() => {
+    getProducts();
+  }, []);
+
+  const ProductList = () => {
+    return Object.keys(products).map((productId, key) => (
+      <div className="col-md-4 my-2" key={key}>
+        <Product product={products[productId]} />
+      </div>
+    ));
+  };
+
+  function handleLoadMore() {
+    if (nextUrl === null) return;
+    console.log(nextUrl);
+    setLoadingMore(true);
+    getProducts(null, nextUrl);
+  }
+
   return (
     <>
       <section
@@ -38,18 +86,17 @@ const Shop = () => {
       <div className="container">
         <section id="shop" className="my-5">
           <div className="row">
-            {products.map((product, key) => (
-              <div className="col-md-4 my-2" key={key}>
-                <Product product={product} />
-              </div>
-            ))}
+            {loadedProducts ? <ProductList /> : <Loader />}
           </div>
         </section>
 
         <div className="text-center my-4" id="loadMoreWrapper">
-          <Button line={true} size="lg">
-            Load more
-          </Button>
+          {loadingMore ? <Loader /> : null}
+          {nextUrl !== null ? (
+            <Button line={true} size="lg" onclick={handleLoadMore}>
+              Load more
+            </Button>
+          ) : null}
         </div>
       </div>
     </>

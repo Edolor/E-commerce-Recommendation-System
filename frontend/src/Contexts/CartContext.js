@@ -21,7 +21,7 @@ const CartProvider = ({ children }) => {
 		var total = 0;
 		for (let id in cart) {
 			let product = cart[id];
-			total += product.quantity * product.product.currentPrice;
+			total += product.quantity * product.product.price;
 		}
 		return total;
 	}, [cart]);
@@ -35,13 +35,17 @@ const CartProvider = ({ children }) => {
 		setCartTotalPrice(getCartTotalPrice());
 	}, [cart, getCartTotalPrice, getCartItemCount]);
 
+	function emptyCart() {
+		setCart([]);
+	}
+
 	/**
 	 * Checks if a product exists in cart
 	 * @param {String} productId 
 	 * @returns 
 	 */
 	function inCart(productId) {
-		return productId in cart;
+		return cart === null ? false : productId in cart
 	}
 
 	function getCartCount() {
@@ -113,7 +117,7 @@ const CartProvider = ({ children }) => {
 	}
 
 	return (
-		<CartContext.Provider value={{ getCartProducts, addProductToCart, increaseProductInCart, reduceProductInCart, removeProductFromCart, inCart, getProductQuantityInCart, getCartCount, getProductFromCart, cartTotalPrice }}>{children}</CartContext.Provider>
+		<CartContext.Provider value={{ getCartProducts, addProductToCart, increaseProductInCart, reduceProductInCart, removeProductFromCart, inCart, getProductQuantityInCart, getCartCount, getProductFromCart, cartTotalPrice, emptyCart }}>{children}</CartContext.Provider>
 	)
 }
 

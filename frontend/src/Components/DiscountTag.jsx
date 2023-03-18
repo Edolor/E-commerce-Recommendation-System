@@ -2,7 +2,7 @@ const DiscountTag = ({ product, long = false }) => {
   if (!product.formerPrice || product.quantity === 0) return;
 
   let discount = Math.round(
-    ((product.formerPrice - product.currentPrice) / product.formerPrice) * 100
+    ((product.formerPrice - product.price) / product.formerPrice) * 100
   );
 
   return (

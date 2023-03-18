@@ -22,7 +22,7 @@ const FourOhFour = () => {
               always{" "}
               <Link
                 to="/home"
-                className="text-reset text-decoration-underline font-weight-600"
+                className="text-reset text-decoration-underline fw-bold"
               >
                 go back Home
               </Link>

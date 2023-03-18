@@ -1,139 +1,174 @@
+import { useState, useEffect } from "react";
+
+import Loader from "../Components/Loader";
 import Button from "../Components/Button";
-import "../Assets/css/home.css";
 import Product from "../Components/Product";
+import {
+  formControlClass,
+  InvalidError,
+  validateFormInput,
+} from "../Hooks/form";
+
+import "../Assets/css/home.css";
+
+import { _get, _post } from "../Hooks/fetch";
+
+const features = [
+  {
+    title: "Free delivery",
+    text: "On all purchases above N25,000",
+    icon: "fa-truck-ramp-box",
+  },
+
+  {
+    title: "14 days return",
+    text: "For unsatisfactory goods",
+    icon: "fa-money-bill-transfer",
+  },
+
+  {
+    title: "Secure payment",
+    text: "Your card details are safe with us",
+    icon: "fa-vault",
+  },
+
+  {
+    title: "24/7 Support",
+    text: "Around-the-clock customer-service",
+    icon: "fa-headset",
+  },
+];
+
+const FeatureItem = ({ title, text, icon }) => {
+  let classes = `fa-solid h4 mb-0 ${icon}`;
+  return (
+    <div className="col-md-6">
+      <div className="my-3 d-flex align-items-start">
+        <i className={classes}></i>
+        <div className="ms-3">
+          <div className="h6 mb-1 font-weight-700 text-uppercase">{title}</div>
+          <div className="">{text}</div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const steps = [
+  {
+    title: "Explore & Shop",
+    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quia et doloremque alias id aperiam.",
+  },
+  {
+    title: "Add to Cart",
+    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quia et doloremque alias id aperiam.",
+  },
+  {
+    title: "Checkout",
+    text: "Confirm your order, make payments and we'll deliver your items to you.",
+  },
+];
+
+// should fetch from somewhere
+const windowCards = [
+  {
+    font: "display-5",
+    title: "Home Workout Equipment",
+    cta: {
+      url: "/products/category/gym",
+      title: "Find products",
+    },
+    color: "var(--dark-blue)",
+  },
+  {
+    font: "h3",
+    title: "Save up to 70% off",
+    subtitle: "Kitchen appliances",
+    cta: {
+      url: "/products/category/kitchen-appliances",
+      title: "Start shopping",
+    },
+    color: "#808274",
+  },
+];
+
+const WindowCard = ({ card }) => {
+  return (
+    <div
+      className="window-card shop-card d-flex position-relative flex-column p-5 justify-content-between text-white"
+      style={{ backgroundColor: card.color }}
+    >
+      <div className="p-3">
+        {card.subtitle ? (
+          <div className="h6 mb-4 text-uppercase underlined d-inline-block">
+            {card.subtitle}
+          </div>
+        ) : (
+          ""
+        )}
+        <div className={`${card.font} heading text-uppercase mb-5`}>
+          {card.title}
+        </div>
+        <Button href={card.cta.url} line={true}>
+          {card.cta.title}
+        </Button>
+      </div>
+    </div>
+  );
+};
 
 const Home = () => {
-  const features = [
-    {
-      title: "Free delivery",
-      text: "On all purchases above N25,000",
-      icon: "fa-truck-ramp-box",
-    },
+  const [loadedProducts, setLoadedProducts] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [submittedForm, setSubmittedForm] = useState(false);
+  const [submittingForm, setSubmittingForm] = useState(false);
+  const [validEmailAddress, setValidEmailAddress] = useState(false);
 
-    {
-      title: "14 days return",
-      text: "For unsatisfactory goods",
-      icon: "fa-money-bill-transfer",
-    },
+  async function getProducts() {
+    const data = await _get("products/list/?size=3");
+    console.log(data);
+    if (!data) return;
+    setLoadedProducts(true);
+    setProducts(data.results);
+  }
 
-    {
-      title: "Secure payment",
-      text: "Your card details are safe with us",
-      icon: "fa-vault",
-    },
+  useEffect(() => {
+    getProducts();
+  }, []);
 
-    {
-      title: "24/7 Support",
-      text: "Around-the-clock customer-service",
-      icon: "fa-headset",
-    },
-  ];
-
-  const FeatureItem = ({ title, text, icon }) => {
-    let classes = `fa-solid h4 mb-0 ${icon}`;
-    return (
-      <div className="col-md-6">
-        <div className="my-3 d-flex align-items-start">
-          <i className={classes}></i>
-          <div className="ms-3">
-            <div className="h6 mb-1 font-weight-700 text-uppercase">
-              {title}
-            </div>
-            <div className="">{text}</div>
-          </div>
-        </div>
+  const ProductList = () => {
+    return products.map((product, key) => (
+      <div className="col-md-4" key={key}>
+        <Product product={product} />
       </div>
-    );
+    ));
   };
 
-  const steps = [
-    {
-      title: "Explore & Shop",
-      text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quia et doloremque alias id aperiam.",
-    },
-    {
-      title: "Add to Cart",
-      text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quia et doloremque alias id aperiam.",
-    },
-    {
-      title: "Checkout",
-      text: "Confirm your order, make payments and we'll deliver your items to you.",
-    },
-  ];
+  /**
+   * Handle submission of newsletter
+   * @param {Event} e
+   */
+  async function handleSubmit(e) {
+    e.preventDefault();
 
-  // sample products
-  const products = [
-    {
-      id: "eje-snkqo",
-      title: '54" Plasma TV',
-      currentPrice: 540000,
-      quantity: 10,
-      formerPrice: 600000,
-    },
+    // if form is not valid return
+    if (!e.target.checkValidity()) return;
 
-    {
-      id: "aoo-adwop",
-      title: "Lime Christmas sweater",
-      currentPrice: 7500,
-      quantity: 31,
-    },
+    setSubmittingForm(true);
 
-    {
-      id: "ssl-akila",
-      title: "Bouquet of peonies",
-      currentPrice: 38750,
-      quantity: 7,
-      formerPrice: 40000,
-    },
-  ];
+    async function submit() {
+      const res = await _post("contact/join-newsletter/", {
+        email: document.getElementById("email").value,
+      });
+      console.log(res);
+      setSubmittingForm(false);
+      if (res && res.success) setSubmittedForm(true);
+    }
 
-  // should fetch from somewhere
-  const windowCards = [
-    {
-      font: "display-5",
-      title: "Home Workout Equipment",
-      cta: {
-        url: "/products/category/gym",
-        title: "Find products",
-      },
-      color: "var(--dark-blue)",
-    },
-    {
-      font: "h3",
-      title: "Save up to 70% off",
-      subtitle: "Kitchen appliances",
-      cta: {
-        url: "/products/category/kitchen-appliances",
-        title: "Start shopping",
-      },
-      color: "#808274",
-    },
-  ];
-
-  const WindowCard = ({ card }) => {
-    return (
-      <div
-        className="window-card shop-card d-flex position-relative flex-column p-5 justify-content-between text-white"
-        style={{ backgroundColor: card.color }}
-      >
-        <div className="p-3">
-          {card.subtitle ? (
-            <div className="h6 mb-4 text-uppercase underlined d-inline-block">
-              {card.subtitle}
-            </div>
-          ) : (
-            ""
-          )}
-          <div className={`${card.font} heading text-uppercase mb-5`}>
-            {card.title}
-          </div>
-          <Button href={card.cta.url} line={true}>
-            {card.cta.title}
-          </Button>
-        </div>
-      </div>
-    );
-  };
+    setTimeout(() => {
+      submit();
+    }, 3000);
+  }
 
   return (
     <>
@@ -145,7 +180,7 @@ const Home = () => {
                 Personalised Shopping Experience
               </h1>
               <h2 className="my-4 display-6 heading">
-                Shopping <span className="font-weight-600">Simplified</span>
+                Shopping <span className="fw-bold">Simplified</span>
               </h2>
               <p className="lead mb-4">
                 We've made it easier for you to find what you need, all in one
@@ -219,11 +254,7 @@ const Home = () => {
           <div className="row mt-5 mx-0 align-items-center">
             <div className="col-sm-11 px-0">
               <div className="row mt-5">
-                {products.map((product, key) => (
-                  <div className="col-md-4" key={key}>
-                    <Product product={product} />
-                  </div>
-                ))}
+                {loadedProducts ? <ProductList /> : <Loader />}
               </div>
             </div>
             <div className="col-sm-1 pe-sm-0">
@@ -284,19 +315,46 @@ const Home = () => {
                     amazing prices for free.
                   </p>
                 </div>
-                <form method="post" id="newsletterForm" className="mb-0 mt-3">
-                  <div className="border-2 border-bottom border-dark input-group input-group-lg">
-                    <input
-                      type="email"
-                      className="bg-transparent border-0 form-control py-2 shadow-none"
-                      aria-label="Enter your email address"
-                      placeholder="me@mail.com"
-                    />
-                    <Button type="submit" color="dark">
-                      Subscribe
-                    </Button>
+                {submittedForm ? (
+                  <div className="mb-0 px-4 py-3 text-white">
+                    <i className="fa-solid fa-check me-3"></i>Thank you for
+                    joining
                   </div>
-                </form>
+                ) : (
+                  <form
+                    method="post"
+                    id="newsletterForm"
+                    className="mb-0 mt-3"
+                    onSubmit={handleSubmit}
+                  >
+                    <div className="border-0 input-group input-group-lg">
+                      <input
+                        type="email"
+                        id="email"
+                        className={formControlClass}
+                        aria-label="Enter your email address"
+                        placeholder="me@mail.com"
+                        onBlur={(e) => {
+                          validateFormInput(e, setValidEmailAddress);
+                        }}
+                        onFocus={(e) => {
+                          validateFormInput(e, setValidEmailAddress);
+                        }}
+                        onChange={(e) => {
+                          validateFormInput(e, setValidEmailAddress);
+                        }}
+                        style={{ borderColor: "#000" }}
+                      />
+                      <Button type="submit" color="dark">
+                        Subscribe
+                      </Button>
+                    </div>
+                    <InvalidError
+                      valid={validEmailAddress}
+                      error="Invalid email address"
+                    />
+                  </form>
+                )}
               </div>
             </div>
           </div>

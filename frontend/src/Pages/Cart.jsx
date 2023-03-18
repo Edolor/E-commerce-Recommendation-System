@@ -1,12 +1,17 @@
-import Button from "../Components/Button";
-import "../Assets/css/cart.css";
-import { useCart } from "../Contexts/CartContext";
-import EmptyCart from "../Assets/icons/empty-cart.svg";
-import { Link } from "react-router-dom";
-import ProductPrice from "../Components/ProductPrice";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+
+import { _get } from "../Hooks/fetch";
+
+import { useCart } from "../Contexts/CartContext";
+
+import ProductPrice from "../Components/ProductPrice";
+import Button from "../Components/Button";
 import NairaSign from "../Components/NairaSign";
-import _get from "../Hooks/fetch";
+import CartSummary from "../Components/CartSummary";
+import CartNotFound from "../Components/CartNotFound";
+
+import "../Assets/css/cart.css";
 
 const tableHeaders = ["Product", "Quantity", "Price"];
 
@@ -16,7 +21,7 @@ const ProductItem = ({ productId }) => {
   const item = getProductFromCart(productId);
   const [quantity, setQuantity] = useState(item.quantity);
   const product = item.product;
-  const price = quantity * product.currentPrice;
+  const price = quantity * product.price;
 
   function handleReduceCartQuantity() {
     setQuantity(reduceProductInCart(product));
@@ -44,9 +49,9 @@ const ProductItem = ({ productId }) => {
               <div className="cart-product-details ms-3">
                 <div
                   id={`${productId}_Lbl`}
-                  className="h5 font-weight-500 mb-1"
+                  className="h5 font-weight-500 mb-1 text-truncate"
                 >
-                  {product.title}
+                  {product.name || product.title}
                 </div>
                 <div>
                   <ProductPrice product={product} />
@@ -81,7 +86,7 @@ const ProductItem = ({ productId }) => {
           </div>
         </td>
         <td>
-          <div className="font-weight-600 d-flex align-items-center">
+          <div className="fw-bold d-flex align-items-center">
             <NairaSign />
             <span>{price.toLocaleString()}</span>
           </div>
@@ -97,8 +102,9 @@ async function getData() {
 }
 
 const Cart = () => {
-  const { getCartProducts, getCartCount, cartTotalPrice } = useCart();
+  const { getCartProducts, getCartCount } = useCart();
   getData();
+
   if (getCartCount() > 0) {
     const products = getCartProducts();
     const productIds = Object.keys(products);
@@ -134,36 +140,10 @@ const Cart = () => {
             style={{ backgroundColor: "var(--light-purple)" }}
           >
             <div id="cartSummary" className="my-md-5 my-4 px-5">
-              <table className="table table-borderless">
-                <caption className="text-black h4 text-uppercase underlined d-inline-block">
-                  Cart Summary
-                </caption>
-                <tbody>
-                  <tr>
-                    <td className="py-3">Subtotal</td>
-                    <td className="py-3">
-                      <NairaSign />
-                      {cartTotalPrice.toLocaleString()}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="py-3">Shipping</td>
-                    <td className="text-success py-3">Free</td>
-                  </tr>
-                </tbody>
-                <tfoot className="font-weight-600 border-top border-secondary">
-                  <tr>
-                    <td className="py-3">Total</td>
-                    <td className="py-3">
-                      <NairaSign />
-                      {cartTotalPrice.toLocaleString()}
-                    </td>
-                  </tr>
-                </tfoot>
-              </table>
+              <CartSummary />
             </div>
             <div id="checkoutButton">
-              <Button href="/checkout" color="purple">
+              <Button href="/cart/checkout" color="purple">
                 <i className="fa-solid fa-bag-shopping me-2"></i>Checkout
               </Button>
             </div>
@@ -172,19 +152,7 @@ const Cart = () => {
       </div>
     );
   } else {
-    return (
-      <div
-        className="container-fluid py-4 cart-page d-flex flex-column justify-content-center align-items-center position-relative text-center"
-        id="cartNotFound"
-        style={{ zIndex: 1 }}
-      >
-        <img src={EmptyCart} alt="Empty cart icon" />
-        <h1 className="h2 font-weight-600 heading mt-5 mb-4">Cart is empty</h1>
-        <div>
-          <Button color="purple">Start shopping</Button>
-        </div>
-      </div>
-    );
+    return <CartNotFound />;
   }
 };
 

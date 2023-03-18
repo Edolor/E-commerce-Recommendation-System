@@ -7,6 +7,7 @@ import Shop from "./Pages/Shop";
 import Cart from "./Pages/Cart";
 import FourOhFour from "./Pages/FourOhFour";
 import Layout from "./Layout";
+import Checkout from "./Pages/Checkout";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
       <Route element={<Layout page="" />}>
         <Route path="product/:product_id" element={<ProductDetails />} />
         <Route path="cart" element={<Cart />} />
+        <Route path="cart/checkout" element={<Checkout />} />
         <Route path="*" element={<FourOhFour />} />
       </Route>
     </Routes>
