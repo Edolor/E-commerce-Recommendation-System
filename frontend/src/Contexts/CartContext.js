@@ -82,7 +82,7 @@ const CartProvider = ({ children }) => {
 		if (!inCart(product.id)) return;
 
 		// cannot increase quantity if quantity exceeds store quantity
-		if (cart[product.id]['quantity'] === product.quantity) return product.quantity;
+		if (cart[product.id]['quantity'] === product.total_quantity) return product.total_quantity;
 
 		return updateProductQuantity(product, 1);
 	}

@@ -1,5 +1,5 @@
 const DiscountTag = ({ product, long = false }) => {
-  if (!product.formerPrice || product.quantity === 0) return;
+  if (!product.formerPrice || product.total_quantity === 0) return;
 
   let discount = Math.round(
     ((product.formerPrice - product.price) / product.formerPrice) * 100

@@ -96,3 +96,12 @@
 #windowsRow>.shop-card {
 	z-index: 1;
 }
+
+#newsletterForm .loader {
+	margin: 0 !important;
+}
+
+#newsletterForm .input-group .btn,
+#newsletterForm .input-group .form-control {
+	z-index: inherit;
+}

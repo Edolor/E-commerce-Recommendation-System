@@ -8,9 +8,7 @@ import { productIsAvailable } from "../Hooks/ProductControls";
 import ProductPrice from "./ProductPrice";
 
 const Product = ({ product }) => {
-  // PRODUCT
-  // title, alt, image, id, price, quqntity, formerPrice
-  if (!("quantity" in product)) product.quantity = 10;
+  console.log(product);
 
   const {
     addProductToCart,
@@ -41,7 +39,7 @@ const Product = ({ product }) => {
     setQuantityInCart(1);
   }
 
-  const available = productIsAvailable(product.quantity);
+  const available = productIsAvailable(product.total_quantity);
 
   return (
     <article

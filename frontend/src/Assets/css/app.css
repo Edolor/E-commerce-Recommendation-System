@@ -212,6 +212,29 @@ a.text-decoration-hover:hover {
 	text-shadow: 1px 1px black;
 }
 
+#navbarMenu .nav-link {
+	--bs-navbar-active-color: var(--dark-pink);
+}
+
+#navbarMenu .nav-link::before {
+	content: '';
+	bottom: 0rem;
+	position: absolute;
+	left: 0;
+	width: 0;
+	height: 1.3rem;
+	transition: var(--ease-in);
+	opacity: 0;
+	background-color: #e4d3cd33;
+	margin: 0 auto;
+	right: 0;
+}
+
+#navbarMenu .nav-link.active::before {
+	opacity: 1;
+	width: 65%;
+}
+
 /* Main Content */
 
 #main {
@@ -259,6 +282,7 @@ a.text-decoration-hover:hover {
 
 .product .cart-qty-btn .btn {
 	padding: 0.6rem;
+	height: 3rem;
 }
 
 .product .cart-qty {

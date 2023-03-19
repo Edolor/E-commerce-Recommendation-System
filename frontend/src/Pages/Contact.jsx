@@ -96,149 +96,152 @@ const Contact = () => {
     <section id="contact">
       <div className="container-fluid">
         <div className="row overflow-hidden">
-          {submittingForm ? (
-            <div className="align-items-center col-sm-7 d-flex justify-content-center pb-5 pt-1 px-5">
-              <Loader />
+          <div
+            className={`h-100 align-items-center col-sm-7 justify-content-center pb-5 pt-1 px-5 ${
+              submittingForm ? "" : "d-none"
+            }`}
+          >
+            <Loader />
+          </div>
+          <div
+            className={`col-sm-7 px-5 pb-5 pt-1 text-white ${
+              submittingForm ? "d-none" : ""
+            }`}
+            style={{ backgroundColor: "var(--dark-blue)" }}
+          >
+            <div className={`px-3 ${submittedForm ? "d-none" : ""}`}>
+              <h1
+                className="display-4 pt-4 position-relative font-weight-500 d-inline-block heading mb-3"
+                id="contactTitle"
+              >
+                Get in touch
+              </h1>
+
+              <p className="lead">
+                Ask a question, or say hi and we'll get back to you soon.
+              </p>
+
+              <form
+                id="contactForm"
+                className="mt-5"
+                onSubmit={handleFormSubmit}
+              >
+                <div className="form-group mb-5">
+                  <div className="row">
+                    <div className="col-12">
+                      <label
+                        htmlFor="contactName"
+                        className="form-label text-white-50"
+                      >
+                        Name
+                      </label>
+                      <input
+                        type="text"
+                        id="contactName"
+                        name="name"
+                        className={`${formControlClass} text-white`}
+                        required
+                        onChange={handleChange}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="form-group mb-5">
+                  <div className="row">
+                    <div className="col-sm-6 mb-2 mb-md-0">
+                      <label
+                        htmlFor="contactEmail"
+                        className="form-label text-white-50"
+                      >
+                        Email
+                      </label>
+                      <input
+                        type="email"
+                        name="email"
+                        id="contactEmail"
+                        className={`${formControlClass} text-white`}
+                        required
+                        onBlur={(e) => {
+                          validateFormInput(e, setValidEmailAddress);
+                        }}
+                        onFocus={(e) => {
+                          validateFormInput(e, setValidEmailAddress);
+                        }}
+                        onChange={handleChange}
+                      />
+                      <InvalidError
+                        valid={validEmailAddress}
+                        error="Invalid email address"
+                      />
+                    </div>
+
+                    <div className="col-sm-6 mb-2 mb-md-0">
+                      <label
+                        htmlFor="contactPhone"
+                        className="form-label text-white-50"
+                      >
+                        Phone
+                      </label>
+                      <input
+                        type="tel"
+                        id="contactPhone"
+                        className={`${formControlClass} text-white`}
+                        name="phone"
+                        required
+                        onInput={(e) => {
+                          validateFormInput(e, setValidPhoneNumber);
+                        }}
+                        pattern="[\+0-9\- ]{7,16}"
+                        onChange={handleChange}
+                      />
+                      <InvalidError
+                        valid={validPhoneNumber}
+                        error="Invalid phone number"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="form-group mb-5">
+                  <div className="row">
+                    <div className="col-12">
+                      <label
+                        htmlFor="contactMessage"
+                        className="form-label text-white-50"
+                      >
+                        Message
+                      </label>
+                      <textarea
+                        id="contactMessage"
+                        name="message"
+                        className={`${formControlClass} text-white`}
+                        rows={3}
+                        style={{ resize: "none" }}
+                        required
+                        onChange={handleChange}
+                      ></textarea>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <div className="row">
+                    <div className="col-12 d-flex justify-content-end">
+                      <Button
+                        type="submit"
+                        color="yellow"
+                        outline={true}
+                        size="lg"
+                      >
+                        Submit
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </form>
             </div>
-          ) : (
-            <div
-              className="col-sm-7 px-5 pb-5 pt-1 text-white"
-              style={{ backgroundColor: "var(--dark-blue)" }}
-            >
-              <div className="px-3">
-                <h1
-                  className="display-4 pt-4 position-relative font-weight-500 d-inline-block heading mb-3"
-                  id="contactTitle"
-                >
-                  Get in touch
-                </h1>
-
-                <p className="lead">
-                  Ask a question, or say hi and we'll get back to you soon.
-                </p>
-
-                <form
-                  id="contactForm"
-                  className="mt-5"
-                  onSubmit={handleFormSubmit}
-                >
-                  <div className="form-group mb-5">
-                    <div className="row">
-                      <div className="col-12">
-                        <label
-                          htmlFor="contactName"
-                          className="form-label text-white-50"
-                        >
-                          Name
-                        </label>
-                        <input
-                          type="text"
-                          id="contactName"
-                          name="name"
-                          className={`${formControlClass} text-white`}
-                          required
-                          onChange={handleChange}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="form-group mb-5">
-                    <div className="row">
-                      <div className="col-sm-6 mb-2 mb-md-0">
-                        <label
-                          htmlFor="contactEmail"
-                          className="form-label text-white-50"
-                        >
-                          Email
-                        </label>
-                        <input
-                          type="email"
-                          name="email"
-                          id="contactEmail"
-                          className={`${formControlClass} text-white`}
-                          required
-                          onBlur={(e) => {
-                            validateFormInput(e, setValidEmailAddress);
-                          }}
-                          onFocus={(e) => {
-                            validateFormInput(e, setValidEmailAddress);
-                          }}
-                          onChange={handleChange}
-                        />
-                        <InvalidError
-                          valid={validEmailAddress}
-                          error="Invalid email address"
-                        />
-                      </div>
-
-                      <div className="col-sm-6 mb-2 mb-md-0">
-                        <label
-                          htmlFor="contactPhone"
-                          className="form-label text-white-50"
-                        >
-                          Phone
-                        </label>
-                        <input
-                          type="tel"
-                          id="contactPhone"
-                          className={`${formControlClass} text-white`}
-                          name="phone"
-                          required
-                          onInput={(e) => {
-                            validateFormInput(e, setValidPhoneNumber);
-                          }}
-                          pattern="[\+0-9\- ]{7,16}"
-                          onChange={handleChange}
-                        />
-                        <InvalidError
-                          valid={validPhoneNumber}
-                          error="Invalid phone number"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="form-group mb-5">
-                    <div className="row">
-                      <div className="col-12">
-                        <label
-                          htmlFor="contactMessage"
-                          className="form-label text-white-50"
-                        >
-                          Message
-                        </label>
-                        <textarea
-                          id="contactMessage"
-                          name="message"
-                          className={`${formControlClass} text-white`}
-                          rows={3}
-                          style={{ resize: "none" }}
-                          required
-                          onChange={handleChange}
-                        ></textarea>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="form-group">
-                    <div className="row">
-                      <div className="col-12 d-flex justify-content-end">
-                        <Button
-                          type="submit"
-                          color="yellow"
-                          outline={true}
-                          size="lg"
-                        >
-                          Submit
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          )}
+          </div>
 
           <div className="col-sm-5 p-5 bg-light flex-column d-flex py-5">
             <div className="pt-5">

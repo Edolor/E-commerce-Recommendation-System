@@ -75,7 +75,7 @@ const windowCards = [
     font: "display-5",
     title: "Home Workout Equipment",
     cta: {
-      url: "/products/category/gym",
+      url: "/shop/",
       title: "Find products",
     },
     color: "var(--dark-blue)",
@@ -85,7 +85,7 @@ const windowCards = [
     title: "Save up to 70% off",
     subtitle: "Kitchen appliances",
     cta: {
-      url: "/products/category/kitchen-appliances",
+      url: "/shop/",
       title: "Start shopping",
     },
     color: "#808274",
@@ -121,8 +121,8 @@ const Home = () => {
   const [loadedProducts, setLoadedProducts] = useState(false);
   const [products, setProducts] = useState([]);
   const [submittedForm, setSubmittedForm] = useState(false);
-  const [submittingForm, setSubmittingForm] = useState(false);
-  const [validEmailAddress, setValidEmailAddress] = useState(false);
+  const [submittingForm, setSubmittingForm] = useState("d-none");
+  const [validEmailAddress, setValidEmailAddress] = useState(true);
 
   async function getProducts() {
     const data = await _get("products/list/?size=3");
@@ -154,14 +154,14 @@ const Home = () => {
     // if form is not valid return
     if (!e.target.checkValidity()) return;
 
-    setSubmittingForm(true);
+    setSubmittingForm("");
 
     async function submit() {
       const res = await _post("contact/join-newsletter/", {
         email: document.getElementById("email").value,
       });
       console.log(res);
-      setSubmittingForm(false);
+      setSubmittingForm("d-none");
       if (res && res.success) setSubmittedForm(true);
     }
 
@@ -285,7 +285,7 @@ const Home = () => {
                 </div>
 
                 <div>
-                  <Button href="/about/testimonials" line={true}>
+                  <Button href="/about/" line={true}>
                     Testimonials
                   </Button>
                 </div>
@@ -293,7 +293,7 @@ const Home = () => {
                 <div
                   id="testimonialsCardIcon"
                   className="position-absolute opacity-50"
-                  style={{ color: "#e1dcd9" }}
+                  style={{ color: "var(--light-pink)" }}
                 >
                   <i className="fa-solid fa-comments"></i>
                 </div>
@@ -301,7 +301,7 @@ const Home = () => {
 
               <div
                 className="window-card d-flex position-relative flex-column p-5 justify-content-between"
-                style={{ backgroundColor: "#e1dcd9" }}
+                style={{ backgroundColor: "var(--light-pink)" }}
               >
                 <div>
                   <div
@@ -324,7 +324,7 @@ const Home = () => {
                   <form
                     method="post"
                     id="newsletterForm"
-                    className="mb-0 mt-3"
+                    className="mb-0 mt-3 position-relative"
                     onSubmit={handleSubmit}
                   >
                     <div className="border-0 input-group input-group-lg">
@@ -348,6 +348,12 @@ const Home = () => {
                       <Button type="submit" color="dark">
                         Subscribe
                       </Button>
+                    </div>
+                    <div
+                      className={`h-100 position-absolute py-2 start-0 top-0 w-100 ${submittingForm}`}
+                      style={{ backgroundColor: "var(--light-pink)" }}
+                    >
+                      <Loader />
                     </div>
                     <InvalidError
                       valid={validEmailAddress}

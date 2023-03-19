@@ -47,6 +47,8 @@ function getRecommendations(productId) {
 
 const ProductDetails = () => {
   const { product_id } = useParams();
+  const [productId, setProductId] = useState(null);
+  console.log(useParams());
   const [loadedProduct, setLoadedProduct] = useState(false);
   const [product, setProduct] = useState([]);
   const [recommendedProducts, setRecommendedProducts] = useState([]);
@@ -57,7 +59,7 @@ const ProductDetails = () => {
    * @returns
    */
   async function getProductDetails() {
-    const data = await _get(`products/${product_id}/`);
+    const data = await _get(`products/${productId}/`);
     if (!data) return;
     setLoadedProduct(true);
     setProduct(data);
@@ -67,7 +69,11 @@ const ProductDetails = () => {
 
   useEffect(() => {
     getProductDetails();
-  }, []);
+  }, [productId]);
+
+  useEffect(() => {
+    setProductId(product_id);
+  }, [product_id]);
 
   const {
     addProductToCart,
@@ -99,7 +105,7 @@ const ProductDetails = () => {
       setQuantityInCart(1);
     }
     // get product details
-    const available = productIsAvailable(product.quantity);
+    const available = productIsAvailable(product.total_quantity);
 
     return (
       <>
@@ -230,22 +236,22 @@ const ProductDetails = () => {
               </div>
             )}
           </div>
+        </section>
 
-          <section id="productRec" className="py-5">
-            <div className="container">
-              <h1 className="h4 text-uppercase underlined d-inline-block">
-                You'll love these
-              </h1>
+        <section id="productRec" className="py-5">
+          <div className="container">
+            <h1 className="h4 text-uppercase underlined d-inline-block">
+              You'll love these
+            </h1>
 
-              <div className="row mt-5">
-                {recommendedProducts.map((product, key) => (
-                  <div className="col-md-4" key={key}>
-                    <Product product={product} />
-                  </div>
-                ))}
-              </div>
+            <div className="row mt-5">
+              {recommendedProducts.map((product, key) => (
+                <div className="col-md-4" key={key}>
+                  <Product product={product} />
+                </div>
+              ))}
             </div>
-          </section>
+          </div>
         </section>
       </>
     );

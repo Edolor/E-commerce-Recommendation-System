@@ -13,7 +13,8 @@ const Header = ({ activePage }) => {
   const socials = useSocial();
 
   const NavItem = ({ page }) => {
-    let classes = "nav-link text-uppercase font-weight-500 px-4";
+    let classes =
+      "nav-link position-relative text-uppercase font-weight-500 px-4";
     if (page === activePage) classes += " active";
 
     // aria-current for active

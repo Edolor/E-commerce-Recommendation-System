@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-import { _get } from "../Hooks/fetch";
-
 import { useCart } from "../Contexts/CartContext";
 
 import ProductPrice from "../Components/ProductPrice";
@@ -19,6 +17,7 @@ const ProductItem = ({ productId }) => {
   const { increaseProductInCart, reduceProductInCart, getProductFromCart } =
     useCart();
   const item = getProductFromCart(productId);
+  console.log(item);
   const [quantity, setQuantity] = useState(item.quantity);
   const product = item.product;
   const price = quantity * product.price;
@@ -96,14 +95,8 @@ const ProductItem = ({ productId }) => {
   }
 };
 
-async function getData() {
-  const res = await _get("products/list/");
-  console.log(res);
-}
-
 const Cart = () => {
   const { getCartProducts, getCartCount } = useCart();
-  getData();
 
   if (getCartCount() > 0) {
     const products = getCartProducts();
