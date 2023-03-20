@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { usePaystackPayment } from "react-paystack";
+
+import States from "../Assets/lgas.json";
 
 import CartNotFound from "../Components/CartNotFound";
 
@@ -16,6 +19,17 @@ import { useCart } from "../Contexts/CartContext";
 
 import "../Assets/css/checkout.css";
 import CheckedOut from "../Assets/icons/order-confirmed.svg";
+import { useEffect } from "react";
+
+const states = Array.from(States);
+
+const StatesSelect = () => {
+  return states.map((state, key) => (
+    <option value={key} key={key}>
+      {state.state}
+    </option>
+  ));
+};
 
 const Checkout = () => {
   const notice = [
@@ -33,13 +47,25 @@ const Checkout = () => {
     },
   ];
 
-  const { getCartCount, emptyCart } = useCart();
+  const key = "pk_test_e0b27da629bee90a917524323ed38e59436cdf5f";
+
+  const { getCartCount, emptyCart, cartTotalPrice } = useCart();
   const [checkedOut, setCheckedOut] = useState(false);
   const [validEmailAddress, setValidEmailAddress] = useState(true);
-  const [validCardNumber, setValidCardNumber] = useState(true);
-  const [validCVV, setValidCVV] = useState(true);
+  const [email, setEmail] = useState(null);
+  const [currentState, setCurrentState] = useState(0);
 
   var hasItemInCart = getCartCount() !== 0;
+
+  const CitySelect = () => {
+    return states[currentState].lgas.map((lga, key) => (
+      <option value={key} key={key}>
+        {lga}
+      </option>
+    ));
+  };
+
+  useEffect(() => {});
 
   if (hasItemInCart) {
     /**
@@ -48,10 +74,44 @@ const Checkout = () => {
      */
     function handleCheckout(e) {
       e.preventDefault();
-      console.log(getFormData(e.target));
-      setCheckedOut(true);
-      emptyCart();
+      if (!e.target.checkValidity()) return;
+      document.getElementById("paystackButton").click();
     }
+
+    const PaystackHook = () => {
+      const config = {
+        reference: new Date().getTime().toString(),
+        email: email,
+        amount: cartTotalPrice * 100,
+        publicKey: key,
+      };
+
+      const onSuccess = (ref) => {
+        console.log(ref);
+        emptyCart();
+        setCheckedOut(true);
+      };
+
+      const onClose = () => {
+        console.log("closed");
+      };
+
+      const initialise = usePaystackPayment(config);
+      return (
+        <div>
+          <button
+            type="button"
+            onClick={() => {
+              initialise(onSuccess, onClose);
+            }}
+            id="paystackButton"
+            className="invisible"
+          >
+            Continue payment
+          </button>
+        </div>
+      );
+    };
 
     return (
       <div className="bg-light py-4">
@@ -98,6 +158,7 @@ const Checkout = () => {
                           required
                           onInput={(e) => {
                             validateFormInput(e, setValidEmailAddress);
+                            setEmail(e.target.value);
                           }}
                           onBlur={(e) => {
                             validateFormInput(e, setValidEmailAddress);
@@ -110,6 +171,41 @@ const Checkout = () => {
                           valid={validEmailAddress}
                           error="Invalid email address"
                         />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="form-group mb-4">
+                    <div className="row">
+                      <div className="col-md-6 mb-2 mb-md-0">
+                        <label htmlFor="state" className="mb-0 text-secondary">
+                          State
+                        </label>
+                        <select
+                          className={`${formControlClass} form-select`}
+                          name="state"
+                          id="state"
+                          required
+                          onChange={(e) => {
+                            setCurrentState(e.target.value);
+                          }}
+                        >
+                          <StatesSelect />
+                        </select>
+                      </div>
+
+                      <div className="col-md-6">
+                        <label htmlFor="city" className="mb-0 text-secondary">
+                          City
+                        </label>
+                        <select
+                          className={`${formControlClass} form-select`}
+                          name="city"
+                          id="city"
+                          required
+                        >
+                          <CitySelect />
+                        </select>
                       </div>
                     </div>
                   </div>
@@ -137,120 +233,14 @@ const Checkout = () => {
                       </div>
                     </div>
                   </div>
-
-                  <div className="form-group mb-4">
-                    <div className="row">
-                      <div className="col-md-6 mb-2 mb-md-0">
-                        <label htmlFor="state" className="mb-0 text-secondary">
-                          State
-                        </label>
-                        <select
-                          className={`${formControlClass} form-select`}
-                          name="state"
-                          id="state"
-                          required
-                        ></select>
-                      </div>
-
-                      <div className="col-md-6">
-                        <label htmlFor="city" className="mb-0 text-secondary">
-                          City
-                        </label>
-                        <select
-                          className={`${formControlClass} form-select`}
-                          name="city"
-                          id="city"
-                          required
-                        ></select>
-                      </div>
-                    </div>
-                  </div>
-                </fieldset>
-
-                <fieldset
-                  className="p-5 card border-light p-5 mb-4"
-                  style={{ backgroundColor: "var(--light-green)" }}
-                >
-                  <h1 className="d-inline-block h4 text-black mb-5 mb-4 text-uppercase underlined">
-                    Payment
-                  </h1>
-
-                  <div className="form-group mb-4">
-                    <div className="row">
-                      <div className="col">
-                        <label htmlFor="number" className="mb-0 text-secondary">
-                          Card number
-                        </label>
-                        <input
-                          type="text"
-                          className={`${formControlClass} ${
-                            validCardNumber || "is-invalid"
-                          }`}
-                          name="number"
-                          id="number"
-                          pattern="\d{16}"
-                          placeholder="XXXX XXXX XXXX XXXX"
-                          required
-                          maxLength={16}
-                          onInput={(e) => {
-                            validateFormInput(e, setValidCardNumber);
-                          }}
-                        />
-                        <InvalidError
-                          valid={validCardNumber}
-                          error="Invalid card number"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="form-group mb-4">
-                    <div className="row">
-                      <div className="col-md-6 d-flex flex-column justify-content-between">
-                        <label htmlFor="month" className="mb-0 text-secondary">
-                          Expiry Date
-                        </label>
-                        <input
-                          type="month"
-                          className={formControlClass}
-                          name="month"
-                          id="month"
-                          required
-                        />
-                      </div>
-                      <div className="col-md-6 d-flex flex-column justify-content-between">
-                        <label htmlFor="cvv" className="mb-0 text-secondary">
-                          CVV
-                        </label>
-                        <p className="small text-black-50 mb-0">
-                          This 3 or 4-digit code is usually found on the back of
-                          your card
-                        </p>
-                        <input
-                          type="text"
-                          className={`${formControlClass} ${
-                            validCVV || "is-invalid"
-                          }`}
-                          name="cvv"
-                          id="cvv"
-                          placeholder="XXX"
-                          required
-                          pattern="\d{3,4}"
-                          maxLength={4}
-                          onInput={(e) => {
-                            validateFormInput(e, setValidCVV);
-                          }}
-                        />
-                        <InvalidError valid={validCVV} error="Invalid CVV" />
-                      </div>
-                    </div>
-                  </div>
                 </fieldset>
 
                 <fieldset className="text-center ">
                   <Button size="lg" type="submit">
                     Confirm
                   </Button>
+
+                  <PaystackHook />
                 </fieldset>
               </form>
             </div>
