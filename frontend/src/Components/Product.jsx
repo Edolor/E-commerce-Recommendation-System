@@ -1,15 +1,18 @@
 import { useState, useEffect } from "react";
-import Button from "./Button";
 import { Link } from "react-router-dom";
+
 import { useCart } from "../Contexts/CartContext";
+
+import { api } from "../Hooks/fetch";
+
+import Button from "./Button";
 import DiscountTag from "./DiscountTag";
 import StatusTag from "./StatusTag";
-import { productIsAvailable } from "../Hooks/ProductControls";
 import ProductPrice from "./ProductPrice";
 
-const Product = ({ product }) => {
-  console.log(product);
+import { productIsAvailable } from "../Hooks/ProductControls";
 
+const Product = ({ product }) => {
   const {
     addProductToCart,
     increaseProductInCart,
@@ -51,10 +54,14 @@ const Product = ({ product }) => {
         className="position-relative text-decoration-none text-reset"
       >
         <figure
-          className="product-img mb-0 bg-light"
+          className="product-img mb-0 bg-light overflow-hidden"
           style={{ height: "16rem" }}
         >
-          {/* <img src={mage} alt={product.altText} className="image" /> */}
+          <img
+            src={`${api}` + product.images[0].replace("/", "")}
+            alt=""
+            className="w-100"
+          />
           <figcaption className="sr-only">{product.name}</figcaption>
         </figure>
         {

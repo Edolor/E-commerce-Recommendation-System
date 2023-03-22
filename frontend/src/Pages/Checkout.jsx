@@ -12,7 +12,6 @@ import {
   formControlClass,
   validateFormInput,
   InvalidError,
-  getFormData,
 } from "../Hooks/form";
 
 import { useCart } from "../Contexts/CartContext";
@@ -87,14 +86,12 @@ const Checkout = () => {
       };
 
       const onSuccess = (ref) => {
-        console.log(ref);
+        // console.log(ref);
         emptyCart();
         setCheckedOut(true);
       };
 
-      const onClose = () => {
-        console.log("closed");
-      };
+      const onClose = () => {};
 
       const initialise = usePaystackPayment(config);
       return (
@@ -237,7 +234,7 @@ const Checkout = () => {
 
                 <fieldset className="text-center ">
                   <Button size="lg" type="submit">
-                    Confirm
+                    Make Payment
                   </Button>
 
                   <PaystackHook />

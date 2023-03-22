@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-import { _get } from "../Hooks/fetch";
+import { _get, api } from "../Hooks/fetch";
 import { useCart } from "../Contexts/CartContext";
 
 import Button from "../Components/Button";
@@ -48,7 +48,6 @@ function getRecommendations(productId) {
 const ProductDetails = () => {
   const { product_id } = useParams();
   const [productId, setProductId] = useState(null);
-  console.log(useParams());
   const [loadedProduct, setLoadedProduct] = useState(false);
   const [product, setProduct] = useState([]);
   const [recommendedProducts, setRecommendedProducts] = useState([]);
@@ -64,7 +63,6 @@ const ProductDetails = () => {
     setLoadedProduct(true);
     setProduct(data);
     setRecommendedProducts(data.recommended_products);
-    console.log(data);
   }
 
   useEffect(() => {
@@ -116,10 +114,13 @@ const ProductDetails = () => {
             ) : (
               <div className="row">
                 <div className="col-md-5">
-                  <div
-                    className="bg-secondary"
-                    style={{ height: "30rem" }}
-                  ></div>
+                  <div className="bg-light" style={{ height: "30rem" }}>
+                    <img
+                      src={api + product.images[0].replace("/", "")}
+                      alt=""
+                      className="w-100"
+                    />
+                  </div>
                 </div>
 
                 <div className="col-md-6 offset-md-1">

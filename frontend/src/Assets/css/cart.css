@@ -17,7 +17,7 @@
 
 @media screen and (min-width: 768px) {
 	.cart-page {
-		min-height: 82vh;
+		/* min-height: 72vh; */
 	}
 }
 

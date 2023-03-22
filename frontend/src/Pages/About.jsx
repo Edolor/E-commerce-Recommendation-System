@@ -1,50 +1,52 @@
 import Button from "../Components/Button";
 import "../Assets/css/about.css";
 
+import img from "../Assets/img/bags2.jpg";
+
+const features = [
+  {
+    icon: "user",
+    title: "User data",
+    body: "We use data from your shopping history, trends and products you've bought",
+  },
+  {
+    icon: "tags",
+    title: "Product data",
+    body: "We find products similar to products you're interested in",
+  },
+  {
+    icon: "flag",
+    title: "World data",
+    body: "We also show you products based on time, holidays, season and events",
+  },
+];
+
+// fetch from backend
+const testimonials = [
+  {
+    text: "I had a great time shopping at The Bazaar. I found the perfect gift for my friend's birthday!",
+    name: "Jason Davo",
+    position: "Firsttimer",
+    bgColor: "#ffc212",
+    color: "black",
+  },
+  {
+    text: "I always seem to find what I'm looking for with just a few clicks. It's mindblowing.",
+    name: "Emily Sanders",
+    position: "Personal Shopper",
+    bgColor: "#7766c6",
+    color: "white",
+  },
+  {
+    text: "Their customer service is topnotch. I had an issue with a product and they resolved it very quickly.",
+    name: "Temilola Adebayo",
+    position: "Customer",
+    bgColor: "#46467a",
+    color: "white",
+  },
+];
+
 const About = () => {
-  const features = [
-    {
-      icon: "user",
-      title: "User data",
-      body: "We use data from your shopping history, trends and products you've bought",
-    },
-    {
-      icon: "tags",
-      title: "Product data",
-      body: "We find products similar to products you're interested in",
-    },
-    {
-      icon: "flag",
-      title: "World data",
-      body: "We also show you products based on time, holidays, season and events",
-    },
-  ];
-
-  // fetch from backend
-  const testimonials = [
-    {
-      text: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius, recusandae beatae! Tenetur perferendis deleniti.",
-      name: "Clark Andersen",
-      position: "Personal shopper",
-      bgColor: "#ffc212",
-      color: "black",
-    },
-    {
-      text: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magni delectus obcaecati nobis error.",
-      name: "Taylor Swift",
-      position: "CEO, The Swift Enterprise",
-      bgColor: "#7766c6",
-      color: "white",
-    },
-    {
-      text: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quo, dignissimos obcaecati voluptatibus magnam eaque voluptates, iure adipisci.",
-      name: "Eden Gray",
-      position: "Customer",
-      bgColor: "#46467a",
-      color: "white",
-    },
-  ];
-
   return (
     <>
       <section id="aboutHero" className="py-5 position-relative">
@@ -52,8 +54,13 @@ const About = () => {
           <div className="row align-items-center">
             <div className="col-md-5" id="heroSide">
               <div
-                className="shadow rounded-4"
-                style={{ height: "18rem" }}
+                className="shadow rounded-4 position-relative"
+                id="aboutImg"
+                style={{
+                  height: "18rem",
+                  backgroundImage: `url(${img})`,
+                  backgroundSize: "cover",
+                }}
               ></div>
             </div>
 
@@ -79,13 +86,13 @@ const About = () => {
               </div>
 
               <p className="mb-4">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere
-                ullam consequatur quae, expedita laborum quo omnis cupiditate
-                ratione minima! Dolorum officiis rerum qui culpa, quasi fugiat
-                maxime. Tenetur, nobis voluptate!
+                In a rapidly-evolving technological era, we're committed to
+                making shopping all about you. We pride ourselves in using
+                advanced machine learning algorithms that recommend products we
+                are confident you'll love.
               </p>
 
-              <Button size="lg" color="pink">
+              <Button size="lg" color="pink" href="/shop">
                 Woo! Let's go <i className="fa-solid fa-arrow-right-long"></i>
               </Button>
             </div>

@@ -46,12 +46,12 @@ const Header = ({ activePage }) => {
           </div>
 
           <ul className="list-inline mb-0">
-            <li className="list-inline-item">
+            {/* <li className="list-inline-item">
               <Button>
                 <span className="sr-only">Search</span>
                 <i className="fa-solid fa-magnifying-glass"></i>
               </Button>
-            </li>
+            </li> */}
             <li className="list-inline-item">
               <Button href="/cart">
                 {cartCount !== 0 ? (

@@ -54,7 +54,6 @@ const Shop = () => {
 
   function handleLoadMore() {
     if (nextUrl === null) return;
-    console.log(nextUrl);
     setLoadingMore(true);
     getProducts(null, nextUrl);
   }
@@ -64,7 +63,7 @@ const Shop = () => {
       <section
         id="shopHero"
         className="pt-5 pb-3 position-relative"
-        style={{ backgroundColor: "red" }}
+        style={{ backgroundColor: "var(--dark-purple)" }}
       >
         <div
           className="position-absolute ms-md-5 ps-md-5 ms-3"
@@ -76,8 +75,8 @@ const Shop = () => {
           <img src={Image2} alt="Shopping" id="shopImg2" />
         </div>
         <div className="container mt-sm-5 pt-5 pb-sm-3 d-flex flex-column align-items-end position-relative">
-          <div className="border border-5 border-dark p-1">
-            <div className="bg-dark display-6 heading py-md-3 py-2 px-md-4 px-3 text-white text-center text-uppercase">
+          <div className="border border-5 border-light p-2">
+            <div className="bg-light display-6 heading py-md-3 py-2 px-md-4 px-3 text-center text-uppercase">
               Shop
             </div>
           </div>

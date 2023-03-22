@@ -1,3 +1,21 @@
+#aboutImg {
+	background-size: cover;
+	background-position: initial;
+	z-index: 1;
+}
+
+#aboutImg::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: -1;
+	opacity: 0.3;
+	background-color: #000;
+}
+
 @media screen and (min-width: 776px) {
 	#aboutHero::before {
 		width: 75% !important;

@@ -11,6 +11,8 @@ import {
 
 import "../Assets/css/home.css";
 
+import img from "../Assets/img/pink-bags.jpg";
+
 import { _get, _post } from "../Hooks/fetch";
 
 const features = [
@@ -57,11 +59,11 @@ const FeatureItem = ({ title, text, icon }) => {
 const steps = [
   {
     title: "Explore & Shop",
-    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quia et doloremque alias id aperiam.",
+    text: "Our recommendation algorithm helps you find products you'll like.",
   },
   {
     title: "Add to Cart",
-    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quia et doloremque alias id aperiam.",
+    text: "See something you want? Go for it! Our cart feature is easy to use.",
   },
   {
     title: "Checkout",
@@ -126,7 +128,6 @@ const Home = () => {
 
   async function getProducts() {
     const data = await _get("products/list/?size=3");
-    console.log(data);
     if (!data) return;
     setLoadedProducts(true);
     setProducts(data.results);
@@ -160,22 +161,23 @@ const Home = () => {
       const res = await _post("contact/join-newsletter/", {
         email: document.getElementById("email").value,
       });
-      console.log(res);
       setSubmittingForm("d-none");
       if (res && res.success) setSubmittedForm(true);
     }
 
-    setTimeout(() => {
-      submit();
-    }, 3000);
+    submit();
   }
 
   return (
     <>
-      <section id="hero" className="align-items-center d-flex py-5">
+      <section
+        id="hero"
+        className="align-items-center d-flex py-5 position-relative"
+        style={{ backgroundImage: `url(${img})` }}
+      >
         <div className="container py-2">
           <div className="row">
-            <div className="col-md-6 offset-md-6">
+            <div className="col-md-6 offset-md-6 text-light">
               <h1 className="h6 text-uppercase underlined d-inline-block">
                 Personalised Shopping Experience
               </h1>
@@ -187,7 +189,7 @@ const Home = () => {
                 place, at no additional cost
               </p>
 
-              <Button size="lg" color="dark">
+              <Button size="lg" color="light" href="/shop" outline={true}>
                 Start shopping
               </Button>
             </div>
@@ -209,10 +211,10 @@ const Home = () => {
                 How we work
               </h1>
               <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Esse
-                eligendi aut ea expedita incidunt corporis maxime ipsa voluptas?
-                Repellendus animi asperiores debitis nam at magnam aut omnis
-                officiis, quas ea!
+                Your shopping experience should be hassle-free. To see to that,
+                we use artificial intelligence to suggest products tailored to
+                your interests, and provide exceptional customer service that
+                makes your shopping more personal and seamless.
               </p>
 
               <div className="row mt-4">
@@ -251,7 +253,7 @@ const Home = () => {
             Popular Products
           </h1>
 
-          <div className="row mt-5 mx-0 align-items-center">
+          <div className="row mt-4 mx-0 align-items-center">
             <div className="col-sm-11 px-0">
               <div className="row mt-5">
                 {loadedProducts ? <ProductList /> : <Loader />}

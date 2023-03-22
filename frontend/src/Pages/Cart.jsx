@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 
 import { useCart } from "../Contexts/CartContext";
 
+import { api } from "../Hooks/fetch";
+
 import ProductPrice from "../Components/ProductPrice";
 import Button from "../Components/Button";
 import NairaSign from "../Components/NairaSign";
@@ -17,7 +19,6 @@ const ProductItem = ({ productId }) => {
   const { increaseProductInCart, reduceProductInCart, getProductFromCart } =
     useCart();
   const item = getProductFromCart(productId);
-  console.log(item);
   const [quantity, setQuantity] = useState(item.quantity);
   const product = item.product;
   const price = quantity * product.price;
@@ -43,7 +44,13 @@ const ProductItem = ({ productId }) => {
               aria-labelledby={`${productId}_Lbl`}
             >
               <div>
-                <div className="cart-product-img rounded-3 bg-light border overflow-hidden"></div>
+                <div className="cart-product-img rounded-3 bg-light border overflow-hidden">
+                  <img
+                    src={api + product.images[0].replace("/", "")}
+                    alt=""
+                    className="h-100"
+                  />
+                </div>
               </div>
               <div className="cart-product-details ms-3">
                 <div
