@@ -6,9 +6,7 @@ from rest_framework.generics import (
     UpdateAPIView,
     GenericAPIView
 )
-from rest_framework.mixins import UpdateModelMixin, DestroyModelMixin
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
-from rest_framework import serializers
+from rest_framework.permissions import IsAdminUser
 from .serializers import (
     ProductSerializer,
     ImageSerializer,
