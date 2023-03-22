@@ -12,4 +12,4 @@ COPY . .
 
 EXPOSE 8000
 
-CMD ["gunicorn", "ecommerce.wsgi"]
+CMD ["gunicorn", "-c", "config/gunicorn/gunicorn.conf.py"]
