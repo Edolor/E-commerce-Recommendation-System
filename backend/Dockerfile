@@ -10,6 +10,12 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
+#  create gunicorn log directory
+RUN mkdir /var/log/gunicorn
+
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1  
+
 EXPOSE 8000
 
 CMD ["gunicorn", "-c", "config/gunicorn/gunicorn.conf.py"]
