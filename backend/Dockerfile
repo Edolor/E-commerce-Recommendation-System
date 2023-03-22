@@ -1,6 +1,7 @@
 FROM python:3.10.3-slim-bullseye
 
 WORKDIR /app
+RUN mkdir staticfiles
 
 RUN pip install --upgrade pip
 
