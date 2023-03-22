@@ -20,4 +20,4 @@ ENV PYTHONUNBUFFERED 1
 EXPOSE 8000
 
 # CMD ["gunicorn", "-c", "config/gunicorn/gunicorn.conf.py"]
-CMD ["gunicorn", "ecommerce.app"]
+CMD ["gunicorn", "ecommerce.wsgi"]
