@@ -35,9 +35,9 @@ RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:    
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
-SESSION_COOKIE_SECURE = True
-SECURE_SSL_REDIRECT = True
-CSRF_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = "RENDER" not in os.environ
+# SECURE_SSL_REDIRECT = "RENDER" not in os.environ
+# CSRF_COOKIE_SECURE = "RENDER" not in os.environ
 # Application definition
 
 INSTALLED_APPS = [
@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'products.apps.ProductsConfig',
     'contact.apps.ContactConfig',
+    'order.apps.OrderConfig',
     'recommender.apps.RecommenderConfig',
     'rest_framework',
     'rest_framework.authtoken',
