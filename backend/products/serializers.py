@@ -66,3 +66,29 @@ class CreateProductSerializser(serializers.ModelSerializer):
 
     def __init__(self, instance=None, **kwargs):
         super().__init__(instance, **kwargs)
+
+
+class ProductIDSerializer(serializers.Serializer):
+    """
+    Product serialization class
+    """
+
+    id = serializers.UUIDField(required=True)
+
+    def validate(self, attrs):
+        """Confirm if product exists"""
+        try:
+            product = Product.objects.get(pk=attrs["id"])
+        except Product.DoesNotExist:
+            raise serializers.ValidationError(
+                {"error": f"Product with id={attrs['id']} does not exist."})
+
+        attrs["product"] = product
+        return attrs
+
+    def create(self, validated_data):
+        print(validated_data["product"])
+        return validated_data["product"]
+
+    def save(self):
+        return self.validated_data["product"]
