@@ -1,13 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter as Router} from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
-import "./Assets/css/style.css";
-import CartProvider from "./Contexts/CartContext";
-import "./Assets/css/main.css";
+
+// will need to install boostrap 5 for this
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.js';
+
+import "./Assets/css/app.css";
+import { CartProvider } from "./Contexts/CartContext";
 import reportWebVitals from './reportWebVitals';
 import { ActivePageProvider } from "./Contexts/ActivePageContext";
-import { ProductProvider } from "./Contexts/ProductContext";
+import { SocialProvider } from './Contexts/SocialContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -23,15 +27,15 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <React.StrictMode>
-    <ProductProvider>
-      <CartProvider>
-        <ActivePageProvider>
+    <CartProvider>
+      <ActivePageProvider>
+        <SocialProvider>
           <Router>
             <App />
           </Router>
-        </ActivePageProvider>
-      </CartProvider>
-    </ProductProvider>
+        </SocialProvider>
+      </ActivePageProvider>
+    </CartProvider>
   </React.StrictMode>
 );
 

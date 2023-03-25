@@ -1,25 +1,28 @@
-import Header from "./Layouts/Header/Header";
-import Newsletter from "./Layouts/Newsletter/Newsletter";
-import Footer from "./Layouts/Footer/Footer";
+import React from "react";
+import Header from "./Layouts/Header";
+// import Newsletter from "./Layouts/Newsletter/Newsletter";
+import Footer from "./Layouts/Footer";
 import { Outlet } from "react-router-dom";
 import { useActivePage } from "./Contexts/ActivePageContext";
 
-function Layout({ pageNo }) {
-    const { setActivePage } = useActivePage();
-    setActivePage(pageNo);
+function Layout({ page }) {
+  const { setActivePage } = useActivePage();
 
-    return (
-        <>
-            <Header pageNo={pageNo}/>
-            
-            <main>
-                <Outlet />
-            </main>
-            
-            <Newsletter />
-            <Footer />
-        </>
-    );
+  React.useEffect(() => {
+    setActivePage(page);
+  }, [setActivePage, page]);
+
+  return (
+    <>
+      <Header activePage={page} />
+
+      <main id="main">
+        <Outlet />
+      </main>
+
+      <Footer />
+    </>
+  );
 }
 
 export default Layout;

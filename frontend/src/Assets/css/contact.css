@@ -1,0 +1,19 @@
+#contactTitle::before {
+	content: '';
+	position: absolute;
+	top: -1rem;
+	left: 0;
+	right: 0;
+	width: 50%;
+	margin: 0 auto;
+	height: 18px;
+	background-color: var(--yellow);
+	border-bottom-left-radius: 2rem;
+	border-bottom-right-radius: 2rem;
+}
+
+@media screen and (min-width: 768px) {
+	#contactSubmitted img {
+		width: 27rem;
+	}
+}

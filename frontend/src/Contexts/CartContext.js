@@ -1,118 +1,124 @@
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import React, { useState, createContext, useEffect, useCallback } from "react";
+
+const CART = 'ls_cart';
+const STORAGE = localStorage;
 
 const CartContext = createContext();
-const STORAGE_NAME = "cart_data";
+const useCart = () => React.useContext(CartContext);
 
-function useCart() {
-    return useContext(CartContext);
+const CartProvider = ({ children }) => {
+	const [cart, setCart] = useState(JSON.parse(STORAGE.getItem(CART)));
+
+	// very important check here
+	const getCartItemCount = useCallback(() => {
+		if (cart === null) return 0;
+		else return Object.keys(cart).length;
+	}, [cart]);
+
+	const [cartProductCount, setCartProductCount] = useState(getCartItemCount());
+
+	const getCartTotalPrice = useCallback(() => {
+		var total = 0;
+		for (let id in cart) {
+			let product = cart[id];
+			total += product.quantity * product.product.price;
+		}
+		return total;
+	}, [cart]);
+
+	const [cartTotalPrice, setCartTotalPrice] = useState(getCartTotalPrice());
+	// update local storage cart whenever the cart is updated
+	useEffect(() => {
+		let items = JSON.stringify(cart);
+		STORAGE.setItem(CART, items);
+		setCartProductCount(getCartItemCount());
+		setCartTotalPrice(getCartTotalPrice());
+	}, [cart, getCartTotalPrice, getCartItemCount]);
+
+	function emptyCart() {
+		setCart([]);
+	}
+
+	/**
+	 * Checks if a product exists in cart
+	 * @param {String} productId 
+	 * @returns 
+	 */
+	function inCart(productId) {
+		return cart === null ? false : productId in cart
+	}
+
+	function getCartCount() {
+		return cartProductCount;
+	}
+
+	/**
+	 * Get quantity of a product in cart
+	 * @param {String} productId 
+	 * @returns 
+	 */
+	function getProductQuantityInCart(productId) {
+		return inCart(productId) ? cart[productId]['quantity'] : 0;
+	}
+
+	function addProductToCart(product) {
+		// product is not already in cart
+		if (!inCart(product.id)) {
+			let thisProduct = {};
+			thisProduct[product.id] = { product: product, quantity: 1 };
+			setCart({ ...thisProduct, ...cart });
+		}
+	}
+
+	function updateProductQuantity(product, quantity) {
+		let thisProduct = { ...cart };
+		thisProduct[product.id].quantity += quantity;
+		setCart({ ...thisProduct });
+		return cart[product.id]['quantity'];
+	}
+
+	function increaseProductInCart(product) {
+		// if product isn't in cart, ignore
+		if (!inCart(product.id)) return;
+
+		// cannot increase quantity if quantity exceeds store quantity
+		if (cart[product.id]['quantity'] === product.total_quantity) return product.total_quantity;
+
+		return updateProductQuantity(product, 1);
+	}
+
+	function reduceProductInCart(product) {
+		// if product isn't in cart, ignore
+		if (!inCart(product.id)) return product.quantity;
+
+		// if quantity is already 1, just remove product from cart
+		if (cart[product.id]['quantity'] === 1) {
+			return removeProductFromCart(product);
+		} else return updateProductQuantity(product, -1);
+	}
+
+	function removeProductFromCart(product) {
+		// if product doesn't exist in cart, ignore
+		if (!inCart(product.id)) return;
+
+		let productsInCart = { ...cart };
+		delete productsInCart[product.id];
+
+		setCart({ ...productsInCart });
+		return 0;
+	}
+
+	function getCartProducts() {
+		return cart;
+	}
+
+	function getProductFromCart(id) {
+		return cart[id];
+	}
+
+	return (
+		<CartContext.Provider value={{ getCartProducts, addProductToCart, increaseProductInCart, reduceProductInCart, removeProductFromCart, inCart, getProductQuantityInCart, getCartCount, getProductFromCart, cartTotalPrice, emptyCart }}>{children}</CartContext.Provider>
+	)
 }
 
-function CartProvider({children}) {
-    const [cartProducts, setCartProducts] = useState({});
-    const [cartCounter, setCartCounter] = useState(0);
-
-    // FETCH PRODUCTS FROM CART IN LOCAL STORAGE
-    useEffect(() => {
-        // FETCH ITEM FROM CART
-        const cartPs = JSON.parse(localStorage.getItem(STORAGE_NAME));
-        if (cartPs) {
-            setCartProducts(cartPs);
-        }
-    }, []);
-
-    // UPDATES CART DETAILS IN LOCAL STORAGE
-    useEffect(() => {
-        // FETCH ITEM FROM CART
-        localStorage.setItem(STORAGE_NAME, JSON.stringify(cartProducts));
-       
-    }, [cartProducts]);
-
-    function cartReducer(cartItems, action) {
-        /** Respomsible for handling all state logic for the cart component */
-    
-        switch (action.type) {
-            case "add": {
-                if (action.product) {
-                     /** Adds a product to cart and sets the counter(Number of products) to 1 */
-                    const id = action.product.id;
-                    
-                    // StrutUring the object to be placed into the state variable
-                    const bundledProduct = {};
-                    bundledProduct[id] = {counter: 1, ...action.product}
-
-                    return {...bundledProduct, ...cartProducts}
-                }
-    
-                return cartProducts;
-            }
-            
-            case "remove": {
-                /** Removes a product from cart */
-                const copyProducts = {...cartProducts}; // Creating a copy
-
-                if (copyProducts[action.id]) {
-                    delete copyProducts[action.id]; // Removing product from object
-                }
-                
-                return copyProducts;
-            }
-
-            case "reduce": {
-                /** Reduces the quantity of a particular product in the cart */
-                const copyProducts = {...cartProducts}; // Make a copy
-                
-                if (copyProducts[action.id]) {
-                    // If product is 2 or more items decrease by 1
-                    if (copyProducts[action.id]["counter"] > 1) {
-                        copyProducts[action.id]["counter"] -= 1; // Decrement product counter
-                    } else { // If item count is 1 (remove)
-                        delete copyProducts[action.id]; // Removing product from object
-                    }
-                }
-
-                return copyProducts;
-            }
-
-            case "increase": {
-                /** Reduces the quantity of a particular product in the cart */
-                const copyProducts = {...cartProducts}; // Make a copy
-                
-                if (copyProducts[action.id]) {
-                    copyProducts[action.id]["counter"] += 1; // Increment  product counter
-                }
-
-                return copyProducts;
-            }
-
-            default: {
-                throw Error(`Unknown action: ${action.type}`);
-            }
-        }
-    }
-
-    function getCartProducts() {
-        /** Get all cart products to be displayed in the cart page */
-        return cartProducts;
-    }
-
-    // External API for usage
-    const value = {
-        cartProducts,
-        setCartProducts,
-
-        cartCounter,
-        setCartCounter,
-
-        cartReducer,
-        getCartProducts,
-    };
-    
-    return (
-        <CartContext.Provider value={value}>
-            {children}
-        </CartContext.Provider>
-    );
-}
-
-export { useCart };
-export default CartProvider;
+export { CartProvider, useCart };
