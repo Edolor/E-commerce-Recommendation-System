@@ -30,8 +30,8 @@ body {
 }
 
 .heading {
-	/* font-family: 'Poppins'; */
-	font-family: 'Roboto';
+	font-family: 'Poppins';
+	/* font-family: 'Roboto'; */
 }
 
 .heading-serif {
@@ -289,6 +289,11 @@ a.text-decoration-hover:hover {
 	padding: 0 0.4rem;
 }
 
+.cart-product-img {
+	width: 4.5rem;
+	height: 4.5rem;
+}
+
 /** FORM CONTROL **/
 
 .form-control {
@@ -301,4 +306,65 @@ a.text-decoration-hover:hover {
 
 .form-control::placeholder {
 	color: var(--bs-gray-500);
+}
+
+/**
+Search
+**/
+#pseudoPlaceholder {
+	white-space: nowrap;
+	width: 0;
+}
+
+#pseudoPlaceholder>div {
+	background-image: linear-gradient(90deg, var(--dark-yellow), var(--dark-pink), var(--dark-green), var(--dark-blue), var(--dark-pink));
+	background-size: 300% 100%;
+	animation: gradient 7s infinite linear;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+	-webkit-background-clip: text;
+}
+
+#pseudoPlaceholder.animated {
+	border-right: 3px solid;
+	animation: typing 2s steps(30, end) forwards, blinking 1s infinite 2.5s;
+	padding-right: 0.5rem !important;
+}
+
+@keyframes typing {
+	from {
+		width: 0;
+	}
+
+	to {
+		width: 50%;
+	}
+}
+
+@keyframes blinking {
+	0% {
+		border-right-color: transparent;
+	}
+
+	50% {
+		border-right-color: #000;
+	}
+
+	100% {
+		border-right-color: transparent;
+	}
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0 0;
+	}
+
+	50% {
+		background-position: 100% 0;
+	}
+
+	20% {
+		background-position: 0 0;
+	}
 }

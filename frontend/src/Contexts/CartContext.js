@@ -1,10 +1,10 @@
-import React, { useState, createContext, useEffect, useCallback } from "react";
+import React, { useState, createContext, useEffect, useCallback, useContext } from "react";
 
 const CART = 'ls_cart';
 const STORAGE = localStorage;
 
 const CartContext = createContext();
-const useCart = () => React.useContext(CartContext);
+const useCart = () => useContext(CartContext);
 
 const CartProvider = ({ children }) => {
 	const [cart, setCart] = useState(JSON.parse(STORAGE.getItem(CART)));
