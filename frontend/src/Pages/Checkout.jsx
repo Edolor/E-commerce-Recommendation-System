@@ -75,7 +75,7 @@ const Checkout = () => {
 
   const CitySelect = () => {
     return states[currentState].lgas.map((lga, key) => (
-      <option value={locationValue(lga)} data-state-key={key} key={key}>
+      <option value={locationValue(lga)} key={key}>
         {lga}
       </option>
     ));
@@ -114,26 +114,31 @@ const Checkout = () => {
         publicKey: key,
       };
 
-      const onSuccess = async (ref) => {
+      const onSuccess = (ref) => {
         emptyCart();
         setCheckedOut(true);
 
-        const res = await _post("order/create-order/", {
-          full_name: name,
-          email: email,
-          state: state,
-          city: city,
-          address: address,
-          items: getProducts(),
-          ref: ref,
-        });
+        async function saveOrder() {
+          const res = await _post("order/create-order/", {
+            full_name: name,
+            email: email,
+            state: state,
+            city: city,
+            address: address,
+            items: getProducts(),
+            ref: ref,
+          });
 
-        console.log(res);
+          console.log(res);
+        }
+
+        saveOrder();
       };
 
       const onClose = () => {};
 
       const initialise = usePaystackPayment(config);
+
       return (
         <div>
           <button
@@ -149,8 +154,6 @@ const Checkout = () => {
         </div>
       );
     };
-
-    console.log(getCartProducts());
 
     return (
       <div className="bg-light py-4">
@@ -235,9 +238,7 @@ const Checkout = () => {
                           onChange={(e) => {
                             const $this = e.target;
                             setState($this.value);
-                            setCurrentState(
-                              $this.getAttribute("data-state-key")
-                            );
+                            setCurrentState($this.selectedIndex);
                           }}
                         >
                           <StatesSelect />
