@@ -128,8 +128,6 @@ const Checkout = () => {
             items: getProducts(),
             ref: ref,
           });
-
-          console.log(res);
         }
 
         saveOrder();
