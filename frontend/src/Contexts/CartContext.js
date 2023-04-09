@@ -27,6 +27,7 @@ const CartProvider = ({ children }) => {
 	}, [cart]);
 
 	const [cartTotalPrice, setCartTotalPrice] = useState(getCartTotalPrice());
+
 	// update local storage cart whenever the cart is updated
 	useEffect(() => {
 		let items = JSON.stringify(cart);

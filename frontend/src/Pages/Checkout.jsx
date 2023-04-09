@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { usePaystackPayment } from "react-paystack";
 
 import States from "../Assets/lgas.json";
+import { _post } from "../Hooks/fetch";
 
 import CartNotFound from "../Components/CartNotFound";
 
@@ -18,53 +19,81 @@ import { useCart } from "../Contexts/CartContext";
 
 import "../Assets/css/checkout.css";
 import CheckedOut from "../Assets/icons/order-confirmed.svg";
-import { useEffect } from "react";
+
+const notice = [
+  {
+    icon: "fa-regular fa-credit-card",
+    title: "Your card is safe with us",
+    description:
+      "This is because we never save your card details after your purchases.",
+  },
+  {
+    icon: "fa-solid fa-truck",
+    title: "Delivery date",
+    description:
+      "We'll deliver your order within 3 to 5 business days for locations within Nigeria.",
+  },
+];
 
 const states = Array.from(States);
 
+function locationValue(location) {
+  return String(location).toLowerCase().replace(" ", "-");
+}
+
 const StatesSelect = () => {
   return states.map((state, key) => (
-    <option value={key} key={key}>
+    <option value={locationValue(state.state)} key={key}>
       {state.state}
     </option>
   ));
 };
 
 const Checkout = () => {
-  const notice = [
-    {
-      icon: "fa-regular fa-credit-card",
-      title: "Your card is safe with us",
-      description:
-        "This is because we never save your card details after your purchases.",
-    },
-    {
-      icon: "fa-solid fa-truck",
-      title: "Delivery date",
-      description:
-        "We'll deliver your order within 3 to 5 business days for locations within Nigeria.",
-    },
-  ];
-
   const key = "pk_test_e0b27da629bee90a917524323ed38e59436cdf5f";
 
-  const { getCartCount, emptyCart, cartTotalPrice } = useCart();
+  const { getCartCount, emptyCart, cartTotalPrice, getCartProducts } =
+    useCart();
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [state, setState] = useState("");
+  const [city, setCity] = useState("");
+  const [address, setAddress] = useState("");
+
+  const nameRef = useRef();
+  const emailRef = useRef();
+  const stateRef = useRef();
+  const cityRef = useRef();
+  const addressRef = useRef();
+
   const [checkedOut, setCheckedOut] = useState(false);
   const [validEmailAddress, setValidEmailAddress] = useState(true);
-  const [email, setEmail] = useState(null);
   const [currentState, setCurrentState] = useState(0);
 
   var hasItemInCart = getCartCount() !== 0;
 
   const CitySelect = () => {
     return states[currentState].lgas.map((lga, key) => (
-      <option value={key} key={key}>
+      <option value={locationValue(lga)} data-state-key={key} key={key}>
         {lga}
       </option>
     ));
   };
 
   useEffect(() => {});
+
+  function getProducts() {
+    let cart = getCartProducts();
+    let products = [];
+
+    for (let id in cart) {
+      const product = cart[id];
+      products.push({ quantity: product.quantity, product: { id: id } });
+    }
+
+    return products;
+  }
 
   if (hasItemInCart) {
     /**
@@ -85,10 +114,21 @@ const Checkout = () => {
         publicKey: key,
       };
 
-      const onSuccess = (ref) => {
-        // console.log(ref);
+      const onSuccess = async (ref) => {
         emptyCart();
         setCheckedOut(true);
+
+        const res = await _post("order/create-order/", {
+          full_name: name,
+          email: email,
+          state: state,
+          city: city,
+          address: address,
+          items: getProducts(),
+          ref: ref,
+        });
+
+        console.log(res);
       };
 
       const onClose = () => {};
@@ -109,6 +149,8 @@ const Checkout = () => {
         </div>
       );
     };
+
+    console.log(getCartProducts());
 
     return (
       <div className="bg-light py-4">
@@ -134,10 +176,13 @@ const Checkout = () => {
                         </label>
                         <input
                           type="text"
+                          ref={nameRef}
+                          value={name}
                           className={formControlClass}
                           name="name"
                           id="name"
                           required
+                          onChange={(e) => setName(e.target.value)}
                         />
                       </div>
 
@@ -152,6 +197,8 @@ const Checkout = () => {
                           }`}
                           name="email"
                           id="email"
+                          ref={emailRef}
+                          value={email}
                           required
                           onInput={(e) => {
                             validateFormInput(e, setValidEmailAddress);
@@ -180,11 +227,17 @@ const Checkout = () => {
                         </label>
                         <select
                           className={`${formControlClass} form-select`}
+                          ref={stateRef}
+                          value={state}
                           name="state"
                           id="state"
                           required
                           onChange={(e) => {
-                            setCurrentState(e.target.value);
+                            const $this = e.target;
+                            setState($this.value);
+                            setCurrentState(
+                              $this.getAttribute("data-state-key")
+                            );
                           }}
                         >
                           <StatesSelect />
@@ -200,6 +253,9 @@ const Checkout = () => {
                           name="city"
                           id="city"
                           required
+                          ref={cityRef}
+                          value={city}
+                          onChange={(e) => setCity(e.target.value)}
                         >
                           <CitySelect />
                         </select>
@@ -221,11 +277,14 @@ const Checkout = () => {
                         </p>
                         <input
                           type="text"
+                          ref={addressRef}
+                          value={address}
                           className={formControlClass}
                           name="address"
                           id="address"
                           placeholder="House number, (Apartment) (Estate name) Street name"
                           required
+                          onChange={(e) => setAddress(e.target.value)}
                         />
                       </div>
                     </div>
