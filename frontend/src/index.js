@@ -13,8 +13,6 @@ import { ActivePageProvider } from "./Contexts/ActivePageContext";
 import { SocialProvider } from './Contexts/SocialContext';
 import { SearchProvider } from './Contexts/SearchContext';
 
-import reportWebVitals from './reportWebVitals';
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 /*
@@ -28,22 +26,15 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 */
 
 root.render(
-  <React.StrictMode>
-    <CartProvider>
-      <ActivePageProvider>
-        <SocialProvider>
-          <SearchProvider>
-            <Router>
-              <App />
-            </Router>
-          </SearchProvider>
-        </SocialProvider>
-      </ActivePageProvider>
-    </CartProvider>
-  </React.StrictMode>
+  <CartProvider>
+    <ActivePageProvider>
+      <SocialProvider>
+        <SearchProvider>
+          <Router>
+            <App />
+          </Router>
+        </SearchProvider>
+      </SocialProvider>
+    </ActivePageProvider>
+  </CartProvider>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
