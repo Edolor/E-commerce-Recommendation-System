@@ -3,14 +3,39 @@ import Button from "../Components/Button";
 import Logo from "../Components/Logo";
 import { useSocial } from "../Contexts/SocialContext";
 import { useCart } from "../Contexts/CartContext";
+import { Modal } from "bootstrap";
+
+import { useSearch } from "../Contexts/SearchContext";
+
+var searchModal;
 
 const Header = ({ activePage }) => {
   const pages = ["home", "about", "shop", "contact"];
+
+  const { clearSearch, activatePlaceholder } = useSearch();
 
   const { getCartCount } = useCart();
   const cartCount = getCartCount();
 
   const socials = useSocial();
+
+  function handleShowSearch() {
+    if (!searchModal) {
+      const modal = document.getElementById("searchModal");
+      searchModal = new Modal(modal, {
+        backdrop: true,
+      });
+      modal.addEventListener("shown.bs.modal", function () {
+        document.getElementById("search").focus();
+        activatePlaceholder();
+      });
+      modal.addEventListener("show.bs.modal", function () {
+        document.getElementById("search").value = "";
+        clearSearch();
+      });
+    }
+    searchModal.show();
+  }
 
   const NavItem = ({ page }) => {
     let classes =
@@ -46,12 +71,12 @@ const Header = ({ activePage }) => {
           </div>
 
           <ul className="list-inline mb-0">
-            {/* <li className="list-inline-item">
-              <Button>
+            <li className="list-inline-item">
+              <Button onclick={handleShowSearch}>
                 <span className="sr-only">Search</span>
                 <i className="fa-solid fa-magnifying-glass"></i>
               </Button>
-            </li> */}
+            </li>
             <li className="list-inline-item">
               <Button href="/cart">
                 {cartCount !== 0 ? (

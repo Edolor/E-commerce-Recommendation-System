@@ -1,11 +1,9 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 
 import { useCart } from "../Contexts/CartContext";
 
-import { api } from "../Hooks/fetch";
+import ProductListItem from "./ProductListItem";
 
-import ProductPrice from "../Components/ProductPrice";
 import Button from "../Components/Button";
 import NairaSign from "../Components/NairaSign";
 import CartSummary from "../Components/CartSummary";
@@ -35,36 +33,7 @@ const ProductItem = ({ productId }) => {
     return (
       <tr key={productId}>
         <td className="py-3">
-          <Link
-            to={`/product/${productId}`}
-            className="text-reset text-decoration-none ease"
-          >
-            <div
-              className="d-flex align-items-center"
-              aria-labelledby={`${productId}_Lbl`}
-            >
-              <div>
-                <div className="cart-product-img rounded-3 bg-light border overflow-hidden">
-                  <img
-                    src={api + product.images[0].replace("/", "")}
-                    alt=""
-                    className="h-100"
-                  />
-                </div>
-              </div>
-              <div className="cart-product-details ms-3">
-                <div
-                  id={`${productId}_Lbl`}
-                  className="h5 font-weight-500 mb-1 text-truncate"
-                >
-                  {product.name || product.title}
-                </div>
-                <div>
-                  <ProductPrice product={product} />
-                </div>
-              </div>
-            </div>
-          </Link>
+          <ProductListItem product={product} />
         </td>
         <td>
           <div>
