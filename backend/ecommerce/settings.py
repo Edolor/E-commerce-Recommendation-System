@@ -28,17 +28,14 @@ SECRET_KEY = SEC_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = "RENDER" not in os.environ
-DEBUG = True
+DEBUG = os.getenv("DEBUG") == "true"
 
 ALLOWED_HOSTS = []
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
-if RENDER_EXTERNAL_HOSTNAME:    
+if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
-# SESSION_COOKIE_SECURE = "RENDER" not in os.environ
-# SECURE_SSL_REDIRECT = "RENDER" not in os.environ
-# CSRF_COOKIE_SECURE = "RENDER" not in os.environ
 # Application definition
 
 INSTALLED_APPS = [
@@ -61,7 +58,6 @@ INSTALLED_APPS = [
 CORS_ALLOW_ALL_ORIGINS = True
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -93,20 +89,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-# DATABASES = {
-#     'default': dj_database_url.parse(os.getenv("DATABASE_URL"))
-# }
-
+# Database configuration
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -120,8 +103,6 @@ DATABASES = {
 
 
 # Password validation
-# https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -160,8 +141,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
@@ -172,6 +151,8 @@ REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_RATES': {
         'contact-message': '10/day',
         'contact-newsletter': '5/day',
+        'project-list': '50/hour',
+        'anon-block': '20/day'
     },
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',

@@ -47,4 +47,3 @@ class CreateNewsletter(GenericAPIView):
         }
 
         return Response(data, status=status.HTTP_201_CREATED)
-

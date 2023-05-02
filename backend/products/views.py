@@ -18,6 +18,7 @@ from rest_framework.parsers import MultiPartParser
 from .pagination import ProductPagination
 from recommender.views import get_similar_products
 from rest_framework import filters
+from rest_framework.throttling import ScopedRateThrottle, AnonRateThrottle
 
 
 class ListProductView(ListAPIView):
@@ -29,6 +30,8 @@ class ListProductView(ListAPIView):
     pagination_class = ProductPagination
     filter_backends = [filters.SearchFilter]
     search_fields = ["name"]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = "project-list"
 
     def get_serializer_context(self):
         """
@@ -70,6 +73,8 @@ class CreateProductView(CreateAPIView):
     permission_classes = [IsAdminUser]
     serializer_class = CreateProductSerializser
     queryset = Product.objects.all()
+    throttle_classes = [AnonRateThrottle]
+    throttle_scope = "anon-block"
 
 
 class EditDeleteProductView(UpdateAPIView):
@@ -79,6 +84,8 @@ class EditDeleteProductView(UpdateAPIView):
     permission_classes = [IsAdminUser]
     serializer_class = CreateProductSerializser
     queryset = Product.objects.all()
+    throttle_classes = [AnonRateThrottle]
+    throttle_scope = "anon-block"
 
     def delete(self, request, pk):
         obj = self.get_object()
@@ -117,6 +124,8 @@ class AddImageView(CreateAPIView):
     serializer_class = ImageSerializer
     parser_classes = [MultiPartParser]
     permission_classes = [IsAdminUser]
+    throttle_classes = [AnonRateThrottle]
+    throttle_scope = "anon-block"
 
     def perform_create(self, serializer):
         pk = self.kwargs["pk"]

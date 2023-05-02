@@ -24,12 +24,16 @@ class CreateOrderSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         items = attrs["items"]
+
+        if not items:
+            raise serializers.ValidationError({"error": "Order must contain at least an item."})
+
         product_ids = [item["product"]["id"] for item in items]
         # Using a set to remove duplicates
         set_product_ids = set(product_ids)
 
         if len(set_product_ids) != len(product_ids):
-            raise serializers.ValidationError({"error": "No duplicate Product ID in items"})
+            raise serializers.ValidationError({"error": "Duplicate Product ID in items."})
 
         return attrs
 

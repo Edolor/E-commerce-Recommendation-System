@@ -87,7 +87,6 @@ class ProductIDSerializer(serializers.Serializer):
         return attrs
 
     def create(self, validated_data):
-        print(validated_data["product"])
         return validated_data["product"]
 
     def save(self):
