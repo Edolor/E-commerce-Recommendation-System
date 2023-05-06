@@ -1,9 +1,11 @@
-from math import prod
 from django.db import models
 from uuid import uuid4
 from django.utils import timezone
 from django.core.exceptions import ValidationError
+from gdstorage.storage import GoogleDriveStorage
 
+# instantiating object
+gd_storage = GoogleDriveStorage()
 
 def validate_postive(value):
     if value <= 0:
@@ -38,7 +40,7 @@ class Product(models.Model):
 class Image(models.Model):
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name="images")
-    image = models.ImageField(upload_to="images/")
+    image = models.ImageField(upload_to="images", storage=gd_storage)
 
     def __str__(self):
         return f'{self.product.name} Image'

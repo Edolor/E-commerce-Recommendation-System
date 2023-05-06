@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
+    'gdstorage',
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -158,3 +159,10 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ],
 }
+
+
+# Google drive settings
+JSON_PATH = os.path.join(BASE_DIR, "bazaar.json")
+
+GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = JSON_PATH
+GOOGLE_DRIVE_STORAGE_MEDIA_ROOT="/media/"
