@@ -18,7 +18,7 @@ const ProductListItem = ({ product }) => {
         <div>
           <div className="cart-product-img rounded-3 bg-light border overflow-hidden">
             <img
-              src={api + product.images[0].replace("/", "")}
+              src={product.images[0]}
               alt=""
               className="h-100"
             />

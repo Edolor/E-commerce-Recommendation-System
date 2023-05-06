@@ -116,7 +116,7 @@ const ProductDetails = () => {
                 <div className="col-md-5">
                   <div className="bg-light" style={{ height: "30rem" }}>
                     <img
-                      src={api + product.images[0].replace("/", "")}
+                      src={product.images[0]}
                       alt=""
                       className="w-100"
                     />

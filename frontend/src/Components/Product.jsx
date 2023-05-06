@@ -58,7 +58,7 @@ const Product = ({ product }) => {
           style={{ height: "16rem" }}
         >
           <img
-            src={`${api}` + product.images[0].replace("/", "")}
+            src={product.images[0]}
             alt=""
             className="w-100"
           />
