@@ -10,16 +10,17 @@ def retrain_model_on_create(sender, instance, created, **kwargs):
     """
     Retrains recommender model when a product is added.
     """
-    if created:
-        # Delete similarity model
-        try:
-            obj = SimilarityModel.objects.get(name="product_similarity")
-            obj.delete()
-        except SimilarityModel.DoesNotExist:
-            pass
+    try:
+        obj = SimilarityModel.objects.get(name="product_similarity")
+        obj.delete()
+    except SimilarityModel.DoesNotExist:
+        pass
 
+    try:
         # Train machine learning model
         train_model_init()
+    except:
+        pass
 
 
 @receiver(post_delete, sender=Product)
