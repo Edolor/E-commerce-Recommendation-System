@@ -37,7 +37,7 @@ class UrlFlattenSerializer(serializers.RelatedField):
         return value.image.url
 
 
-class ProductSerializer(serializers.HyperlinkedModelSerializer):
+class ProductSerializer(serializers.ModelSerializer):
     """
     Product serialization class
     """
