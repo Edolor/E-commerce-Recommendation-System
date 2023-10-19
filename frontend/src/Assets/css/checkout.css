@@ -1,8 +1,0 @@
-#checkout [type="submit"] {
-	width: 100%;
-	--bs-btn-padding-y: 1.5rem;
-	--bs-btn-padding-x: 2rem;
-	--bs-btn-bg: var(--medium-green);
-	--bs-btn-hover-bg: var(--dark-green);
-	color: #fff !important;
-}
